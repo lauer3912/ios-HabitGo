@@ -25,6 +25,13 @@ targets:
       - path: HabitGo
         excludes:
           - "**/.DS_Store"
+    info:
+      path: HabitGo/Info.plist
+      properties:
+        CFBundleURLTypes:
+          - CFBundleURLName: com.ggsheng.HabitGo
+            CFBundleURLSchemes:
+              - habitgo
     settings:
       base:
         INFOPLIST_FILE: HabitGo/Info.plist
