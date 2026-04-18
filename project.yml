@@ -25,20 +25,13 @@ targets:
       - path: HabitGo
         excludes:
           - "**/.DS_Store"
-    info:
-      path: HabitGo/Info.plist
-      properties:
-        CFBundleURLTypes:
-          - CFBundleURLName: com.ggsheng.HabitGo
-            CFBundleURLSchemes:
-              - habitgo
     settings:
       base:
         INFOPLIST_FILE: HabitGo/Info.plist
         PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.HabitGo
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
-        GENERATE_INFOPLIST_FILE: YES
+        GENERATE_INFOPLIST_FILE: NO
         SWIFT_EMIT_LOC_STRINGS: YES
         CODE_SIGN_ENTITLEMENTS: HabitGo/HabitGo.entitlements
     entitlements:
