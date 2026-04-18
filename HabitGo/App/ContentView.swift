@@ -3,30 +3,45 @@ import UniformTypeIdentifiers
 
 struct ContentView: View {
     @EnvironmentObject var habitVM: HabitViewModel
+    @State private var selectedTab = 0
 
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             HabitListView()
                 .tabItem {
                     Label("Habits", systemImage: "checkmark.circle.fill")
                 }
+                .tag(0)
 
             CalendarHistoryView()
                 .tabItem {
                     Label("History", systemImage: "calendar")
                 }
+                .tag(1)
 
             StatsView()
                 .tabItem {
                     Label("Stats", systemImage: "chart.bar.fill")
                 }
+                .tag(2)
 
             SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gearshape.fill")
                 }
+                .tag(3)
         }
         .tint(Color(hex: "#34C759"))
+        .onOpenURL { url in
+            // URL format: habitgo://tab/0 through habitgo://tab/3
+            guard url.scheme == "habitgo", url.host == "tab" else { return }
+            let path = url.path
+            if path.hasPrefix("/"), let tabIndex = Int(String(path.dropFirst())) {
+                if tabIndex >= 0 && tabIndex <= 3 {
+                    selectedTab = tabIndex
+                }
+            }
+        }
     }
 }
 
