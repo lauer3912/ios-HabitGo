@@ -13,7 +13,7 @@ final class HabitGoUITests: XCTestCase {
         try? FileManager.default.createDirectory(atPath: screenshotDir, withIntermediateDirectories: true)
         app.launchArguments = []
         app.launch()
-        sleep(3)  // Wait for SwiftUI to render
+        Thread.sleep(forTimeInterval: 3.0)  // Wait for SwiftUI to render
     }
 
     private func ss(_ name: String) {
@@ -66,7 +66,7 @@ final class HabitGoUITests: XCTestCase {
             let allTabs = tabBar.buttons.allElementsBoundByIndex
             print("Available tab buttons: \(allTabs.count)")
         }
-        sleep(1.5)
+        Thread.sleep(forTimeInterval: 1.5)
     }
 
     // MARK: - Tests
