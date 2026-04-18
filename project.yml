@@ -36,6 +36,30 @@ targets:
         CODE_SIGN_ENTITLEMENTS: HabitGo/HabitGo.entitlements
     entitlements:
       path: HabitGo/HabitGo.entitlements
+    dependencies:
+      - target: HabitGoWidgetExtension
+
+  HabitGoWidgetExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: HabitGoWidget
+        excludes:
+          - "**/.DS_Store"
+    settings:
+      base:
+        INFOPLIST_FILE: HabitGoWidget/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.HabitGo.widget
+        GENERATE_INFOPLIST_FILE: NO
+        SWIFT_EMIT_LOC_STRINGS: YES
+        CODE_SIGN_ENTITLEMENTS: HabitGoWidget/HabitGoWidget.entitlements
+        SKIP_INSTALL: YES
+        LD_RUNPATH_SEARCH_PATHS:
+          - "$(inherited)"
+          - "@executable_path/Frameworks"
+          - "@executable_path/../../Frameworks"
+    entitlements:
+      path: HabitGoWidget/HabitGoWidget.entitlements
 
   HabitGoTests:
     type: bundle.unit-test
@@ -57,6 +81,7 @@ schemes:
     build:
       targets:
         HabitGo: all
+        HabitGoWidgetExtension: all
         HabitGoTests: [test]
     run:
       config: Debug

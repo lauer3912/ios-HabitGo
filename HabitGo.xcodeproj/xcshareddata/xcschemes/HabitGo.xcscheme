@@ -21,6 +21,20 @@
                ReferencedContainer = "container:HabitGo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "505T"
+               BuildableName = "HabitGoWidgetExtension.appex"
+               BlueprintName = "HabitGoWidget"
+               ReferencedContainer = "container:HabitGo.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -35,7 +49,7 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "504"
+               BlueprintIdentifier = "504T"
                BuildableName = "HabitGoTests.xctest"
                BlueprintName = "HabitGoTests"
                ReferencedContainer = "container:HabitGo.xcodeproj">

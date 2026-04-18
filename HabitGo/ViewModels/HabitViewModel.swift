@@ -8,6 +8,11 @@ class HabitViewModel: ObservableObject {
     @Published var notificationAuthGranted = false
 
     private let storageKey = "HabitGo_habits"
+    private let appGroupId = "group.com.ggsheng.HabitGo"
+
+    private var sharedDefaults: UserDefaults? {
+        UserDefaults(suiteName: appGroupId)
+    }
 
     init() {
         load()
@@ -19,10 +24,19 @@ class HabitViewModel: ObservableObject {
     func save() {
         if let data = try? JSONEncoder().encode(habits) {
             UserDefaults.standard.set(data, forKey: storageKey)
+            // Also save to shared App Group for widget
+            sharedDefaults?.set(data, forKey: storageKey)
         }
     }
 
     func load() {
+        // First try shared defaults (widget writes back sometimes)
+        if let data = sharedDefaults?.data(forKey: storageKey),
+           let decoded = try? JSONDecoder().decode([Habit].self, from: data) {
+            habits = decoded
+            return
+        }
+        // Fall back to standard defaults
         guard let data = UserDefaults.standard.data(forKey: storageKey),
               let decoded = try? JSONDecoder().decode([Habit].self, from: data) else {
             return
