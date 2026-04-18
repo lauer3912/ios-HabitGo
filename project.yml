@@ -1,0 +1,68 @@
+name: HabitGo
+options:
+  bundleIdPrefix: com.ggsheng
+  deploymentTarget:
+    iOS: "16.0"
+  xcodeVersion: "15.0"
+  generateEmptyDirectories: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_STYLE: Automatic
+    CODE_SIGNING_REQUIRED: YES
+    CODE_SIGNING_ALLOWED: NO
+    DEVELOPMENT_TEAM: ""
+    ENABLE_USER_SCRIPT_SANDBOXING: NO
+
+targets:
+  HabitGo:
+    type: application
+    platform: iOS
+    sources:
+      - path: HabitGo
+        excludes:
+          - "**/.DS_Store"
+    settings:
+      base:
+        INFOPLIST_FILE: HabitGo/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.HabitGo
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        GENERATE_INFOPLIST_FILE: NO
+        SWIFT_EMIT_LOC_STRINGS: YES
+        CODE_SIGN_ENTITLEMENTS: HabitGo/HabitGo.entitlements
+    entitlements:
+      path: HabitGo/HabitGo.entitlements
+
+  HabitGoTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: HabitGoTests
+    dependencies:
+      - target: HabitGo
+    settings:
+      base:
+        INFOPLIST_FILE: HabitGoTests/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.HabitGoTests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/HabitGo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HabitGo"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+
+schemes:
+  HabitGo:
+    build:
+      targets:
+        HabitGo: all
+        HabitGoTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - HabitGoTests
+    archive:
+      config: Release
