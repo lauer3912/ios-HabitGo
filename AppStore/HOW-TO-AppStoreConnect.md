@@ -107,11 +107,43 @@ All screenshots must be in English. Provide these sizes:
 | iPhone 6.5" | 1242×2688 | Portrait |
 | iPad 12.9" | 2048×2732 | Landscape |
 
-Take screenshots using the iOS Simulator:
+**HabitGo has 4 tabs:** Habits / History / Stats / Settings. Required screenshots:
+
+1. `01_Habits.png` — Main habits list
+2. `02_History.png` — Calendar history view
+3. `03_Stats.png` — Statistics dashboard
+4. `04_Settings.png` — Settings page
+5. `05_AddHabit_Sheet.png` — Add habit modal sheet
+
+**To capture screenshots using XCUITest (on MacinCloud VNC):**
+
 ```bash
-# In Xcode Simulator: File → Save Screen
-# Or use XCUITest (see project docs)
+cd ~/Desktop/ios-HabitGo
+git pull origin main
+
+# Generate Xcode project
+~/tools/xcodegen/bin/xcodegen generate
+
+# Open in Xcode
+open HabitGo.xcodeproj
+
+# Or build from command line (iPhone 16 Pro Max 6.7"):
+xcodebuild -project HabitGo.xcodeproj \
+  -scheme HabitGo \
+  -configuration Debug \
+  -destination 'platform=iOS Simulator,name=iPhone 16 Pro Max' \
+  -test-target HabitGoUITests \
+  -only-testing:HabitGoUITests/HabitGoUITests/testAllTabs \
+  build
+
+# Screenshots will be saved to: /tmp/HabitGoScreenshots/
+ls /tmp/HabitGoScreenshots/
+
+# Copy to project:
+cp /tmp/HabitGoScreenshots/*.png AppStore/Screenshots/
 ```
+
+Screenshot script: `AppStore/screenshot_script.sh`
 
 #### App Description
 See `Listing.md` in this folder for full description text.

@@ -55,6 +55,30 @@ HabitGo/
 - 100% local storage (no cloud, no account)
 - No permissions required
 
+## Screenshots
+
+Use XCUITest to capture App Store screenshots. On MacinCloud VNC:
+
+```bash
+cd ~/Desktop/ios-HabitGo
+git pull origin main
+~/tools/xcodegen/bin/xcodegen generate
+
+# Run screenshot tests
+xcodebuild -project HabitGo.xcodeproj \
+  -scheme HabitGo \
+  -configuration Debug \
+  -destination 'platform=iOS Simulator,name=iPhone 16 Pro Max' \
+  -test-target HabitGoUITests \
+  -only-testing:HabitGoUITests/HabitGoUITests/testAllTabs \
+  build
+
+# Screenshots saved to: /tmp/HabitGoScreenshots/
+ls /tmp/HabitGoScreenshots/
+```
+
+Required sizes: iPhone 6.7" (1290×2796), iPhone 6.5" (1242×2688), iPad 12.9" (2048×2732).
+
 ## App Store
 
 See `AppStore/Listing.md` for App Store listing content.

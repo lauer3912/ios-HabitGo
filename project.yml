@@ -37,9 +37,10 @@ targets:
     entitlements:
       path: HabitGo/HabitGo.entitlements
     dependencies:
-      - target: HabitGoWidgetExtension
+      - target: HabitGoWidget
+        embed: true
 
-  HabitGoWidgetExtension:
+  HabitGoWidget:
     type: app-extension
     platform: iOS
     sources:
@@ -76,18 +77,34 @@ targets:
         TEST_HOST: "$(BUILT_PRODUCTS_DIR)/HabitGo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HabitGo"
         BUNDLE_LOADER: "$(TEST_HOST)"
 
+  HabitGoUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: HabitGoUITests
+    dependencies:
+      - target: HabitGo
+    settings:
+      base:
+        INFOPLIST_FILE: HabitGoUITests/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.HabitGoUITests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET: "$(BUILT_PRODUCTS_DIR)/HabitGo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HabitGo"
+        CODE_SIGN_ENTITLEMENTS: ""
+        DEVELOPMENT_TEAM: ""
+
 schemes:
   HabitGo:
     build:
       targets:
         HabitGo: all
-        HabitGoWidgetExtension: all
-        HabitGoTests: [test]
+        HabitGoWidget: all
+        HabitGoUITests: [test]
     run:
       config: Debug
     test:
       config: Debug
       targets:
-        - HabitGoTests
+        - HabitGoUITests
     archive:
       config: Release
