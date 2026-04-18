@@ -4,7 +4,8 @@ final class HabitGoUITests: XCTestCase {
 
     private var app: XCUIApplication!
     private let screenshotDir = "/tmp/HabitGoScreenshots"
-    private let simulatorScale: CGFloat = 3.0  // Retina scaling
+    // iPhone 16 Pro Max UDID (6.7" display)
+    private let deviceUDID = "59030A31-1FAA-43F2-96AC-B36521085127"
 
     override func setUp() {
         super.setUp()
@@ -13,60 +14,51 @@ final class HabitGoUITests: XCTestCase {
         try? FileManager.default.createDirectory(atPath: screenshotDir, withIntermediateDirectories: true)
         app.launchArguments = []
         app.launch()
-        Thread.sleep(forTimeInterval: 3.0)  // Wait for SwiftUI to render
+        // Wait for SwiftUI to fully render
+        Thread.sleep(forTimeInterval: 3.0)
     }
 
+    /// Use xcrun simctl to capture iOS framebuffer (accurate, not affected by macOS Simulator window)
     private func ss(_ name: String) {
-        let window = app.windows.firstMatch
-        let data = window.screenshot().pngRepresentation
-        try? data.write(to: URL(fileURLWithPath: "\(screenshotDir)/\(name).png"))
-        let w = window.frame.width
-        let h = window.frame.height
-        print("Saved: \(name) @ \(Int(w))x\(Int(h)) (\(data.count) bytes)")
-    }
+        let path = "\(screenshotDir)/\(name).png"
+        let task = Process()
+        task.executableURL = URL(fileURLWithPath: "/usr/bin/xcrun")
+        task.arguments = ["simctl", "io", deviceUDID, "screenshot", path]
+        do {
+            try task.run()
+            task.waitUntilExit()
+        } catch {
+            print("Screenshot failed: \(error)")
+        }
 
-    private func dismissSheet() {
-        // Try to find Done button in navigation bar first
-        var doneFound = false
-        for _ in 0..<30 {
-            let btns = app.buttons.allElementsBoundByIndex
-            for btn in btns {
-                if btn.label == "Done" && btn.exists && btn.isHittable {
-                    btn.tap()
-                    doneFound = true
-                    break
-                }
+        // Verify file was created
+        if FileManager.default.fileExists(atPath: path) {
+            if let attrs = try? FileManager.default.attributesOfItem(atPath: path),
+               let size = attrs[.size] as? Int {
+                print("Saved: \(name) (\(size) bytes)")
             }
-            if doneFound { break }
-            Thread.sleep(forTimeInterval: 0.2)
         }
-
-        if !doneFound {
-            app.windows.firstMatch.swipeDown()
-        }
-        Thread.sleep(forTimeInterval: 1.5)
     }
 
-    // Navigate to a specific tab by SF Symbol name
     private func tapTab(_ iconName: String) {
-        // Tab bar icons use accessibilityIdentifier or we find by icon
-        // SwiftUI TabView icons are accessible via .tabItem labels
         let tabBar = app.tabBars.firstMatch
+        // Try by SF Symbol name
         if tabBar.buttons[iconName].exists {
             tabBar.buttons[iconName].tap()
-        } else {
-            // Try matching by label or icon
-            for btn in tabBar.buttons.allElementsBoundByIndex {
-                if btn.label.lowercased().contains(iconName.lowercased()) {
-                    btn.tap()
-                    return
-                }
-            }
-            // Fallback: tap by index
-            let allTabs = tabBar.buttons.allElementsBoundByIndex
-            print("Available tab buttons: \(allTabs.count)")
+            Thread.sleep(forTimeInterval: 1.5)
+            return
         }
-        Thread.sleep(forTimeInterval: 1.5)
+        // Fallback: tap by accessibility label
+        for btn in tabBar.buttons.allElementsBoundByIndex {
+            if btn.label.lowercased().contains(iconName.lowercased()) {
+                btn.tap()
+                Thread.sleep(forTimeInterval: 1.5)
+                return
+            }
+        }
+        // Fallback: tap tab by index
+        let allTabs = tabBar.buttons.allElementsBoundByIndex
+        print("Available tab buttons (\(allTabs.count)): \(allTabs.map { $0.label })")
     }
 
     // MARK: - Tests
@@ -76,7 +68,7 @@ final class HabitGoUITests: XCTestCase {
         // Tab 1: Habits (default, no tap needed)
         ss("01_Habits")
 
-        // Tab 2: History (calendar icon)
+        // Tab 2: History
         tapTab("calendar")
         ss("02_History")
 
@@ -106,7 +98,6 @@ final class HabitGoUITests: XCTestCase {
             }
         }
 
-        // Also try otherElements (toolbar buttons)
         if addButton == nil {
             for el in navBar.otherElements.allElementsBoundByIndex {
                 if el.label == "Add" || el.label == "+" {
@@ -119,7 +110,6 @@ final class HabitGoUITests: XCTestCase {
         if let btn = addButton {
             btn.tap()
         } else {
-            // Fallback: use coordinate at top-right of nav bar
             let navFrame = navBar.frame
             let window = app.windows.firstMatch
             let coord = window.coordinate(withNormalizedOffset: .zero).withOffset(
@@ -131,7 +121,6 @@ final class HabitGoUITests: XCTestCase {
         Thread.sleep(forTimeInterval: 2.0)
         ss("05_AddHabit_Sheet")
 
-        // Fill in habit name
         let textField = app.textFields.firstMatch
         if textField.exists {
             textField.tap()
@@ -140,17 +129,10 @@ final class HabitGoUITests: XCTestCase {
         Thread.sleep(forTimeInterval: 0.5)
         ss("06_AddHabit_NameFilled")
 
-        // Tap Add button to confirm
-        let addBtn = app.buttons["Add"]
-        if addBtn.exists && addBtn.isEnabled {
-            addBtn.tap()
-        } else {
-            // Try first enabled button in toolbar
-            for btn in app.buttons.allElementsBoundByIndex {
-                if btn.label == "Add" && btn.isEnabled {
-                    btn.tap()
-                    break
-                }
+        for btn in app.buttons.allElementsBoundByIndex {
+            if btn.label == "Add" && btn.isEnabled {
+                btn.tap()
+                break
             }
         }
 
@@ -164,12 +146,10 @@ final class HabitGoUITests: XCTestCase {
     func testToggleHabit() {
         ss("00_Habits_Before_Toggle")
 
-        // The first toggle circle should be tappable
-        // Look for circles in the list
         let circles = app.buttons.allElementsBoundByIndex.filter { btn in
             btn.frame.width >= 28 && btn.frame.width <= 36 &&
             btn.frame.height >= 28 && btn.frame.height <= 36 &&
-            btn.frame.origin.y > 100  // Below nav bar
+            btn.frame.origin.y > 100
         }
 
         if let firstCircle = circles.first {
@@ -190,10 +170,9 @@ final class HabitGoUITests: XCTestCase {
         Thread.sleep(forTimeInterval: 1.0)
         ss("09_History_Calendar")
 
-        // Tap next month chevron
         let navBar = app.navigationBars.firstMatch
         for btn in navBar.buttons.allElementsBoundByIndex {
-            if btn.label == " chevron.right" || btn.label == "Chevron Right" || btn.label.hasSuffix("chevron.right") {
+            if btn.label.hasSuffix("chevron.right") {
                 btn.tap()
                 Thread.sleep(forTimeInterval: 1.0)
                 ss("10_History_NextMonth")
@@ -210,7 +189,6 @@ final class HabitGoUITests: XCTestCase {
         Thread.sleep(forTimeInterval: 1.0)
         ss("11_Settings")
 
-        // Scroll down to see all options
         app.tables.firstMatch.swipeUp()
         Thread.sleep(forTimeInterval: 0.5)
         ss("12_Settings_Scrolled")
