@@ -7,14 +7,20 @@ struct Habit: Identifiable, Codable, Equatable {
     var colorHex: String
     var frequency: HabitFrequency
     var createdAt: Date
-    var completions: [Date: Bool]  // key: day string "yyyy-MM-dd"
+    var completions: [String: Bool]  // key: day string "yyyy-MM-dd"
+    var reminderHour: Int?
+    var reminderMinute: Int?
+    var reminderEnabled: Bool
 
     init(
         id: UUID = UUID(),
         name: String,
         icon: String,
         colorHex: String = "#34C759",
-        frequency: HabitFrequency = .daily
+        frequency: HabitFrequency = .daily,
+        reminderHour: Int? = nil,
+        reminderMinute: Int? = nil,
+        reminderEnabled: Bool = false
     ) {
         self.id = id
         self.name = name
@@ -23,6 +29,9 @@ struct Habit: Identifiable, Codable, Equatable {
         self.frequency = frequency
         self.createdAt = Date()
         self.completions = [:]
+        self.reminderHour = reminderHour
+        self.reminderMinute = reminderMinute
+        self.reminderEnabled = reminderEnabled
     }
 
     var todayKey: String {

@@ -8,6 +8,10 @@ struct AddHabitView: View {
     @State private var selectedIcon = "checkmark"
     @State private var selectedColor = "#34C759"
     @State private var selectedFrequency: HabitFrequency = .daily
+    @State private var reminderEnabled = false
+    @State private var reminderHour = 9
+    @State private var reminderMinute = 0
+    @State private var showNotificationAlert = false
 
     private let iconOptions = [
         "checkmark", "book.fill", "dumbbell.fill", "drop.fill",
@@ -20,6 +24,9 @@ struct AddHabitView: View {
         "#34C759", "#007AFF", "#FF9500", "#FF3B30",
         "#AF52DE", "#5856D6", "#00C7BE", "#FF2D55"
     ]
+
+    private let hours = Array(0..<24)
+    private let minutes = [0, 15, 30, 45]
 
     var body: some View {
         NavigationStack {
@@ -80,6 +87,41 @@ struct AddHabitView: View {
                     .pickerStyle(.segmented)
                 }
 
+                Section("Daily Reminder") {
+                    Toggle("Enable Reminder", isOn: $reminderEnabled)
+
+                    if reminderEnabled {
+                        HStack {
+                            Picker("Hour", selection: $reminderHour) {
+                                ForEach(hours, id: \.self) { h in
+                                    Text(String(format: "%02d", h)).tag(h)
+                                }
+                            }
+                            .frame(width: 70)
+
+                            Text(":")
+
+                            Picker("Minute", selection: $reminderMinute) {
+                                ForEach(minutes, id: \.self) { m in
+                                    Text(String(format: "%02d", m)).tag(m)
+                                }
+                            }
+                            .frame(width: 70)
+                        }
+
+                        if !habitVM.notificationAuthGranted {
+                            Button("Request Notification Permission") {
+                                habitVM.requestNotificationAuth { granted in
+                                    if !granted {
+                                        showNotificationAlert = true
+                                    }
+                                }
+                            }
+                            .foregroundStyle(.red)
+                        }
+                    }
+                }
+
                 Section {
                     HStack {
                         Spacer()
@@ -102,12 +144,25 @@ struct AddHabitView: View {
                             name: name,
                             icon: selectedIcon,
                             colorHex: selectedColor,
-                            frequency: selectedFrequency
+                            frequency: selectedFrequency,
+                            reminderHour: reminderEnabled ? reminderHour : nil,
+                            reminderMinute: reminderEnabled ? reminderMinute : nil,
+                            reminderEnabled: reminderEnabled
                         )
                         dismiss()
                     }
                     .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
+            }
+            .alert("Notifications Disabled", isPresented: $showNotificationAlert) {
+                Button("OK", role: .cancel) {}
+                Button("Open Settings") {
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(url)
+                    }
+                }
+            } message: {
+                Text("Please enable notifications in Settings to receive habit reminders.")
             }
         }
     }
@@ -126,9 +181,18 @@ struct AddHabitView: View {
                     .font(.body)
                     .fontWeight(.medium)
                     .foregroundStyle(name.isEmpty ? .secondary : .primary)
-                Text(selectedFrequency.rawValue)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                HStack {
+                    Text(selectedFrequency.rawValue)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    if reminderEnabled {
+                        Text("·")
+                            .foregroundStyle(.secondary)
+                        Text(String(format: "%02d:%02d", reminderHour, reminderMinute))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
             }
             Spacer()
             Circle()

@@ -29,6 +29,12 @@ struct HabitRowView: View {
                     Text(habit.frequency.rawValue)
                         .font(.caption)
                         .foregroundStyle(.tertiary)
+
+                    if habit.reminderEnabled, let h = habit.reminderHour, let m = habit.reminderMinute {
+                        Text(String(format: "· %02d:%02d", h, m))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
 
