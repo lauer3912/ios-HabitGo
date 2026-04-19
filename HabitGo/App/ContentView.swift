@@ -12,6 +12,7 @@ struct ContentView: View {
                     Label("Habits", systemImage: "checkmark.circle.fill")
                 }
                 .tag(0)
+                .accessibilityIdentifier("tab_habits")
                 .toolbarBackground(.visible, for: .tabBar)
                 .toolbarBackground(Color(.systemBackground), for: .tabBar)
 
@@ -20,6 +21,7 @@ struct ContentView: View {
                     Label("History", systemImage: "calendar")
                 }
                 .tag(1)
+                .accessibilityIdentifier("tab_history")
                 .toolbarBackground(.visible, for: .tabBar)
                 .toolbarBackground(Color(.systemBackground), for: .tabBar)
 
@@ -28,6 +30,7 @@ struct ContentView: View {
                     Label("Stats", systemImage: "chart.bar.fill")
                 }
                 .tag(2)
+                .accessibilityIdentifier("tab_stats")
                 .toolbarBackground(.visible, for: .tabBar)
                 .toolbarBackground(Color(.systemBackground), for: .tabBar)
 
@@ -36,6 +39,7 @@ struct ContentView: View {
                     Label("Settings", systemImage: "gearshape.fill")
                 }
                 .tag(3)
+                .accessibilityIdentifier("tab_settings")
                 .toolbarBackground(.visible, for: .tabBar)
                 .toolbarBackground(Color(.systemBackground), for: .tabBar)
         }

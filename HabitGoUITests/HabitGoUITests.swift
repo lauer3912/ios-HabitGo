@@ -4,6 +4,9 @@ final class HabitGoUITests: XCTestCase {
 
     private var app: XCUIApplication!
     private let ssDir = "/tmp/HabitGoScreenshots"
+    // Tab bar button labels match the tabItem Label text
+    private let tabLabels = ["Habits", "History", "Stats", "Settings"]
+    private let tabNames = ["01_Habits", "02_History", "03_Stats", "04_Settings"]
 
     override func setUp() {
         super.setUp()
@@ -26,49 +29,33 @@ final class HabitGoUITests: XCTestCase {
         print("Screenshot: \(name) (\(data.count) bytes)")
     }
 
-    private func tapTabBarButton(index: Int) {
-        let tabBar = app.tabBars.firstMatch
-        let btns = tabBar.buttons.allElementsBoundByIndex
-        if index < btns.count {
-            btns[index].tap()
-            Thread.sleep(forTimeInterval: 2)
-            print("Tapped tab[\(index)]")
-        } else {
-            // Fallback: try coordinate-based tap at estimated tab position
-            let win = app.windows.firstMatch
-            let frame = win.frame
-            // On iPhone (430x932): tab bar at bottom ~83pts, y_center = 889
-            // On iPad (1032x1376): tab bar at bottom ~83pts, y_center = 1334.5
-            let tabBarH: CGFloat = 83
-            let yCenter = frame.height - tabBarH / 2
-            let tabW = frame.width / CGFloat(btns.count > 0 ? btns.count : 5)
-            let xCenter = tabW * (CGFloat(index) + 0.5)
-            let coord = win.coordinate(withNormalizedOffset: .zero)
-                .withOffset(CGVector(dx: xCenter, dy: yCenter))
-            coord.tap()
-            Thread.sleep(forTimeInterval: 2)
-            print("Coordinate tapped tab[\(index)] at (\(xCenter), \(yCenter))")
-        }
-    }
-
     func testAppStoreScreenshots() {
         // Tab 0: Habits (default after launch)
-        ss("01_Habits")
-        Thread.sleep(forTimeInterval: 1.0)
+        ss(tabNames[0])
 
-        // Tab 1: History
-        tapTabBarButton(index: 1)
-        ss("02_History")
-        Thread.sleep(forTimeInterval: 1.0)
-
-        // Tab 2: Stats
-        tapTabBarButton(index: 2)
-        ss("03_Stats")
-        Thread.sleep(forTimeInterval: 1.0)
-
-        // Tab 3: Settings
-        tapTabBarButton(index: 3)
-        ss("04_Settings")
+        // Tabs 1-3: tap by button label (more reliable than index on iPad)
+        for i in 1..<tabLabels.count {
+            let btn = app.buttons[tabLabels[i]].firstMatch
+            if btn.exists && btn.isHittable {
+                btn.tap()
+                Thread.sleep(forTimeInterval: 2)
+                print("Tapped '\(tabLabels[i])' at (\(btn.frame.midX), \(btn.frame.midY))")
+            } else {
+                print("Button '\(tabLabels[i])' not hittable, trying coordinate tap")
+                // Coordinate fallback based on window size
+                let win = app.windows.firstMatch
+                let frame = win.frame
+                let tabBarH: CGFloat = 83
+                let yCenter = frame.height - tabBarH / 2
+                let tabW = frame.width / 4
+                let xCenter = tabW * (CGFloat(i) + 0.5)
+                let coord = win.coordinate(withNormalizedOffset: .zero)
+                    .withOffset(CGVector(dx: xCenter, dy: yCenter))
+                coord.tap()
+                Thread.sleep(forTimeInterval: 2)
+            }
+            ss(tabNames[i])
+        }
 
         print("All screenshots captured to \(ssDir)")
     }
