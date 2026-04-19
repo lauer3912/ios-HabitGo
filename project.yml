@@ -1,4 +1,4 @@
-name: HabitGo
+name: HabitArcFlow
 options:
   bundleIdPrefix: com.ggsheng
   deploymentTarget:
@@ -16,7 +16,7 @@ settings:
     ENABLE_USER_SCRIPT_SANDBOXING: NO
 
 targets:
-  HabitGo:
+  HabitArcFlow:
     type: application
     platform: iOS
     sources:
@@ -27,6 +27,7 @@ targets:
       base:
         INFOPLIST_FILE: HabitGo/Info.plist
         PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.HabitGo
+        PRODUCT_NAME: HabitArcFlow
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         GENERATE_INFOPLIST_FILE: NO
@@ -43,10 +44,10 @@ targets:
     entitlements:
       path: HabitGo/HabitGo.entitlements
     dependencies:
-      - target: HabitGoWidget
+      - target: HabitArcFlowWidget
         embed: true
 
-  HabitGoWidget:
+  HabitArcFlowWidget:
     type: app-extension
     platform: iOS
     sources:
@@ -57,6 +58,7 @@ targets:
       base:
         INFOPLIST_FILE: HabitGoWidget/Info.plist
         PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.HabitGo.widget
+        PRODUCT_NAME: HabitArcFlowWidget
         GENERATE_INFOPLIST_FILE: NO
         SWIFT_EMIT_LOC_STRINGS: YES
         CODE_SIGN_ENTITLEMENTS: HabitGoWidget/HabitGoWidget.entitlements
@@ -75,7 +77,7 @@ targets:
     entitlements:
       path: HabitGoWidget/HabitGoWidget.entitlements
 
-  HabitGoTests:
+  HabitArcFlowTests:
     type: bundle.unit-test
     platform: iOS
     sources:
@@ -83,18 +85,19 @@ targets:
         excludes:
           - "**/.DS_Store"
     dependencies:
-      - target: HabitGo
+      - target: HabitArcFlow
     settings:
       base:
         INFOPLIST_FILE: HabitGoTests/Info.plist
         PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.HabitGoTests
+        PRODUCT_NAME: HabitArcFlowTests
         GENERATE_INFOPLIST_FILE: NO
-        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/HabitGo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HabitGo"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/HabitArcFlow.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HabitArcFlow"
         BUNDLE_LOADER: "$(TEST_HOST)"
         CODE_SIGN_STYLE: Automatic
         DEVELOPMENT_TEAM: 9L6N2ZF26B
 
-  HabitGoUITests:
+  HabitArcFlowUITests:
     type: bundle.ui-testing
     platform: iOS
     sources:
@@ -102,29 +105,30 @@ targets:
         excludes:
           - "**/.DS_Store"
     dependencies:
-      - target: HabitGo
+      - target: HabitArcFlow
     settings:
       base:
         INFOPLIST_FILE: HabitGoUITests/Info.plist
         PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.HabitGoUITests
+        PRODUCT_NAME: HabitArcFlowUITests
         GENERATE_INFOPLIST_FILE: NO
-        TEST_TARGET: "$(BUILT_PRODUCTS_DIR)/HabitGo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HabitGo"
+        TEST_TARGET: "$(BUILT_PRODUCTS_DIR)/HabitArcFlow.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HabitArcFlow"
         CODE_SIGN_ENTITLEMENTS: ""
         CODE_SIGN_STYLE: Automatic
         DEVELOPMENT_TEAM: 9L6N2ZF26B
 
 schemes:
-  HabitGo:
+  HabitArcFlow:
     build:
       targets:
-        HabitGo: all
-        HabitGoWidget: all
-        HabitGoUITests: [test]
+        HabitArcFlow: all
+        HabitArcFlowWidget: all
+        HabitArcFlowUITests: [test]
     run:
       config: Debug
     test:
       config: Debug
       targets:
-        - HabitGoUITests
+        - HabitArcFlowUITests
     archive:
       config: Release
