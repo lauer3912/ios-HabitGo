@@ -54,7 +54,6 @@ targets:
         GENERATE_INFOPLIST_FILE: NO
         SWIFT_EMIT_LOC_STRINGS: YES
         CODE_SIGN_ENTITLEMENTS: HabitGoWidget/HabitGoWidget.entitlements
-        CODE_SIGN_STYLE: Automatic
         CODE_SIGNING_ALLOWED: NO
         DEVELOPMENT_TEAM: 9L6N2ZF26B
         SKIP_INSTALL: YES
