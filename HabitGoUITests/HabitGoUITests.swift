@@ -4,7 +4,6 @@ final class HabitGoUITests: XCTestCase {
 
     private var app: XCUIApplication!
     private let ssDir = "/tmp/HabitGoScreenshots"
-    // Tab bar button labels match the tabItem Label text
     private let tabLabels = ["Habits", "History", "Stats", "Settings"]
     private let tabNames = ["01_Habits", "02_History", "03_Stats", "04_Settings"]
 
@@ -33,16 +32,15 @@ final class HabitGoUITests: XCTestCase {
         // Tab 0: Habits (default after launch)
         ss(tabNames[0])
 
-        // Tabs 1-3: tap by button label (more reliable than index on iPad)
+        // Tabs 1-3: tap by button label
         for i in 1..<tabLabels.count {
             let btn = app.buttons[tabLabels[i]].firstMatch
             if btn.exists && btn.isHittable {
                 btn.tap()
                 Thread.sleep(forTimeInterval: 2)
-                print("Tapped '\(tabLabels[i])' at (\(btn.frame.midX), \(btn.frame.midY))")
+                print("Tapped '\(tabLabels[i])'")
             } else {
                 print("Button '\(tabLabels[i])' not hittable, trying coordinate tap")
-                // Coordinate fallback based on window size
                 let win = app.windows.firstMatch
                 let frame = win.frame
                 let tabBarH: CGFloat = 83
