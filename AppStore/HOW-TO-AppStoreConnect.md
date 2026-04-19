@@ -197,3 +197,45 @@ Once approved:
 1. Set **Release Date** to automatic or choose a date
 2. Enable **Automatic** updates for faster adoption
 3. Monitor sales and reviews in App Store Connect
+
+---
+
+## 附录：App 名字被占用的解决方案
+
+### 三层名称体系
+
+| 层级 | 示例 | 能否改 |
+|------|------|--------|
+| App Store 名称 | HabitArcFlow | ✅ 随时改 |
+| Bundle ID | com.ggsheng.HabitGo | ❌ 上传后不能改 |
+| Display Name | HabitArcFlow | ✅ 可以改 |
+
+### 策略一：只改 App Store 名称（推荐）
+
+**适用：** 名称被占但 Bundle ID 没人用
+
+1. App Store Connect 填一个可用名称
+2. 本地 PRODUCT_NAME 保持原名
+3. 打包上传后 App Store 显示你填的名称
+
+**HabitGo → HabitArcFlow 就是这个策略：**
+- Bundle ID `com.ggsheng.HabitGo` 不变
+- App Store Connect 新建时填 `HabitArcFlow`
+- 本地 Display Name 同步改为 `HabitArcFlow`
+
+### 策略二：彻底换名重建
+
+**适用：** 非常想换名字
+
+1. App Store Connect 删除旧 App Record
+2. 本地 project.yml 全部改名（name + PRODUCT_NAME）
+3. Info.plist 的 CFBundleDisplayName 改名
+4. 重新 Archive → App Store Connect 新建 App Record
+
+### 判断
+
+| 情况 | 策略 |
+|------|------|
+| 名称被占，Bundle ID 没被占 | 策略一 |
+| 名称和 Bundle ID 都被占 | 换产品方向 |
+| 想彻底换新名字 | 策略三 |
