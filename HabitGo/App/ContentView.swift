@@ -12,24 +12,32 @@ struct ContentView: View {
                     Label("Habits", systemImage: "checkmark.circle.fill")
                 }
                 .tag(0)
+                .toolbarBackground(.visible, for: .tabBar)
+                .toolbarBackground(Color(.systemBackground), for: .tabBar)
 
             CalendarHistoryView()
                 .tabItem {
                     Label("History", systemImage: "calendar")
                 }
                 .tag(1)
+                .toolbarBackground(.visible, for: .tabBar)
+                .toolbarBackground(Color(.systemBackground), for: .tabBar)
 
             StatsView()
                 .tabItem {
                     Label("Stats", systemImage: "chart.bar.fill")
                 }
                 .tag(2)
+                .toolbarBackground(.visible, for: .tabBar)
+                .toolbarBackground(Color(.systemBackground), for: .tabBar)
 
             SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gearshape.fill")
                 }
                 .tag(3)
+                .toolbarBackground(.visible, for: .tabBar)
+                .toolbarBackground(Color(.systemBackground), for: .tabBar)
         }
         .tint(Color(hex: "#34C759"))
         .onOpenURL { url in
