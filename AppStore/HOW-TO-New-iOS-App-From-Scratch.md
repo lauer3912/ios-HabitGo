@@ -484,7 +484,9 @@ grep 'PRODUCT_BUNDLE_IDENTIFIER' {AppName}.xcodeproj/project.pbxproj
 │  MacinCloud: git pull origin main                   │
 │  ~/tools/xcodegen/bin/xcodegen generate             │
 │  rm -rf ~/Library/Developer/Xcode/DerivedData/*    │
-│  xcodebuild build -target {AppName} -config Debug   │
+│  xcodebuild build -project {AppName}.xcodeproj      │
+│    -target {AppName} -configuration Debug           │
+│    -destination 'platform=iOS Simulator,id={UDID}'  │
 └─────────────────┬───────────────────────────────────┘
                   ▼
 ┌─────────────────────────────────────────────────────┐
@@ -560,3 +562,330 @@ let data = sharedDefaults?.data(forKey: "habits")
 | `Embedded binary not signed` | Widget Release 没开签名 | Widget configs Release 加 YES |
 | `App Record Creation failed: name in use` | App Store 名称被占 | 换名称或删旧 Record 重建 |
 | `errSecInternalComponent` | keychain 访问被拒 | 用 VNC 桌面操作 Sign and Upload |
+
+---
+
+## 附录：名字被占用 — 三种策略及完整 Xcode 项目修改步骤
+
+### A.1 三层名称体系
+
+| 层级 | 示例 | 位置 | 能否改 |
+|------|------|------|--------|
+| App Store 名称 | HabitArcFlow | App Store Connect 填写 | ✅ 随时改 |
+| Bundle ID | com.ggsheng.HabitGo | 打包进二进制 | ❌ 上传后不能改 |
+| Display Name | HabitArcFlow | Info.plist / PRODUCT_NAME | ✅ 可以改 |
+
+---
+
+### A.2 策略一（推荐）：只改 App Store 显示名，Bundle ID 不变
+
+**触发条件：** App Store 名称被占，但 Bundle ID 没人用
+
+**原理：** Bundle ID 是 App 的唯一标识，同一个 Bundle ID 可以对应不同的 App Store 名称（即同一个 App Record 可以改名）
+
+**需要修改的文件（HabitGo → HabitArcFlow 为例）：**
+
+#### 文件 1：project.yml
+
+```yaml
+# name 字段 = Xcode 项目文件名（改成一致更好）
+name: HabitArcFlow                          # 原来是 HabitGo
+
+targets:
+  # target 名称（Xcode 左侧项目树显示的名字）
+  HabitArcFlow:                             # 原来是 HabitGo
+    settings:
+      base:
+        # PRODUCT_NAME = 用户手机上 App 图标下方显示的名字
+        PRODUCT_NAME: HabitArcFlow           # 原来是 HabitGo（改了！）
+        # Bundle ID 保持不变（同一个 App Record）
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.HabitGo
+        INFOPLIST_FILE: HabitGo/Info.plist   # 源码文件夹没改名，所以路径不变
+        CODE_SIGN_ENTITLEMENTS: HabitGo/HabitGo.entitlements
+    dependencies:
+      - target: HabitArcFlowWidget           # 原来是 HabitGoWidget
+
+  HabitArcFlowWidget:                       # 原来是 HabitGoWidget
+    settings:
+      base:
+        PRODUCT_NAME: HabitArcFlowWidget     # 原来是 HabitGoWidget
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.HabitGo.widget
+        INFOPLIST_FILE: HabitGoWidget/Info.plist
+        CODE_SIGN_ENTITLEMENTS: HabitGoWidget/HabitGoWidget.entitlements
+
+  HabitArcFlowTests:                        # 原来是 HabitGoTests
+  HabitArcFlowUITests:                      # 原来是 HabitGoUITests
+
+schemes:
+  HabitArcFlow:                             # 原来是 HabitGo
+    build:
+      targets:
+        HabitArcFlow: all
+        HabitArcFlowWidget: all
+        HabitArcFlowUITests: [test]
+```
+
+**project.yml 修改对照表（策略一）：**
+
+| 字段 | 原值 | 新值 | 是否修改 |
+|------|------|------|---------|
+| `name:` | HabitGo | HabitArcFlow | ✅ 改 |
+| Target 名称 | HabitGo | HabitArcFlow | ✅ 改 |
+| Target `PRODUCT_NAME:` | HabitGo | HabitArcFlow | ✅ 改 |
+| Target `PRODUCT_BUNDLE_IDENTIFIER:` | com.ggsheng.HabitGo | **com.ggsheng.HabitGo（不变）** | ❌ |
+| Target `INFOPLIST_FILE:` | HabitGo/Info.plist | **HabitGo/Info.plist（不变）** | ❌ |
+| Target `CODE_SIGN_ENTITLEMENTS:` | HabitGo/HabitGo.entitlements | **HabitGo/HabitGo.entitlements（不变）** | ❌ |
+| Widget target 名称 | HabitGoWidget | HabitArcFlowWidget | ✅ 改 |
+| Widget `PRODUCT_NAME:` | HabitGoWidget | HabitArcFlowWidget | ✅ 改 |
+| Widget Bundle ID | com.ggsheng.HabitGo.widget | **com.ggsheng.HabitGo.widget（不变）** | ❌ |
+| Scheme 名称 | HabitGo | HabitArcFlow | ✅ 改 |
+
+#### 文件 2：Info.plist
+
+```xml
+<!-- 只改这一行 -->
+<key>CFBundleDisplayName</key>
+<string>HabitArcFlow</string>    <!-- 原来是 HabitGo -->
+```
+
+#### 文件 3：AppIcon Contents.json
+
+**无需修改**（`size` 字段是 point size，和 App 名称无关）
+
+#### 文件 4：所有 .swift 源码
+
+**通常无需修改**（除非代码里有硬编码的 App 名称字符串做特殊用途）
+
+#### 文件 5：AppStore/Listing.md
+
+```markdown
+**App Name:** HabitArcFlow    <!-- 新名称 -->
+**Bundle ID:** com.ggsheng.HabitGo    <!-- 不变 -->
+```
+
+**执行步骤：**
+
+```bash
+# 1. 本地修改 project.yml 的 name / target 名 / PRODUCT_NAME / scheme
+# 2. 本地修改 Info.plist 的 CFBundleDisplayName
+# 3. 提交推送
+git add -A && git commit -m "Rename to HabitArcFlow: App Store name change only" && git push
+
+# 4. MacinCloud
+cd ~/Desktop/ios-HabitGo
+git pull origin main
+~/tools/xcodegen/bin/xcodegen generate
+# 注意：会生成新的 HabitArcFlow.xcodeproj（旧的 HabitGo.xcodeproj 可删除）
+rm -rf ~/Library/Developer/Xcode/DerivedData/*
+xcodebuild build -project HabitArcFlow.xcodeproj \
+  -target HabitArcFlow -configuration Debug \
+  -destination 'platform=iOS Simulator,id=59030A31-1FAA-43F2-96AC-B36521085127'
+
+# 5. VNC 桌面打开 HabitArcFlow.xcodeproj（不是旧的 HabitGo.xcodeproj！）
+# 6. Archive → Distribute → Sign and Upload
+# 7. App Store Connect 填新名称 HabitArcFlow
+```
+
+---
+
+### A.3 策略二：Bundle ID 被占，换 Bundle ID + 全新 App Record
+
+**触发条件：** Bundle ID 被人抢先注册了，必须换 Bundle ID 才能上架
+
+**原理：** Bundle ID 是全局唯一标识，一旦被他人注册无法使用。必须换新的 Bundle ID，因此也必须创建新的 App Record
+
+**需要修改的文件（HabitGo → NewApp 为例）：**
+
+#### 文件 1：project.yml（全面修改）
+
+```yaml
+name: NewApp                               # ← 改了
+
+targets:
+  NewApp:                                  # ← 改了（原来是 HabitGo）
+    settings:
+      base:
+        # ← Bundle ID 换了！
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.NewApp
+        PRODUCT_NAME: NewApp                # ← 显示名也改了
+        INFOPLIST_FILE: NewApp/Info.plist  # ← 路径随文件夹改
+        CODE_SIGN_ENTITLEMENTS: NewApp/NewApp.entitlements
+    dependencies:
+      - target: NewAppWidget                # ← 改了
+
+  NewAppWidget:                            # ← 改了
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.NewApp.widget
+        PRODUCT_NAME: NewAppWidget
+        INFOPLIST_FILE: NewAppWidget/Info.plist
+        CODE_SIGN_ENTITLEMENTS: NewAppWidget/NewAppWidget.entitlements
+
+  NewAppTests:                             # ← 改了
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.NewAppTests
+        PRODUCT_NAME: NewAppTests
+
+  NewAppUITests:                           # ← 改了
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.NewAppUITests
+        PRODUCT_NAME: NewAppUITests
+
+schemes:
+  NewApp:                                  # ← 改了
+    build:
+      targets:
+        NewApp: all
+        NewAppWidget: all
+        NewAppUITests: [test]
+```
+
+**project.yml 修改对照表（策略二）：**
+
+| 字段 | 原值 | 新值 | 是否修改 |
+|------|------|------|---------|
+| `name:` | HabitGo | NewApp | ✅ 改 |
+| Target 名称 | HabitGo | NewApp | ✅ 改 |
+| Target `PRODUCT_BUNDLE_IDENTIFIER:` | com.ggsheng.HabitGo | **com.ggsheng.NewApp** | ✅ 改 |
+| Target `PRODUCT_NAME:` | HabitGo | NewApp | ✅ 改 |
+| Target `INFOPLIST_FILE:` | HabitGo/Info.plist | **NewApp/Info.plist** | ✅ 改 |
+| Target `CODE_SIGN_ENTITLEMENTS:` | HabitGo/HabitGo.entitlements | **NewApp/NewApp.entitlements** | ✅ 改 |
+| Widget Bundle ID | com.ggsheng.HabitGo.widget | **com.ggsheng.NewApp.widget** | ✅ 改 |
+| App Group ID | group.com.ggsheng.HabitGo | **group.com.ggsheng.NewApp**（可选）| ⚠️ 可选 |
+| Folder 路径（source path）| HabitGo/ | **NewApp/** | ✅ 需配合文件夹改名 |
+
+#### 文件 2：Info.plist
+
+```xml
+<key>CFBundleDisplayName</key>
+<string>NewApp</string>
+```
+
+#### 文件 3：Entitlements
+
+```xml
+<!-- App Group ID：如果要换就改，否则不变 -->
+<key>com.apple.security.application-groups</key>
+<array>
+    <string>group.com.ggsheng.NewApp</string>
+</array>
+```
+
+#### 文件 4：源码文件夹重命名
+
+```bash
+# 必须把所有源码文件夹改名，且和 project.yml 的 path: 一致
+mv HabitGo        NewApp
+mv HabitGoWidget  NewAppWidget
+mv HabitGoTests   NewAppTests
+mv HabitGoUITests NewAppUITests
+```
+
+**⚠️ 注意：** 如果 App Group ID 也换了，`UserDefaults(suiteName:)` 里的字符串必须同步改：
+
+```swift
+// 主 App 和 Widget 都要改
+UserDefaults(suiteName: "group.com.ggsheng.NewApp")
+```
+
+#### 文件 5：AppStore/Listing.md
+
+```markdown
+**App Name:** NewApp
+**Bundle ID:** com.ggsheng.NewApp
+```
+
+**执行步骤：**
+
+```bash
+# 1. App Store Connect 删除旧的 App Record（如果属于你）
+#    或放弃旧的，直接用新 Bundle ID 创建新 App Record
+
+# 2. 本地重命名所有源码文件夹
+mv HabitGo NewApp
+mv HabitGoWidget NewAppWidget
+mv HabitGoTests NewAppTests
+mv HabitGoUITests NewAppUITests
+
+# 3. 修改 project.yml（所有 target name / PRODUCT_NAME / Bundle ID / paths）
+
+# 4. 修改所有 Info.plist 的 CFBundleDisplayName
+
+# 5. 如果 App Group 改了，同步改 entitlements 和所有 suiteName
+
+# 6. 提交推送
+git add -A && git commit -m "Full rename: Bundle ID to com.ggsheng.NewApp, all targets renamed" && git push
+
+# 7. MacinCloud
+cd ~/Desktop/ios-HabitGo
+git pull origin main
+~/tools/xcodegen/bin/xcodegen generate
+# 如果文件夹改名了，手动 mv
+mv HabitGo NewApp 2>/dev/null || true
+rm -rf ~/Library/Developer/Xcode/DerivedData/*
+xcodebuild build -project NewApp.xcodeproj \
+  -target NewApp -configuration Debug
+
+# 8. Archive → App Store Connect 新建 App Record（填 NewApp）
+```
+
+---
+
+### A.4 策略三：App Store 名称保持，Display Name 换成另一个名字
+
+**触发条件：** App Store 名称没人用，但想给本地显示取另一个名字（不在 App Store 卖）
+
+**原理：** Display Name 只是用户手机上的显示名，App Store Connect 里的名称是独立的
+
+**需要修改的文件：**
+
+#### 文件 1：project.yml
+
+```yaml
+name: HabitGo                              # Xcode 项目名不变
+
+targets:
+  HabitGo:
+    settings:
+      base:
+        # 手机上显示的名字改了，但 App Store 还是叫 HabitGo
+        PRODUCT_NAME: AnotherName           # ← 改了！
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.HabitGo  # 不变
+```
+
+#### 文件 2：Info.plist
+
+```xml
+<key>CFBundleDisplayName</key>
+<string>AnotherName</string>    <!-- 用户手机上显示这个名字 -->
+```
+
+**App Store Connect 里的 App Name 仍然填 HabitGo（没被占用的情况下）**
+
+---
+
+### A.5 三种策略对比
+
+| | 策略一（推荐）| 策略二 | 策略三 |
+|---|---|---|---|
+| **触发条件** | App Store 名被占 | Bundle ID 被占 | Display Name 想另取 |
+| **Bundle ID 变？** | ❌ 不变 | ✅ 换新的 | ❌ 不变 |
+| **Display Name 变？** | ✅ 改 | ✅ 改 | ✅ 改 |
+| **App Store 名变？** | ✅ 填新名 | ✅ 填新名 | ❌ 不变 |
+| **旧 App Record** | 继续用 | 删除重建 | 继续用 |
+| **修改文件数** | 2个 | 4-5个 | 2个 |
+| **App Group 要改？** | ❌ 不变 | ⚠️ 可选 | ❌ 不变 |
+| **需要换 xcodeproj？** | ✅ 会生成新的 | ✅ | ❌ |
+
+### A.6 判断用哪个策略
+
+| 情况 | 策略 |
+|------|------|
+| App Store 名称被占，Bundle ID 没被占 | **策略一** |
+| Bundle ID 被占（被人抢先注册）| **策略二** |
+| App Store 名称没被占，想手机上显示另一个名字 | **策略三** |
+| 想彻底换一个开始 | **策略二（删除旧 App Record）** |
+
+**HabitArcFlow 实际用的是策略一**（Bundle ID `com.ggsheng.HabitGo` 没被占，只是 App Store 名称 `HabitGo` 被占）。
