@@ -11,11 +11,11 @@ curl -s "https://itunes.apple.com/search?term=你的名字&entity=software&limit
 
 ### 1.2 三层命名
 
-| 层级 | 示例 | 位置 | 能否改 |
-|------|------|------|--------|
-| App Store 名称 | HabitArcFlow | App Store Connect | ✅ |
-| Bundle ID | com.ggsheng.HabitGo | 打包进二进制 | ❌ |
-| Display Name | HabitArcFlow | Info.plist | ✅ |
+| 层级 | 示例占位符 | 位置 | 能否改 |
+|------|-----------|------|--------|
+| App Store 名称 | `{DesiredAppStoreName}` | App Store Connect | ✅ |
+| Bundle ID | `com.ggsheng.{AppName}` | 打包进二进制 | ❌ |
+| Display Name | `{AppName}` 或 `{DesiredAppStoreName}` | Info.plist | ✅ |
 
 **规则：Bundle ID 一旦上传不能改，App Store 名称随时可换。**
 
@@ -567,13 +567,21 @@ let data = sharedDefaults?.data(forKey: "habits")
 
 ## 附录：名字被占用 — 三种策略及完整 Xcode 项目修改步骤
 
+> **⚠️ 本附录使用通用占位符，适用于任何 App。占位符含义：**
+> - `{AppName}` = 当前本地项目使用的业务名（如 "FocusTimer"）
+> - `{DesiredAppStoreName}` = 你想在 App Store 填的新名称（如 "FocusFlow"）
+> - `{NewBundleIdAppName}` = 新 Bundle ID 的业务名（如 "FocusFlow" 换了Bundle ID后叫这个）
+> - `{RepoFolder}` = 本地代码仓库文件夹名（通常等于 `{AppName}`）
+
+---
+
 ### A.1 三层名称体系
 
-| 层级 | 示例 | 位置 | 能否改 |
-|------|------|------|--------|
-| App Store 名称 | HabitArcFlow | App Store Connect 填写 | ✅ 随时改 |
-| Bundle ID | com.ggsheng.HabitGo | 打包进二进制 | ❌ 上传后不能改 |
-| Display Name | HabitArcFlow | Info.plist / PRODUCT_NAME | ✅ 可以改 |
+| 层级 | 示例占位符 | 位置 | 能否改 |
+|------|-----------|------|--------|
+| App Store 名称 | `{DesiredAppStoreName}` | App Store Connect 填写 | ✅ 随时改 |
+| Bundle ID | `com.ggsheng.{AppName}` | 打包进二进制 | ❌ 上传后不能改 |
+| Display Name | `{AppName}` | Info.plist / PRODUCT_NAME | ✅ 可以改 |
 
 ---
 
@@ -583,84 +591,92 @@ let data = sharedDefaults?.data(forKey: "habits")
 
 **原理：** Bundle ID 是 App 的唯一标识，同一个 Bundle ID 可以对应不同的 App Store 名称（即同一个 App Record 可以改名）
 
-**需要修改的文件（HabitGo → HabitArcFlow 为例）：**
+**场景举例：** `{AppName}=FocusTimer`，App Store 名称 "FocusTimer" 被占 → 想改成 "FocusFlow"，Bundle ID `com.ggsheng.FocusTimer` 没被占
 
-#### 文件 1：project.yml
+**需要修改的文件：**
+
+#### 文件 1：`project.yml`
 
 ```yaml
-# name 字段 = Xcode 项目文件名（改成一致更好）
-name: HabitArcFlow                          # 原来是 HabitGo
+# name = Xcode 项目文件名（改成和 App Store 名称一致更好）
+name: {DesiredAppStoreName}                  # 例如：FocusFlow
 
 targets:
   # target 名称（Xcode 左侧项目树显示的名字）
-  HabitArcFlow:                             # 原来是 HabitGo
+  {DesiredAppStoreName}:                     # 例如：FocusFlow
     settings:
       base:
         # PRODUCT_NAME = 用户手机上 App 图标下方显示的名字
-        PRODUCT_NAME: HabitArcFlow           # 原来是 HabitGo（改了！）
+        PRODUCT_NAME: {DesiredAppStoreName}  # 例如：FocusFlow（改了！）
         # Bundle ID 保持不变（同一个 App Record）
-        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.HabitGo
-        INFOPLIST_FILE: HabitGo/Info.plist   # 源码文件夹没改名，所以路径不变
-        CODE_SIGN_ENTITLEMENTS: HabitGo/HabitGo.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.{AppName}   # 例如：com.ggsheng.FocusTimer
+        INFOPLIST_FILE: {AppName}/Info.plist  # 源码文件夹没改名，路径不变
+        CODE_SIGN_ENTITLEMENTS: {AppName}/{AppName}.entitlements
     dependencies:
-      - target: HabitArcFlowWidget           # 原来是 HabitGoWidget
+      - target: {DesiredAppStoreName}Widget   # 例如：FocusFlowWidget
 
-  HabitArcFlowWidget:                       # 原来是 HabitGoWidget
+  {DesiredAppStoreName}Widget:               # 例如：FocusFlowWidget
     settings:
       base:
-        PRODUCT_NAME: HabitArcFlowWidget     # 原来是 HabitGoWidget
-        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.HabitGo.widget
-        INFOPLIST_FILE: HabitGoWidget/Info.plist
-        CODE_SIGN_ENTITLEMENTS: HabitGoWidget/HabitGoWidget.entitlements
+        PRODUCT_NAME: {DesiredAppStoreName}Widget
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.{AppName}.widget
+        INFOPLIST_FILE: {AppName}Widget/Info.plist
+        CODE_SIGN_ENTITLEMENTS: {AppName}Widget/{AppName}Widget.entitlements
 
-  HabitArcFlowTests:                        # 原来是 HabitGoTests
-  HabitArcFlowUITests:                      # 原来是 HabitGoUITests
+  {DesiredAppStoreName}Tests:
+    settings:
+      base:
+        PRODUCT_NAME: {DesiredAppStoreName}Tests
+
+  {DesiredAppStoreName}UITests:
+    settings:
+      base:
+        PRODUCT_NAME: {DesiredAppStoreName}UITests
 
 schemes:
-  HabitArcFlow:                             # 原来是 HabitGo
+  {DesiredAppStoreName}:
     build:
       targets:
-        HabitArcFlow: all
-        HabitArcFlowWidget: all
-        HabitArcFlowUITests: [test]
+        {DesiredAppStoreName}: all
+        {DesiredAppStoreName}Widget: all
+        {DesiredAppStoreName}UITests: [test]
 ```
 
 **project.yml 修改对照表（策略一）：**
 
 | 字段 | 原值 | 新值 | 是否修改 |
 |------|------|------|---------|
-| `name:` | HabitGo | HabitArcFlow | ✅ 改 |
-| Target 名称 | HabitGo | HabitArcFlow | ✅ 改 |
-| Target `PRODUCT_NAME:` | HabitGo | HabitArcFlow | ✅ 改 |
-| Target `PRODUCT_BUNDLE_IDENTIFIER:` | com.ggsheng.HabitGo | **com.ggsheng.HabitGo（不变）** | ❌ |
-| Target `INFOPLIST_FILE:` | HabitGo/Info.plist | **HabitGo/Info.plist（不变）** | ❌ |
-| Target `CODE_SIGN_ENTITLEMENTS:` | HabitGo/HabitGo.entitlements | **HabitGo/HabitGo.entitlements（不变）** | ❌ |
-| Widget target 名称 | HabitGoWidget | HabitArcFlowWidget | ✅ 改 |
-| Widget `PRODUCT_NAME:` | HabitGoWidget | HabitArcFlowWidget | ✅ 改 |
-| Widget Bundle ID | com.ggsheng.HabitGo.widget | **com.ggsheng.HabitGo.widget（不变）** | ❌ |
-| Scheme 名称 | HabitGo | HabitArcFlow | ✅ 改 |
+| `name:` | `{AppName}` | `{DesiredAppStoreName}` | ✅ 改 |
+| Target 名称 | `{AppName}` | `{DesiredAppStoreName}` | ✅ 改 |
+| Target `PRODUCT_NAME:` | `{AppName}` | `{DesiredAppStoreName}` | ✅ 改 |
+| Target `PRODUCT_BUNDLE_IDENTIFIER:` | `com.ggsheng.{AppName}` | **`com.ggsheng.{AppName}`（不变）`** | ❌ |
+| Target `INFOPLIST_FILE:` | `{AppName}/...` | **`{AppName}/...`（不变）`** | ❌ |
+| Target `CODE_SIGN_ENTITLEMENTS:` | `{AppName}/...` | **`{AppName}/...`（不变）`** | ❌ |
+| Widget target 名称 | `{AppName}Widget` | `{DesiredAppStoreName}Widget` | ✅ 改 |
+| Widget Bundle ID | `com.ggsheng.{AppName}.widget` | **`com.ggsheng.{AppName}.widget`（不变）`** | ❌ |
+| Scheme 名称 | `{AppName}` | `{DesiredAppStoreName}` | ✅ 改 |
 
-#### 文件 2：Info.plist
+#### 文件 2：`Info.plist`
 
 ```xml
 <!-- 只改这一行 -->
 <key>CFBundleDisplayName</key>
-<string>HabitArcFlow</string>    <!-- 原来是 HabitGo -->
+<string>{DesiredAppStoreName}</string>
 ```
 
-#### 文件 3：AppIcon Contents.json
+#### 文件 3：`AppIcon.appiconset/Contents.json`
 
 **无需修改**（`size` 字段是 point size，和 App 名称无关）
 
-#### 文件 4：所有 .swift 源码
+#### 文件 4：所有 `.swift` 源码
 
 **通常无需修改**（除非代码里有硬编码的 App 名称字符串做特殊用途）
 
-#### 文件 5：AppStore/Listing.md
+#### 文件 5：`AppStore/Listing.md`
 
 ```markdown
-**App Name:** HabitArcFlow    <!-- 新名称 -->
-**Bundle ID:** com.ggsheng.HabitGo    <!-- 不变 -->
+**App Name:** {DesiredAppStoreName}
+**Bundle ID:** com.ggsheng.{AppName}    <!-- 不变 -->
 ```
 
 **执行步骤：**
@@ -669,21 +685,21 @@ schemes:
 # 1. 本地修改 project.yml 的 name / target 名 / PRODUCT_NAME / scheme
 # 2. 本地修改 Info.plist 的 CFBundleDisplayName
 # 3. 提交推送
-git add -A && git commit -m "Rename to HabitArcFlow: App Store name change only" && git push
+git add -A && git commit -m "Rename to {DesiredAppStoreName}: App Store name change only" && git push
 
 # 4. MacinCloud
-cd ~/Desktop/ios-HabitGo
+cd ~/Desktop/ios-{RepoFolder}
 git pull origin main
 ~/tools/xcodegen/bin/xcodegen generate
-# 注意：会生成新的 HabitArcFlow.xcodeproj（旧的 HabitGo.xcodeproj 可删除）
+# 注意：会生成新的 {DesiredAppStoreName}.xcodeproj
 rm -rf ~/Library/Developer/Xcode/DerivedData/*
-xcodebuild build -project HabitArcFlow.xcodeproj \
-  -target HabitArcFlow -configuration Debug \
-  -destination 'platform=iOS Simulator,id=59030A31-1FAA-43F2-96AC-B36521085127'
+xcodebuild build -project {DesiredAppStoreName}.xcodeproj \
+  -target {DesiredAppStoreName} -configuration Debug \
+  -destination 'platform=iOS Simulator,id={UDID}'
 
-# 5. VNC 桌面打开 HabitArcFlow.xcodeproj（不是旧的 HabitGo.xcodeproj！）
+# 5. VNC 桌面打开新的 {DesiredAppStoreName}.xcodeproj
 # 6. Archive → Distribute → Sign and Upload
-# 7. App Store Connect 填新名称 HabitArcFlow
+# 7. App Store Connect 填新名称 {DesiredAppStoreName}
 ```
 
 ---
@@ -694,82 +710,84 @@ xcodebuild build -project HabitArcFlow.xcodeproj \
 
 **原理：** Bundle ID 是全局唯一标识，一旦被他人注册无法使用。必须换新的 Bundle ID，因此也必须创建新的 App Record
 
-**需要修改的文件（HabitGo → NewApp 为例）：**
+**场景举例：** `{AppName}=FocusTimer`，Bundle ID `com.ggsheng.FocusTimer` 被人注册了 → 必须换新的 Bundle ID `com.ggsheng.FocusFlow`
 
-#### 文件 1：project.yml（全面修改）
+**需要修改的文件：**
+
+#### 文件 1：`project.yml`（全面修改）
 
 ```yaml
-name: NewApp                               # ← 改了
+name: {NewBundleIdAppName}                  # 例如：FocusFlow
 
 targets:
-  NewApp:                                  # ← 改了（原来是 HabitGo）
+  {NewBundleIdAppName}:                     # 例如：FocusFlow
     settings:
       base:
         # ← Bundle ID 换了！
-        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.NewApp
-        PRODUCT_NAME: NewApp                # ← 显示名也改了
-        INFOPLIST_FILE: NewApp/Info.plist  # ← 路径随文件夹改
-        CODE_SIGN_ENTITLEMENTS: NewApp/NewApp.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.{NewBundleIdAppName}
+        PRODUCT_NAME: {NewBundleIdAppName}   # ← 显示名也改了
+        INFOPLIST_FILE: {NewBundleIdAppName}/Info.plist  # ← 路径随文件夹改
+        CODE_SIGN_ENTITLEMENTS: {NewBundleIdAppName}/{NewBundleIdAppName}.entitlements
     dependencies:
-      - target: NewAppWidget                # ← 改了
+      - target: {NewBundleIdAppName}Widget   # ← 改了
 
-  NewAppWidget:                            # ← 改了
+  {NewBundleIdAppName}Widget:               # 例如：FocusFlowWidget
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.NewApp.widget
-        PRODUCT_NAME: NewAppWidget
-        INFOPLIST_FILE: NewAppWidget/Info.plist
-        CODE_SIGN_ENTITLEMENTS: NewAppWidget/NewAppWidget.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.{NewBundleIdAppName}.widget
+        PRODUCT_NAME: {NewBundleIdAppName}Widget
+        INFOPLIST_FILE: {NewBundleIdAppName}Widget/Info.plist
+        CODE_SIGN_ENTITLEMENTS: {NewBundleIdAppName}Widget/{NewBundleIdAppName}Widget.entitlements
 
-  NewAppTests:                             # ← 改了
+  {NewBundleIdAppName}Tests:
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.NewAppTests
-        PRODUCT_NAME: NewAppTests
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.{NewBundleIdAppName}Tests
+        PRODUCT_NAME: {NewBundleIdAppName}Tests
 
-  NewAppUITests:                           # ← 改了
+  {NewBundleIdAppName}UITests:
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.NewAppUITests
-        PRODUCT_NAME: NewAppUITests
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.{NewBundleIdAppName}UITests
+        PRODUCT_NAME: {NewBundleIdAppName}UITests
 
 schemes:
-  NewApp:                                  # ← 改了
+  {NewBundleIdAppName}:
     build:
       targets:
-        NewApp: all
-        NewAppWidget: all
-        NewAppUITests: [test]
+        {NewBundleIdAppName}: all
+        {NewBundleIdAppName}Widget: all
+        {NewBundleIdAppName}UITests: [test]
 ```
 
 **project.yml 修改对照表（策略二）：**
 
 | 字段 | 原值 | 新值 | 是否修改 |
 |------|------|------|---------|
-| `name:` | HabitGo | NewApp | ✅ 改 |
-| Target 名称 | HabitGo | NewApp | ✅ 改 |
-| Target `PRODUCT_BUNDLE_IDENTIFIER:` | com.ggsheng.HabitGo | **com.ggsheng.NewApp** | ✅ 改 |
-| Target `PRODUCT_NAME:` | HabitGo | NewApp | ✅ 改 |
-| Target `INFOPLIST_FILE:` | HabitGo/Info.plist | **NewApp/Info.plist** | ✅ 改 |
-| Target `CODE_SIGN_ENTITLEMENTS:` | HabitGo/HabitGo.entitlements | **NewApp/NewApp.entitlements** | ✅ 改 |
-| Widget Bundle ID | com.ggsheng.HabitGo.widget | **com.ggsheng.NewApp.widget** | ✅ 改 |
-| App Group ID | group.com.ggsheng.HabitGo | **group.com.ggsheng.NewApp**（可选）| ⚠️ 可选 |
-| Folder 路径（source path）| HabitGo/ | **NewApp/** | ✅ 需配合文件夹改名 |
+| `name:` | `{AppName}` | `{NewBundleIdAppName}` | ✅ 改 |
+| Target 名称 | `{AppName}` | `{NewBundleIdAppName}` | ✅ 改 |
+| Target `PRODUCT_BUNDLE_IDENTIFIER:` | `com.ggsheng.{AppName}` | **`com.ggsheng.{NewBundleIdAppName}`** | ✅ 改 |
+| Target `PRODUCT_NAME:` | `{AppName}` | `{NewBundleIdAppName}` | ✅ 改 |
+| Target `INFOPLIST_FILE:` | `{AppName}/Info.plist` | **`{NewBundleIdAppName}/Info.plist`** | ✅ 改 |
+| Target `CODE_SIGN_ENTITLEMENTS:` | `{AppName}/{AppName}.entitlements` | **`{NewBundleIdAppName}/{NewBundleIdAppName}.entitlements`** | ✅ 改 |
+| Widget Bundle ID | `com.ggsheng.{AppName}.widget` | **`com.ggsheng.{NewBundleIdAppName}.widget`** | ✅ 改 |
+| App Group ID | `group.com.ggsheng.{AppName}` | **`group.com.ggsheng.{NewBundleIdAppName}`**（可选）| ⚠️ 可选 |
+| Folder 路径（source `path:`）| `{AppName}/` | **`{NewBundleIdAppName}/`** | ✅ 需配合文件夹改名 |
 
-#### 文件 2：Info.plist
+#### 文件 2：`Info.plist`
 
 ```xml
 <key>CFBundleDisplayName</key>
-<string>NewApp</string>
+<string>{NewBundleIdAppName}</string>
 ```
 
-#### 文件 3：Entitlements
+#### 文件 3：`Entitlements`
 
 ```xml
 <!-- App Group ID：如果要换就改，否则不变 -->
 <key>com.apple.security.application-groups</key>
 <array>
-    <string>group.com.ggsheng.NewApp</string>
+    <string>group.com.ggsheng.{NewBundleIdAppName}</string>
 </array>
 ```
 
@@ -777,24 +795,24 @@ schemes:
 
 ```bash
 # 必须把所有源码文件夹改名，且和 project.yml 的 path: 一致
-mv HabitGo        NewApp
-mv HabitGoWidget  NewAppWidget
-mv HabitGoTests   NewAppTests
-mv HabitGoUITests NewAppUITests
+mv {AppName}        {NewBundleIdAppName}
+mv {AppName}Widget  {NewBundleIdAppName}Widget
+mv {AppName}Tests   {NewBundleIdAppName}Tests
+mv {AppName}UITests {NewBundleIdAppName}UITests
 ```
 
 **⚠️ 注意：** 如果 App Group ID 也换了，`UserDefaults(suiteName:)` 里的字符串必须同步改：
 
 ```swift
 // 主 App 和 Widget 都要改
-UserDefaults(suiteName: "group.com.ggsheng.NewApp")
+UserDefaults(suiteName: "group.com.ggsheng.{NewBundleIdAppName}")
 ```
 
-#### 文件 5：AppStore/Listing.md
+#### 文件 5：`AppStore/Listing.md`
 
 ```markdown
-**App Name:** NewApp
-**Bundle ID:** com.ggsheng.NewApp
+**App Name:** {NewBundleIdAppName}
+**Bundle ID:** com.ggsheng.{NewBundleIdAppName}
 ```
 
 **执行步骤：**
@@ -804,10 +822,10 @@ UserDefaults(suiteName: "group.com.ggsheng.NewApp")
 #    或放弃旧的，直接用新 Bundle ID 创建新 App Record
 
 # 2. 本地重命名所有源码文件夹
-mv HabitGo NewApp
-mv HabitGoWidget NewAppWidget
-mv HabitGoTests NewAppTests
-mv HabitGoUITests NewAppUITests
+mv {AppName}        {NewBundleIdAppName}
+mv {AppName}Widget  {NewBundleIdAppName}Widget
+mv {AppName}Tests   {NewBundleIdAppName}Tests
+mv {AppName}UITests {NewBundleIdAppName}UITests
 
 # 3. 修改 project.yml（所有 target name / PRODUCT_NAME / Bundle ID / paths）
 
@@ -816,19 +834,18 @@ mv HabitGoUITests NewAppUITests
 # 5. 如果 App Group 改了，同步改 entitlements 和所有 suiteName
 
 # 6. 提交推送
-git add -A && git commit -m "Full rename: Bundle ID to com.ggsheng.NewApp, all targets renamed" && git push
+git add -A && git commit -m "Full rename: Bundle ID to com.ggsheng.{NewBundleIdAppName}" && git push
 
 # 7. MacinCloud
-cd ~/Desktop/ios-HabitGo
+cd ~/Desktop/ios-{RepoFolder}
 git pull origin main
 ~/tools/xcodegen/bin/xcodegen generate
-# 如果文件夹改名了，手动 mv
-mv HabitGo NewApp 2>/dev/null || true
 rm -rf ~/Library/Developer/Xcode/DerivedData/*
-xcodebuild build -project NewApp.xcodeproj \
-  -target NewApp -configuration Debug
+xcodebuild build -project {NewBundleIdAppName}.xcodeproj \
+  -target {NewBundleIdAppName} -configuration Debug \
+  -destination 'platform=iOS Simulator,id={UDID}'
 
-# 8. Archive → App Store Connect 新建 App Record（填 NewApp）
+# 8. Archive → App Store Connect 新建 App Record（填 {NewBundleIdAppName}）
 ```
 
 ---
@@ -839,30 +856,32 @@ xcodebuild build -project NewApp.xcodeproj \
 
 **原理：** Display Name 只是用户手机上的显示名，App Store Connect 里的名称是独立的
 
+**场景举例：** `{AppName}=FocusTimer`，App Store 没被占，但想在手机桌面上显示 "FocusFlow"
+
 **需要修改的文件：**
 
-#### 文件 1：project.yml
+#### 文件 1：`project.yml`
 
 ```yaml
-name: HabitGo                              # Xcode 项目名不变
+name: {AppName}                            # Xcode 项目名不变
 
 targets:
-  HabitGo:
+  {AppName}:
     settings:
       base:
-        # 手机上显示的名字改了，但 App Store 还是叫 HabitGo
-        PRODUCT_NAME: AnotherName           # ← 改了！
-        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.HabitGo  # 不变
+        # 手机上显示的名字改了，但 App Store 还是叫 {AppName}
+        PRODUCT_NAME: {DesiredDisplayName} # ← 改了！
+        PRODUCT_BUNDLE_IDENTIFIER: com.ggsheng.{AppName}  # 不变
 ```
 
-#### 文件 2：Info.plist
+#### 文件 2：`Info.plist`
 
 ```xml
 <key>CFBundleDisplayName</key>
-<string>AnotherName</string>    <!-- 用户手机上显示这个名字 -->
+<string>{DesiredDisplayName}</string>    <!-- 用户手机上显示这个名字 -->
 ```
 
-**App Store Connect 里的 App Name 仍然填 HabitGo（没被占用的情况下）**
+**App Store Connect 里的 App Name 仍然填 `{AppName}`**
 
 ---
 
@@ -888,4 +907,15 @@ targets:
 | App Store 名称没被占，想手机上显示另一个名字 | **策略三** |
 | 想彻底换一个开始 | **策略二（删除旧 App Record）** |
 
-**HabitArcFlow 实际用的是策略一**（Bundle ID `com.ggsheng.HabitGo` 没被占，只是 App Store 名称 `HabitGo` 被占）。
+---
+
+### A.7 占位符汇总
+
+| 占位符 | 含义 | 举例 |
+|--------|------|------|
+| `{AppName}` | 当前本地项目的业务名 | FocusTimer |
+| `{DesiredAppStoreName}` | 想在 App Store 填的新名称 | FocusFlow |
+| `{NewBundleIdAppName}` | 换了 Bundle ID 后的业务名 | FocusFlow |
+| `{DesiredDisplayName}` | 想在手机桌面显示的名字 | FocusFlow |
+| `{RepoFolder}` | 本地仓库文件夹名 | ios-FocusTimer |
+| `{UDID}` | 模拟器 UDID | 59030A31-... |
