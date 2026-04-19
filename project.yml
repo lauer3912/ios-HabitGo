@@ -33,7 +33,13 @@ targets:
         SWIFT_EMIT_LOC_STRINGS: YES
         CODE_SIGN_ENTITLEMENTS: HabitGo/HabitGo.entitlements
         CODE_SIGN_STYLE: Automatic
+        CODE_SIGNING_ALLOWED: NO
         DEVELOPMENT_TEAM: 9L6N2ZF26B
+      configs:
+        Debug:
+          CODE_SIGNING_ALLOWED: NO
+        Release:
+          CODE_SIGNING_ALLOWED: YES
     entitlements:
       path: HabitGo/HabitGo.entitlements
     dependencies:
