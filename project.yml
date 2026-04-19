@@ -55,6 +55,7 @@ targets:
         SWIFT_EMIT_LOC_STRINGS: YES
         CODE_SIGN_ENTITLEMENTS: HabitGoWidget/HabitGoWidget.entitlements
         CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "-"
         DEVELOPMENT_TEAM: 9L6N2ZF26B
         SKIP_INSTALL: YES
         LD_RUNPATH_SEARCH_PATHS:
