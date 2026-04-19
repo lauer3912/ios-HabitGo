@@ -1,8 +1,8 @@
-# App Store Listing — HabitGo
+# App Store Listing — HabitArcFlow
 
 ## metadata
 
-**App Name:** HabitGo
+**App Name:** HabitArcFlow
 **Bundle ID:** com.ggsheng.HabitGo
 **Category:** Productivity
 **Price:** Free
@@ -12,9 +12,9 @@
 
 ## description
 
-HabitGo is your personal habit tracker designed to help you build lasting habits and achieve your goals. Simple, beautiful, and effective — no complexity, just results.
+HabitArcFlow is your personal habit tracker designed to help you build lasting habits and achieve your goals. Simple, beautiful, and effective — no complexity, just results.
 
-### Why HabitGo?
+### Why HabitArcFlow?
 
 **Build Better Habits**
 Track daily habits with a single tap. See your progress at a glance and stay accountable every day.
@@ -45,7 +45,7 @@ All your data stays on your device. No accounts, no cloud sync, no tracking. You
 
 ### Privacy
 
-HabitGo stores all data locally on your device. We do not collect, transmit, or share any personal information. No analytics, no advertising, no third-party SDKs.
+HabitArcFlow stores all data locally on your device. We do not collect, transmit, or share any personal information. No analytics, no advertising, no third-party SDKs.
 
 ---
 
@@ -57,4 +57,4 @@ habit tracker, habit tracker daily, habit builder, habit counter, habit streak, 
 
 ## privacy_policy_url
 
-https://lauer3912.github.io/ios-HabitGo/docs/PrivacyPolicy.html
+https://lauer3912.github.io/ios-HabitArcFlow/docs/PrivacyPolicy.html
