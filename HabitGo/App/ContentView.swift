@@ -34,11 +34,18 @@ struct ContentView: View {
         .tint(Color(hex: "#34C759"))
         .onOpenURL { url in
             // URL format: habitgo://tab/0 through habitgo://tab/3
-            guard url.scheme == "habitgo", url.host == "tab" else { return }
+            print("[HabitGo] onOpenURL received: \(url)")
+            guard url.scheme == "habitgo", url.host == "tab" else {
+                print("[HabitGo] Unknown scheme or host")
+                return
+            }
             let path = url.path
             if path.hasPrefix("/"), let tabIndex = Int(String(path.dropFirst())) {
                 if tabIndex >= 0 && tabIndex <= 3 {
+                    print("[HabitGo] Switching to tab \(tabIndex)")
                     selectedTab = tabIndex
+                } else {
+                    print("[HabitGo] Tab index out of range: \(tabIndex)")
                 }
             }
         }
