@@ -77,9 +77,8 @@ Located in: `AppStore/Screenshots/`
 
 | Size | Files | Dimensions |
 |------|-------|------------|
-| iPhone 6.9" | 4 files | 1290x2796 |
-
-Note: Additional screenshot sizes to be captured as needed.
+| iPhone 6.5" (iPhone 16 Plus) | 4 files | 1290×2796 |
+| iPad Pro 13" (M4) | 4 files | 2064×2752 |
 
 ---
 
