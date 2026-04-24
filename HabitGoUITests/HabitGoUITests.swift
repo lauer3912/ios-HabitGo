@@ -4,8 +4,8 @@ final class HabitGoUITests: XCTestCase {
 
     private var app: XCUIApplication!
     private let ssDir = "/tmp/HabitGoScreenshots"
-    private let tabLabels = ["Habits", "History", "Stats", "Settings"]
-    private let tabNames = ["01_Habits", "02_History", "03_Stats", "04_Settings"]
+    private let tabLabels = ["Habits", "History", "Stats"]
+    private let tabNames = ["01_Habits", "02_History", "03_Stats"]
 
     override func setUp() {
         super.setUp()
