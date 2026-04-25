@@ -3,7 +3,7 @@ import SwiftUI
 struct HabitRowView: View {
     @EnvironmentObject var habitVM: HabitViewModel
     @Environment(\.colorScheme) private var colorScheme
-    @Binding var habit: Habit
+    let habit: Habit
     let onToggle: () -> Void
 
     private var categoryName: String? {
