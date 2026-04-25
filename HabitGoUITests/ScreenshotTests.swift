@@ -33,7 +33,7 @@ final class ScreenshotTests: XCTestCase {
         // Tap add button
         if app.buttons["plus.circle.fill"].exists {
             app.buttons["plus.circle.fill"].tap()
-            sleep(1)
+            usleep(1000000)
             ss("iPhone_61_portrait_02_AddHabit")
         }
     }
@@ -42,14 +42,14 @@ final class ScreenshotTests: XCTestCase {
         // Navigate to add habit and fill form
         if app.buttons["plus.circle.fill"].exists {
             app.buttons["plus.circle.fill"].tap()
-            sleep(1)
+            usleep(1000000)
             
             // Type habit name
             let textField = app.textFields.firstMatch
             if textField.exists {
                 textField.tap()
                 textField.typeText("Morning Exercise")
-                sleep(0.5)
+                usleep(500000)
             }
             ss("iPhone_61_portrait_03_HabitForm")
         }
@@ -59,7 +59,7 @@ final class ScreenshotTests: XCTestCase {
         // Navigate to calendar/history
         if app.tabBars.buttons.element(boundBy: 1).exists {
             app.tabBars.buttons.element(boundBy: 1).tap()
-            sleep(1)
+            usleep(1000000)
             ss("iPhone_61_portrait_04_History")
         }
     }
@@ -68,7 +68,7 @@ final class ScreenshotTests: XCTestCase {
         // Navigate to achievements
         if app.tabBars.buttons.element(boundBy: 2).exists {
             app.tabBars.buttons.element(boundBy: 2).tap()
-            sleep(1)
+            usleep(1000000)
             ss("iPhone_61_portrait_05_Achievements")
         }
     }
@@ -77,7 +77,7 @@ final class ScreenshotTests: XCTestCase {
         // Navigate to settings
         if app.tabBars.buttons.element(boundBy: 3).exists {
             app.tabBars.buttons.element(boundBy: 3).tap()
-            sleep(1)
+            usleep(1000000)
             ss("iPhone_61_portrait_06_Settings")
         }
     }
@@ -91,7 +91,7 @@ final class ScreenshotTests: XCTestCase {
     func testiPad_AddHabit() throws {
         if app.buttons["plus.circle.fill"].exists {
             app.buttons["plus.circle.fill"].tap()
-            sleep(1)
+            usleep(1000000)
             ss("iPad_129_portrait_02_AddHabit")
         }
     }
@@ -100,7 +100,7 @@ final class ScreenshotTests: XCTestCase {
         // iPad might have different navigation
         if app.tabBars.buttons.count > 1 {
             app.tabBars.buttons.element(boundBy: 1).tap()
-            sleep(1)
+            usleep(1000000)
             ss("iPad_129_portrait_03_History")
         }
     }
@@ -108,7 +108,7 @@ final class ScreenshotTests: XCTestCase {
     func testiPad_Achievements() throws {
         if app.tabBars.buttons.count > 2 {
             app.tabBars.buttons.element(boundBy: 2).tap()
-            sleep(1)
+            usleep(1000000)
             ss("iPad_129_portrait_04_Achievements")
         }
     }
@@ -116,7 +116,7 @@ final class ScreenshotTests: XCTestCase {
     func testiPad_Settings() throws {
         if app.tabBars.buttons.count > 3 {
             app.tabBars.buttons.element(boundBy: 3).tap()
-            sleep(1)
+            usleep(1000000)
             ss("iPad_129_portrait_05_Settings")
         }
     }
