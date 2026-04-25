@@ -73,7 +73,7 @@ struct FocusModeView: View {
                             VStack(alignment: .leading) {
                                 Text("Focus Schedule")
                                     .font(.subheadline.bold())
-                                Text("\(formatHour(startHour):\(formatMinute(startMinute))) - \(formatHour(endHour)):\(formatMinute(endMinute))")
+                                Text("\(formatHour(startHour)):\(formatMinute(startMinute)) - \(formatHour(endHour)):\(formatMinute(endMinute))")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                                 Text("\(selectedDays.count) days active")

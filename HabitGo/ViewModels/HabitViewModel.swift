@@ -293,45 +293,38 @@ class HabitViewModel: ObservableObject {
 
     func checkAndUpdateAchievements() {
         // First Step
-        updateAchievement(.firstStep) { achievement in
-            habitVM in
-            habitVM.habits.contains { $0.totalCompletions >= 1 }
+        updateAchievement(.firstStep) { _ in
+            self.habits.contains { $0.totalCompletions >= 1 }
         }
 
         // Week Streak
-        updateAchievement(.weekStreak) { achievement in
-            habitVM in
-            habitVM.habits.contains { $0.currentStreak >= 7 }
+        updateAchievement(.weekStreak) { _ in
+            self.habits.contains { $0.currentStreak >= 7 }
         }
 
         // Month Streak
-        updateAchievement(.monthStreak) { achievement in
-            habitVM in
-            habitVM.habits.contains { $0.currentStreak >= 30 }
+        updateAchievement(.monthStreak) { _ in
+            self.habits.contains { $0.currentStreak >= 30 }
         }
 
         // Century Streak
-        updateAchievement(.centuryStreak) { achievement in
-            habitVM in
-            habitVM.habits.contains { $0.currentStreak >= 100 }
+        updateAchievement(.centuryStreak) { _ in
+            self.habits.contains { $0.currentStreak >= 100 }
         }
 
         // Perfect Day
-        updateAchievement(.perfectDay) { achievement in
-            habitVM in
-            !habitVM.habits.isEmpty && habitVM.habits.allSatisfy { $0.isCompletedToday }
+        updateAchievement(.perfectDay) { _ in
+            !self.habits.isEmpty && self.habits.allSatisfy { $0.isCompletedToday }
         }
 
         // Ten Habits
-        updateAchievement(.tenHabits) { achievement in
-            habitVM in
-            habitVM.habits.count >= 10
+        updateAchievement(.tenHabits) { _ in
+            self.habits.count >= 10
         }
 
         // Habit Master (500 completions)
-        updateAchievement(.habitMaster) { achievement in
-            habitVM in
-            habitVM.habits.reduce(0) { $0 + $1.totalCompletions } >= 500
+        updateAchievement(.habitMaster) { _ in
+            self.habits.reduce(0) { $0 + $1.totalCompletions } >= 500
         }
 
         saveAchievements()
