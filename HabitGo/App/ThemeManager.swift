@@ -106,16 +106,6 @@ class ThemeManager: ObservableObject {
 }
 
 // MARK: - Adaptive View Modifier
-struct AdaptiveViewModifier: ViewModifier {
-    @ObservedObject var theme = ThemeManager.shared
-    let keyPath: KeyPath<ThemeManager.AppColors.Type, Color>
-
-    func body(content: Content) -> some View {
-        content
-            .environment(\.colorScheme, theme.colorScheme)
-    }
-}
-
 extension View {
     func adaptiveBackground(_ scheme: ColorScheme?) -> some View {
         self.background(scheme == .dark ? ThemeManager.AppColors.darkBackground : ThemeManager.AppColors.lightBackground)
