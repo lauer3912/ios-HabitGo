@@ -64,7 +64,7 @@ struct HabitRowView: View {
                         HStack(spacing: 2) {
                             Image(systemName: energy.icon)
                                 .font(.caption2)
-                                .foregroundColor(Color(hex: energy.color))
+                                .foregroundColor(Color(hex: energy.colorHex))
                             Text(energy.rawValue)
                                 .font(.caption2)
                                 .foregroundColor(colorScheme == .dark ? Color(hex: "8E8E93") : Color(hex: "6C757D"))

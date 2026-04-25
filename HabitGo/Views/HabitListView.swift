@@ -107,7 +107,7 @@ struct HabitListView: View {
                             FilterChipNew(
                                 title: "All",
                                 isSelected: selectedCategoryId == nil,
-                                colorHex: Color(hex: ThemeManager.AppColors.primary).hexString
+                                colorHex: "#34C759"
                             ) {
                                 selectedCategoryId = nil
                             }
