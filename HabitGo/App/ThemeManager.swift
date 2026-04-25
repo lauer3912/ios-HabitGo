@@ -93,8 +93,8 @@ class ThemeManager: ObservableObject {
             colorScheme = .light
             isDarkMode = false
         } else {
-            colorScheme = nil // System
-            isDarkMode = false
+            colorScheme = .dark  // Default to dark
+            isDarkMode = true
         }
     }
 
