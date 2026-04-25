@@ -190,7 +190,7 @@ struct WeeklyReviewView: View {
             .background(colorScheme == .dark ? Color(hex: "141414") : Color.white)
             .cornerRadius(12)
 
-            // Most Improved
+            // Most Active
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
                     Image(systemName: "arrow.up.right.circle.fill")

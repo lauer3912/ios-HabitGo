@@ -36,14 +36,16 @@ struct HabitSuggestion: Identifiable, Codable {
 struct ProgressPhoto: Identifiable, Codable {
     let id: UUID
     let habitId: UUID
-    let imageData: Data
+    let imageData: Data?
+    let imagePath: String?
     let caption: String?
     let createdAt: Date
 
-    init(habitId: UUID, imageData: Data, caption: String? = nil) {
+    init(habitId: UUID, imagePath: String?, caption: String? = nil) {
         self.id = UUID()
         self.habitId = habitId
-        self.imageData = imageData
+        self.imageData = nil
+        self.imagePath = imagePath
         self.caption = caption
         self.createdAt = Date()
     }
@@ -63,7 +65,7 @@ enum EnergyLevel: String, Codable, CaseIterable {
         }
     }
 
-    var color: String {
+    var colorHex: String {
         switch self {
         case .high: return "#FF9500"
         case .medium: return "#34C759"
@@ -79,7 +81,7 @@ struct LocationReminder: Identifiable, Codable {
     var locationName: String
     var latitude: Double
     var longitude: Double
-    var radius: Double // meters
+    var radius: Double
     var isEnabled: Bool
 
     init(habitId: UUID, locationName: String, latitude: Double, longitude: Double, radius: Double = 100) {
@@ -91,15 +93,11 @@ struct LocationReminder: Identifiable, Codable {
         self.radius = radius
         self.isEnabled = true
     }
-
-    var coordinate: CLLocationCoordinate2D {
-        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-    }
 }
 
 // MARK: - Heat Map Data
 struct HeatMapDay: Identifiable {
-    let id: String // "yyyy-MM-dd"
+    let id: String
     let date: Date
     let completionCount: Int
     let totalHabits: Int
@@ -109,14 +107,14 @@ struct HeatMapDay: Identifiable {
         return Double(completionCount) / Double(totalHabits)
     }
 
-    var color: Color {
+    var colorHex: String {
         switch intensity {
-        case 0: return Color.gray.opacity(0.1)
-        case 0..<0.25: return Color(hex: "0E4429")
-        case 0.25..<0.5: return Color(hex: "006D32")
-        case 0.5..<0.75: return Color(hex: "26A641")
-        case 0.75..<1.0: return Color(hex: "39D353")
-        default: return Color(hex: "006D32")
+        case 0: return "#E9ECEF"
+        case 0..<0.25: return "#0E4429"
+        case 0.25..<0.5: return "#006D32"
+        case 0.5..<0.75: return "#26A641"
+        case 0.75..<1.0: return "#39D353"
+        default: return "#006D32"
         }
     }
 }
@@ -162,17 +160,6 @@ enum HabitSoundEffect: String, CaseIterable {
     case celebration = "Celebration"
     case chime = "Chime"
     case success = "Success"
-
-    var systemSoundName: String {
-        switch self {
-        case .click: return "tock"
-        case .pop: return "pop"
-        case .celebration: return "celebration"
-        case .chime: return "chime"
-        case .success: return "success"
-        case .none: return ""
-        }
-    }
 }
 
 // MARK: - Haptic Feedback
@@ -200,82 +187,4 @@ enum AchievementCategory: String, Codable, CaseIterable {
         case .special: return "star.fill"
         }
     }
-}
-
-// MARK: - Habit Note Extension
-struct HabitNote: Identifiable, Codable {
-    let id: UUID
-    let habitId: UUID
-    let content: String
-    let createdAt: Date
-
-    init(habitId: UUID, content: String) {
-        self.id = UUID()
-        self.habitId = habitId
-        self.content = content
-        self.createdAt = Date()
-    }
-}
-
-// MARK: - Weekly Goal Extension
-struct WeeklyGoal: Identifiable, Codable {
-    let id: UUID
-    let habitId: UUID
-    let weekStartDate: Date
-    var targetCompletions: Int
-    var actualCompletions: Int
-
-    init(id: UUID = UUID(), habitId: UUID, weekStartDate: Date, targetCompletions: Int, actualCompletions: Int = 0) {
-        self.id = id
-        self.habitId = habitId
-        self.weekStartDate = weekStartDate
-        self.targetCompletions = targetCompletions
-        self.actualCompletions = actualCompletions
-    }
-
-    var progress: Double {
-        guard targetCompletions > 0 else { return 0 }
-        return min(Double(actualCompletions) / Double(targetCompletions), 1.0)
-    }
-
-    static func weekStart(from date: Date = Date()) -> Date {
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
-        return calendar.date(from: components) ?? date
-    }
-}
-
-// MARK: - Weekly Trend Data
-struct WeeklyTrendData: Identifiable {
-    let id = UUID()
-    let weekLabel: String
-    let completions: Int
-}
-
-// MARK: - Data Export Manager
-struct DataExportManager {
-    static func exportToJSON(habits: [Habit]) -> Data? {
-        try? JSONEncoder().encode(ExportData(habits: habits, exportDate: Date(), version: "3.0"))
-    }
-
-    static func exportToCSV(habits: [Habit]) -> String {
-        var csv = "Habit Name,Icon,Color,Frequency,Created Date,Total Completions,Current Streak,Longest Streak\n"
-        for habit in habits {
-            csv += "\"\(habit.name)\",\"\(habit.icon)\",\"\(habit.colorHex)\",\"\(habit.frequency.rawValue)\",\"\(habit.createdAt)\",\(habit.totalCompletions),\(habit.currentStreak),\(habit.longestStreak)\n"
-        }
-        return csv
-    }
-
-    static func importFromJSON(_ data: Data) -> [Habit]? {
-        guard let exportData = try? JSONDecoder().decode(ExportData.self, from: data) else {
-            return nil
-        }
-        return exportData.habits
-    }
-}
-
-struct ExportData: Codable {
-    let habits: [Habit]
-    let exportDate: Date
-    let version: String
 }

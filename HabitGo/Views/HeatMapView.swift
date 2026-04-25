@@ -5,15 +5,13 @@ struct HeatMapView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     let months: Int = 6
-    let columns = 53
-    let rows = 7
 
     private var heatMapData: [[HeatMapDay]] {
         var data: [[HeatMapDay]] = []
         let calendar = Calendar.current
         let today = Date()
 
-        for weekOffset in (0..<columns).reversed() {
+        for weekOffset in (0..<53).reversed() {
             var week: [HeatMapDay] = []
             for dayOffset in 0..<7 {
                 guard let date = calendar.date(byAdding: .day, value: -(weekOffset * 7) + dayOffset, to: today) else {
@@ -34,19 +32,10 @@ struct HeatMapView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    // Stats Summary
                     statsSummary
-
-                    // Month Labels
                     monthLabels
-
-                    // Heat Map Grid
                     heatMapGrid
-
-                    // Legend
                     legend
-
-                    // Monthly Breakdown
                     monthlyBreakdown
                 }
                 .padding()
@@ -82,7 +71,7 @@ struct HeatMapView: View {
     private var monthLabels: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 4) {
-                ForEach(Array(monthHeaders.enumerated()), id: \.offset) { index, month in
+                ForEach(Array(monthHeaders.enumerated()), id: \.offset) { _, month in
                     Text(month)
                         .font(.caption2)
                         .foregroundColor(colorScheme == .dark ? Color(hex: "8E8E93") : Color(hex: "6C757D"))
@@ -113,7 +102,7 @@ struct HeatMapView: View {
                         if row < heatMapData[col].count {
                             let day = heatMapData[col][row]
                             Rectangle()
-                                .fill(day.color)
+                                .fill(Color(hex: day.colorHex))
                                 .frame(width: 12, height: 12)
                                 .cornerRadius(2)
                         } else {
@@ -135,17 +124,8 @@ struct HeatMapView: View {
 
             HStack(spacing: 4) {
                 ForEach([0.0, 0.25, 0.5, 0.75, 1.0], id: \.self) { level in
-                    let color: Color = {
-                        switch level {
-                        case 0: return Color.gray.opacity(0.1)
-                        case 0.25: return Color(hex: "0E4429")
-                        case 0.5: return Color(hex: "26A641")
-                        case 0.75: return Color(hex: "39D353")
-                        default: return Color(hex: "006D32")
-                        }
-                    }()
                     Rectangle()
-                        .fill(color)
+                        .fill(Color(hex: dayColorHex(for: level)))
                         .frame(width: 12, height: 12)
                         .cornerRadius(2)
                 }
@@ -160,13 +140,20 @@ struct HeatMapView: View {
         .cornerRadius(12)
     }
 
+    private func dayColorHex(for level: Double) -> String {
+        switch level {
+        case 0: return "#E9ECEF"
+        case 0.25: return "#0E4429"
+        case 0.5: return "#26A641"
+        case 0.75: return "#39D353"
+        default: return "#006D32"
+        }
+    }
+
     private var monthlyBreakdown: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Monthly Overview")
                 .font(.headline)
-
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MMMM yyyy"
 
             ForEach(monthData, id: \.month) { data in
                 HStack {
