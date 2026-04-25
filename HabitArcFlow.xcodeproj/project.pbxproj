@@ -1,0 +1,839 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		08891349809C6FEB49875919 /* HeatMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199E8523221491E228ED06C9 /* HeatMapView.swift */; };
+		0B9932AC757DF8333186B597 /* HabitTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF1622392AA94A5CDA18ECD /* HabitTemplate.swift */; };
+		13099A0EC6DC656BC2312719 /* HabitGoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F50C44B06D803E4638F4817 /* HabitGoApp.swift */; };
+		14DF5CEEC1E2A4DD9DF1FEE7 /* HabitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51D7A9509D74B55D290323E /* HabitViewModel.swift */; };
+		17DCEB288AE36F04F843DC25 /* HabitStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1A029E1CEC2C538665873F /* HabitStackView.swift */; };
+		19435748CEF76F05A6B7FFD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFB229483F09DE7275516751 /* Assets.xcassets */; };
+		29C47CFEFEBE31248B748F8F /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3339640D8A3F43F070AAD93 /* Habit.swift */; };
+		2FAAD9E749D5C7C66CB2C4C8 /* DataExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3550FC1215B0707D856605 /* DataExportManager.swift */; };
+		3414348F286A6F76BE4F2EE4 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8D7316F8110745D61DE1AF /* ThemeManager.swift */; };
+		3553C29DB8EE5E8C6B8A7341 /* ScreenshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860242EEFCF20FD067F31A0D /* ScreenshotTests.swift */; };
+		3FF13DBF381A68A28086E335 /* HabitRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 518F1FBA99D7D212D8DBD672 /* HabitRowView.swift */; };
+		4AD9AEA9C4A0DE0CCB4EA41D /* FocusModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E823C5B698AF8A1B10DE83CC /* FocusModeView.swift */; };
+		5528E71CB0F8185398240856 /* Achievement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F044593DBD95B594F3489D8B /* Achievement.swift */; };
+		697299D745007093A6E6F26F /* HabitGoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486673208029ACF80A9A4EED /* HabitGoUITests.swift */; };
+		6FE0CEB8207E7F439DAB1F54 /* HabitTemplatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05ABFA660F6E18B47B9E8A43 /* HabitTemplatesView.swift */; };
+		75907A746A8C66755ED586FE /* AchievementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D18C842E2E55E7D98AF888 /* AchievementsView.swift */; };
+		7B823344F277E2E5C4429BA2 /* CategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7772F17F86F516A1AD9662 /* CategoriesView.swift */; };
+		81B234C3CF69CC9597A3309E /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DCA1E0582FD78426E7ED85 /* NotificationManager.swift */; };
+		87FFA0CC47BC5A41B7712F8B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D70900D6EB816683E6A20A4 /* ContentView.swift */; };
+		8A9E5F1F4F589131192995B2 /* HabitGoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CED62213959E3FFDC6C6778 /* HabitGoTests.swift */; };
+		9639FFAD50D258F496CD05B6 /* CelebrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014160823668304889E21F2 /* CelebrationView.swift */; };
+		967A659D3CC69FA8F83FEAAC /* AddHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956D5C49FA0D53E43F6C5398 /* AddHabitView.swift */; };
+		9E84DC774D930BA6688AEE12 /* HabitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9157B36159D6459B1E3F4B58 /* HabitDetailView.swift */; };
+		ABFA4C304611736926B29BBC /* WeeklyGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73C7A5F3EE6F9EA66D63B98 /* WeeklyGoal.swift */; };
+		B616B391CE33809A87A8EABC /* HabitCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FB52711F4AE12CA545C1C9 /* HabitCategory.swift */; };
+		B84507B10C43AE30D570BFB1 /* WeeklyProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12109A0143F1251491E345A6 /* WeeklyProgressView.swift */; };
+		BA4311E176A8B6225860A242 /* HabitGoWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF9D9F33B2A6FEC6F9A4A9A /* HabitGoWidget.swift */; };
+		CBBC7CD8688BB7348E226EC1 /* HabitArcFlowWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2252E3C2F8E0AC97C6894095 /* HabitArcFlowWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D889328193D9AA78E01D0074 /* CalendarHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501EFD30FD77B036050D9D45 /* CalendarHistoryView.swift */; };
+		DD37C6B6E2D2731FA2E7CA94 /* AppLockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234505166001E8BCA5B6720E /* AppLockView.swift */; };
+		DDB8676808AB67C76C5F734E /* HabitWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2CC77B1636B1013D6923A71 /* HabitWidget.swift */; };
+		E1D6277D47B6B9490D024645 /* WeeklyReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9411A8657E7812AEE9D68F12 /* WeeklyReviewView.swift */; };
+		E9DFAD3B34058AE9D847BDDE /* TrendChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AADFA210823397A71DCA80 /* TrendChartView.swift */; };
+		ECC1BAA9D16633A1A717183B /* DeviceSpecificTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0360A873A12EC606DA21108F /* DeviceSpecificTests.swift */; };
+		EE395E0BBBBD82D2102171C6 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C232BC2BB84C9F430A1065 /* Extensions.swift */; };
+		F8A130BEA83EB338B0BA651F /* HabitListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E29C7182E6D2DF74E2999D /* HabitListView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5C58E354545399C2EC8F54A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2917F2FDFDC4FFB5C75ACEE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D56B55666DD19FD2DCDED362;
+			remoteInfo = HabitArcFlow;
+		};
+		C0B7DC6682FE7C69239D5480 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2917F2FDFDC4FFB5C75ACEE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D56B55666DD19FD2DCDED362;
+			remoteInfo = HabitArcFlow;
+		};
+		CCD6D3D9A10A9F29C8EA5F84 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2917F2FDFDC4FFB5C75ACEE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C52DE7957A848429230F1A90;
+			remoteInfo = HabitArcFlowWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		39CD945EC815C59286FA33C6 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CBBC7CD8688BB7348E226EC1 /* HabitArcFlowWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0360A873A12EC606DA21108F /* DeviceSpecificTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSpecificTests.swift; sourceTree = "<group>"; };
+		05ABFA660F6E18B47B9E8A43 /* HabitTemplatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitTemplatesView.swift; sourceTree = "<group>"; };
+		0D70900D6EB816683E6A20A4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		0E69CFB1F8DBD24C897325A2 /* HabitArcFlowTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = HabitArcFlowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		12109A0143F1251491E345A6 /* WeeklyProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyProgressView.swift; sourceTree = "<group>"; };
+		1790E4BFB8097F0ACE0D4E33 /* HabitArcFlowUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = HabitArcFlowUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		199E8523221491E228ED06C9 /* HeatMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMapView.swift; sourceTree = "<group>"; };
+		1B2E61FAD531AA7C5A8317AF /* HabitArcFlow.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = HabitArcFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CED62213959E3FFDC6C6778 /* HabitGoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitGoTests.swift; sourceTree = "<group>"; };
+		1E8D7316F8110745D61DE1AF /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		2252E3C2F8E0AC97C6894095 /* HabitArcFlowWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = HabitArcFlowWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		234505166001E8BCA5B6720E /* AppLockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLockView.swift; sourceTree = "<group>"; };
+		43E29C7182E6D2DF74E2999D /* HabitListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListView.swift; sourceTree = "<group>"; };
+		486673208029ACF80A9A4EED /* HabitGoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitGoUITests.swift; sourceTree = "<group>"; };
+		501EFD30FD77B036050D9D45 /* CalendarHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHistoryView.swift; sourceTree = "<group>"; };
+		518F1FBA99D7D212D8DBD672 /* HabitRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRowView.swift; sourceTree = "<group>"; };
+		5543EBB1B2AAA487294F358E /* HabitGoWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HabitGoWidget.entitlements; sourceTree = "<group>"; };
+		7534949D4D2CDE89343B9508 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		860242EEFCF20FD067F31A0D /* ScreenshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotTests.swift; sourceTree = "<group>"; };
+		8F50C44B06D803E4638F4817 /* HabitGoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitGoApp.swift; sourceTree = "<group>"; };
+		9014160823668304889E21F2 /* CelebrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrationView.swift; sourceTree = "<group>"; };
+		9157B36159D6459B1E3F4B58 /* HabitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailView.swift; sourceTree = "<group>"; };
+		92DCA1E0582FD78426E7ED85 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		9411A8657E7812AEE9D68F12 /* WeeklyReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyReviewView.swift; sourceTree = "<group>"; };
+		956D5C49FA0D53E43F6C5398 /* AddHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHabitView.swift; sourceTree = "<group>"; };
+		9A7772F17F86F516A1AD9662 /* CategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesView.swift; sourceTree = "<group>"; };
+		A1C232BC2BB84C9F430A1065 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		A51D7A9509D74B55D290323E /* HabitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitViewModel.swift; sourceTree = "<group>"; };
+		ABF9D9F33B2A6FEC6F9A4A9A /* HabitGoWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitGoWidget.swift; sourceTree = "<group>"; };
+		AE1A029E1CEC2C538665873F /* HabitStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitStackView.swift; sourceTree = "<group>"; };
+		BC19F75CC198E9A4C79E078F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		BE396E60E0FFDA73039EBED4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C25D4F70D109D87AD5662D82 /* HabitGo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HabitGo.entitlements; sourceTree = "<group>"; };
+		C7FB52711F4AE12CA545C1C9 /* HabitCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCategory.swift; sourceTree = "<group>"; };
+		CFE5B6FF9C228A1F7E1676CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D0D18C842E2E55E7D98AF888 /* AchievementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsView.swift; sourceTree = "<group>"; };
+		D2CC77B1636B1013D6923A71 /* HabitWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitWidget.swift; sourceTree = "<group>"; };
+		D3339640D8A3F43F070AAD93 /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
+		DCF1622392AA94A5CDA18ECD /* HabitTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitTemplate.swift; sourceTree = "<group>"; };
+		E0AADFA210823397A71DCA80 /* TrendChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendChartView.swift; sourceTree = "<group>"; };
+		E73C7A5F3EE6F9EA66D63B98 /* WeeklyGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyGoal.swift; sourceTree = "<group>"; };
+		E823C5B698AF8A1B10DE83CC /* FocusModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusModeView.swift; sourceTree = "<group>"; };
+		EFB229483F09DE7275516751 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F044593DBD95B594F3489D8B /* Achievement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achievement.swift; sourceTree = "<group>"; };
+		FC3550FC1215B0707D856605 /* DataExportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExportManager.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		03C88547DF1B4374312DEB68 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				0D70900D6EB816683E6A20A4 /* ContentView.swift */,
+				8F50C44B06D803E4638F4817 /* HabitGoApp.swift */,
+				92DCA1E0582FD78426E7ED85 /* NotificationManager.swift */,
+				1E8D7316F8110745D61DE1AF /* ThemeManager.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		0878B2119D015E525B488245 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F044593DBD95B594F3489D8B /* Achievement.swift */,
+				FC3550FC1215B0707D856605 /* DataExportManager.swift */,
+				A1C232BC2BB84C9F430A1065 /* Extensions.swift */,
+				D3339640D8A3F43F070AAD93 /* Habit.swift */,
+				C7FB52711F4AE12CA545C1C9 /* HabitCategory.swift */,
+				DCF1622392AA94A5CDA18ECD /* HabitTemplate.swift */,
+				E73C7A5F3EE6F9EA66D63B98 /* WeeklyGoal.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		08EA2C2304971F26C6AC3D8A /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				A51D7A9509D74B55D290323E /* HabitViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		0AAE7953E20BFDDC3DC17846 /* HabitGoTests */ = {
+			isa = PBXGroup;
+			children = (
+				1CED62213959E3FFDC6C6778 /* HabitGoTests.swift */,
+				BE396E60E0FFDA73039EBED4 /* Info.plist */,
+			);
+			path = HabitGoTests;
+			sourceTree = "<group>";
+		};
+		10162FCAECCB0539B1DE1739 = {
+			isa = PBXGroup;
+			children = (
+				73807AEE0D4C3C3DBF4FE8A3 /* HabitGo */,
+				0AAE7953E20BFDDC3DC17846 /* HabitGoTests */,
+				1ED5428825956D3F573150B1 /* HabitGoUITests */,
+				5C4AC6D3A7160B6F7685688C /* HabitGoWidget */,
+				94A51660A607E040FD739965 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		12B377F21E5B267812B27538 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D0D18C842E2E55E7D98AF888 /* AchievementsView.swift */,
+				956D5C49FA0D53E43F6C5398 /* AddHabitView.swift */,
+				234505166001E8BCA5B6720E /* AppLockView.swift */,
+				501EFD30FD77B036050D9D45 /* CalendarHistoryView.swift */,
+				9A7772F17F86F516A1AD9662 /* CategoriesView.swift */,
+				9014160823668304889E21F2 /* CelebrationView.swift */,
+				E823C5B698AF8A1B10DE83CC /* FocusModeView.swift */,
+				9157B36159D6459B1E3F4B58 /* HabitDetailView.swift */,
+				43E29C7182E6D2DF74E2999D /* HabitListView.swift */,
+				518F1FBA99D7D212D8DBD672 /* HabitRowView.swift */,
+				AE1A029E1CEC2C538665873F /* HabitStackView.swift */,
+				05ABFA660F6E18B47B9E8A43 /* HabitTemplatesView.swift */,
+				199E8523221491E228ED06C9 /* HeatMapView.swift */,
+				E0AADFA210823397A71DCA80 /* TrendChartView.swift */,
+				12109A0143F1251491E345A6 /* WeeklyProgressView.swift */,
+				9411A8657E7812AEE9D68F12 /* WeeklyReviewView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		1ED5428825956D3F573150B1 /* HabitGoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				0360A873A12EC606DA21108F /* DeviceSpecificTests.swift */,
+				486673208029ACF80A9A4EED /* HabitGoUITests.swift */,
+				BC19F75CC198E9A4C79E078F /* Info.plist */,
+				860242EEFCF20FD067F31A0D /* ScreenshotTests.swift */,
+			);
+			path = HabitGoUITests;
+			sourceTree = "<group>";
+		};
+		5C4AC6D3A7160B6F7685688C /* HabitGoWidget */ = {
+			isa = PBXGroup;
+			children = (
+				5543EBB1B2AAA487294F358E /* HabitGoWidget.entitlements */,
+				ABF9D9F33B2A6FEC6F9A4A9A /* HabitGoWidget.swift */,
+				D2CC77B1636B1013D6923A71 /* HabitWidget.swift */,
+				CFE5B6FF9C228A1F7E1676CA /* Info.plist */,
+			);
+			path = HabitGoWidget;
+			sourceTree = "<group>";
+		};
+		73807AEE0D4C3C3DBF4FE8A3 /* HabitGo */ = {
+			isa = PBXGroup;
+			children = (
+				EFB229483F09DE7275516751 /* Assets.xcassets */,
+				C25D4F70D109D87AD5662D82 /* HabitGo.entitlements */,
+				7534949D4D2CDE89343B9508 /* Info.plist */,
+				03C88547DF1B4374312DEB68 /* App */,
+				0878B2119D015E525B488245 /* Models */,
+				08EA2C2304971F26C6AC3D8A /* ViewModels */,
+				12B377F21E5B267812B27538 /* Views */,
+			);
+			path = HabitGo;
+			sourceTree = "<group>";
+		};
+		94A51660A607E040FD739965 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1B2E61FAD531AA7C5A8317AF /* HabitArcFlow.app */,
+				0E69CFB1F8DBD24C897325A2 /* HabitArcFlowTests.xctest */,
+				1790E4BFB8097F0ACE0D4E33 /* HabitArcFlowUITests.xctest */,
+				2252E3C2F8E0AC97C6894095 /* HabitArcFlowWidget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5587E729A16AF51539D25F34 /* HabitArcFlowUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C0694F23E83CB0ED565EA81E /* Build configuration list for PBXNativeTarget "HabitArcFlowUITests" */;
+			buildPhases = (
+				2A5CC405AF7AD3E0F5B2DC4B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F214D2BB8ECDE9ABD93BB532 /* PBXTargetDependency */,
+			);
+			name = HabitArcFlowUITests;
+			packageProductDependencies = (
+			);
+			productName = HabitArcFlowUITests;
+			productReference = 1790E4BFB8097F0ACE0D4E33 /* HabitArcFlowUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		BDE57F4857A9F38940568A3A /* HabitArcFlowTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5B47DA77103EC2968D6B54A6 /* Build configuration list for PBXNativeTarget "HabitArcFlowTests" */;
+			buildPhases = (
+				5D4D8B47DE1264D15B215564 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				877BED366C243372E1715A82 /* PBXTargetDependency */,
+			);
+			name = HabitArcFlowTests;
+			packageProductDependencies = (
+			);
+			productName = HabitArcFlowTests;
+			productReference = 0E69CFB1F8DBD24C897325A2 /* HabitArcFlowTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C52DE7957A848429230F1A90 /* HabitArcFlowWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2A8549BC2B43F1683D34D854 /* Build configuration list for PBXNativeTarget "HabitArcFlowWidget" */;
+			buildPhases = (
+				91539FDBF15279AB58F52B5F /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HabitArcFlowWidget;
+			packageProductDependencies = (
+			);
+			productName = HabitArcFlowWidget;
+			productReference = 2252E3C2F8E0AC97C6894095 /* HabitArcFlowWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		D56B55666DD19FD2DCDED362 /* HabitArcFlow */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 920553EE920470EA40DDB67D /* Build configuration list for PBXNativeTarget "HabitArcFlow" */;
+			buildPhases = (
+				B92C521FB6F45806ECDAF18D /* Sources */,
+				39541DC238F93C28B3EEF5DE /* Resources */,
+				39CD945EC815C59286FA33C6 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AF25E87F9AF444DD153D1340 /* PBXTargetDependency */,
+			);
+			name = HabitArcFlow;
+			packageProductDependencies = (
+			);
+			productName = HabitArcFlow;
+			productReference = 1B2E61FAD531AA7C5A8317AF /* HabitArcFlow.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E2917F2FDFDC4FFB5C75ACEE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					5587E729A16AF51539D25F34 = {
+						DevelopmentTeam = 9L6N2ZF26B;
+						ProvisioningStyle = Automatic;
+						TestTargetID = D56B55666DD19FD2DCDED362;
+					};
+					BDE57F4857A9F38940568A3A = {
+						DevelopmentTeam = 9L6N2ZF26B;
+						ProvisioningStyle = Automatic;
+					};
+					C52DE7957A848429230F1A90 = {
+						DevelopmentTeam = 9L6N2ZF26B;
+						ProvisioningStyle = Automatic;
+					};
+					D56B55666DD19FD2DCDED362 = {
+						DevelopmentTeam = 9L6N2ZF26B;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = F3F40B1AA4E138308DB230D5 /* Build configuration list for PBXProject "HabitArcFlow" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 10162FCAECCB0539B1DE1739;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 94A51660A607E040FD739965 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D56B55666DD19FD2DCDED362 /* HabitArcFlow */,
+				BDE57F4857A9F38940568A3A /* HabitArcFlowTests */,
+				5587E729A16AF51539D25F34 /* HabitArcFlowUITests */,
+				C52DE7957A848429230F1A90 /* HabitArcFlowWidget */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		39541DC238F93C28B3EEF5DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19435748CEF76F05A6B7FFD0 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2A5CC405AF7AD3E0F5B2DC4B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ECC1BAA9D16633A1A717183B /* DeviceSpecificTests.swift in Sources */,
+				697299D745007093A6E6F26F /* HabitGoUITests.swift in Sources */,
+				3553C29DB8EE5E8C6B8A7341 /* ScreenshotTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5D4D8B47DE1264D15B215564 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A9E5F1F4F589131192995B2 /* HabitGoTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91539FDBF15279AB58F52B5F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA4311E176A8B6225860A242 /* HabitGoWidget.swift in Sources */,
+				DDB8676808AB67C76C5F734E /* HabitWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B92C521FB6F45806ECDAF18D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5528E71CB0F8185398240856 /* Achievement.swift in Sources */,
+				75907A746A8C66755ED586FE /* AchievementsView.swift in Sources */,
+				967A659D3CC69FA8F83FEAAC /* AddHabitView.swift in Sources */,
+				DD37C6B6E2D2731FA2E7CA94 /* AppLockView.swift in Sources */,
+				D889328193D9AA78E01D0074 /* CalendarHistoryView.swift in Sources */,
+				7B823344F277E2E5C4429BA2 /* CategoriesView.swift in Sources */,
+				9639FFAD50D258F496CD05B6 /* CelebrationView.swift in Sources */,
+				87FFA0CC47BC5A41B7712F8B /* ContentView.swift in Sources */,
+				2FAAD9E749D5C7C66CB2C4C8 /* DataExportManager.swift in Sources */,
+				EE395E0BBBBD82D2102171C6 /* Extensions.swift in Sources */,
+				4AD9AEA9C4A0DE0CCB4EA41D /* FocusModeView.swift in Sources */,
+				29C47CFEFEBE31248B748F8F /* Habit.swift in Sources */,
+				B616B391CE33809A87A8EABC /* HabitCategory.swift in Sources */,
+				9E84DC774D930BA6688AEE12 /* HabitDetailView.swift in Sources */,
+				13099A0EC6DC656BC2312719 /* HabitGoApp.swift in Sources */,
+				F8A130BEA83EB338B0BA651F /* HabitListView.swift in Sources */,
+				3FF13DBF381A68A28086E335 /* HabitRowView.swift in Sources */,
+				17DCEB288AE36F04F843DC25 /* HabitStackView.swift in Sources */,
+				0B9932AC757DF8333186B597 /* HabitTemplate.swift in Sources */,
+				6FE0CEB8207E7F439DAB1F54 /* HabitTemplatesView.swift in Sources */,
+				14DF5CEEC1E2A4DD9DF1FEE7 /* HabitViewModel.swift in Sources */,
+				08891349809C6FEB49875919 /* HeatMapView.swift in Sources */,
+				81B234C3CF69CC9597A3309E /* NotificationManager.swift in Sources */,
+				3414348F286A6F76BE4F2EE4 /* ThemeManager.swift in Sources */,
+				E9DFAD3B34058AE9D847BDDE /* TrendChartView.swift in Sources */,
+				ABFA4C304611736926B29BBC /* WeeklyGoal.swift in Sources */,
+				B84507B10C43AE30D570BFB1 /* WeeklyProgressView.swift in Sources */,
+				E1D6277D47B6B9490D024645 /* WeeklyReviewView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		877BED366C243372E1715A82 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D56B55666DD19FD2DCDED362 /* HabitArcFlow */;
+			targetProxy = C0B7DC6682FE7C69239D5480 /* PBXContainerItemProxy */;
+		};
+		AF25E87F9AF444DD153D1340 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C52DE7957A848429230F1A90 /* HabitArcFlowWidget */;
+			targetProxy = CCD6D3D9A10A9F29C8EA5F84 /* PBXContainerItemProxy */;
+		};
+		F214D2BB8ECDE9ABD93BB532 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D56B55666DD19FD2DCDED362 /* HabitArcFlow */;
+			targetProxy = 5C58E354545399C2EC8F54A7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		127502798B4F29DD1531AAA1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9L6N2ZF26B;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = HabitGoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggsheng.HabitGoUITests;
+				PRODUCT_NAME = HabitArcFlowUITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET = "$(BUILT_PRODUCTS_DIR)/HabitArcFlow.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HabitArcFlow";
+				TEST_TARGET_NAME = HabitArcFlow;
+			};
+			name = Release;
+		};
+		433E571F6AEA938AA213091D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9L6N2ZF26B;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = HabitGoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggsheng.HabitGoTests;
+				PRODUCT_NAME = HabitArcFlowTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HabitArcFlow.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HabitArcFlow";
+			};
+			name = Debug;
+		};
+		470D8A6EE7F3EB752176A2BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_ENTITLEMENTS = HabitGo/HabitGo.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9L6N2ZF26B;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = HabitGo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggsheng.HabitGo;
+				PRODUCT_NAME = HabitArcFlow;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5EAC5D659677DDA24D9ABC63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGN_ENTITLEMENTS = HabitGo/HabitGo.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9L6N2ZF26B;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = HabitGo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggsheng.HabitGo;
+				PRODUCT_NAME = HabitArcFlow;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		66A6700991969DF77248BF4B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9L6N2ZF26B;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = HabitGoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggsheng.HabitGoUITests;
+				PRODUCT_NAME = HabitArcFlowUITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET = "$(BUILT_PRODUCTS_DIR)/HabitArcFlow.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HabitArcFlow";
+				TEST_TARGET_NAME = HabitArcFlow;
+			};
+			name = Debug;
+		};
+		7FA5BA229F42FCFA5E918899 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGN_ENTITLEMENTS = HabitGoWidget/HabitGoWidget.entitlements;
+				DEVELOPMENT_TEAM = 9L6N2ZF26B;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = HabitGoWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggsheng.HabitGo.widget;
+				PRODUCT_NAME = HabitArcFlowWidget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		817DB643F44BC4CFC0F1403E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 9L6N2ZF26B;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		BA2DBE3382D66C12CE0DA3B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_ENTITLEMENTS = HabitGoWidget/HabitGoWidget.entitlements;
+				DEVELOPMENT_TEAM = 9L6N2ZF26B;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = HabitGoWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggsheng.HabitGo.widget;
+				PRODUCT_NAME = HabitArcFlowWidget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C1A46C309E6A36FDAC24D691 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 9L6N2ZF26B;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		FEA0C5AAA322C470ED0C3535 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9L6N2ZF26B;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = HabitGoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggsheng.HabitGoTests;
+				PRODUCT_NAME = HabitArcFlowTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HabitArcFlow.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HabitArcFlow";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2A8549BC2B43F1683D34D854 /* Build configuration list for PBXNativeTarget "HabitArcFlowWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA2DBE3382D66C12CE0DA3B2 /* Debug */,
+				7FA5BA229F42FCFA5E918899 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5B47DA77103EC2968D6B54A6 /* Build configuration list for PBXNativeTarget "HabitArcFlowTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				433E571F6AEA938AA213091D /* Debug */,
+				FEA0C5AAA322C470ED0C3535 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		920553EE920470EA40DDB67D /* Build configuration list for PBXNativeTarget "HabitArcFlow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				470D8A6EE7F3EB752176A2BA /* Debug */,
+				5EAC5D659677DDA24D9ABC63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C0694F23E83CB0ED565EA81E /* Build configuration list for PBXNativeTarget "HabitArcFlowUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				66A6700991969DF77248BF4B /* Debug */,
+				127502798B4F29DD1531AAA1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F3F40B1AA4E138308DB230D5 /* Build configuration list for PBXProject "HabitArcFlow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				817DB643F44BC4CFC0F1403E /* Debug */,
+				C1A46C309E6A36FDAC24D691 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E2917F2FDFDC4FFB5C75ACEE /* Project object */;
+}
