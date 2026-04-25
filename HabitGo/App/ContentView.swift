@@ -13,57 +13,37 @@ struct ContentView: View {
                     Label("Habits", systemImage: "checkmark.circle.fill")
                 }
                 .tag(0)
-                .toolbarBackground(.visible, for: .tabBar)
-                .toolbarBackground(theme.colorScheme == .dark ? ThemeManager.AppColors.darkSecondaryBG : Color(.systemBackground), for: .tabBar)
 
             CalendarHistoryView()
                 .tabItem {
                     Label("History", systemImage: "calendar")
                 }
                 .tag(1)
-                .toolbarBackground(.visible, for: .tabBar)
-                .toolbarBackground(theme.colorScheme == .dark ? ThemeManager.AppColors.darkSecondaryBG : Color(.systemBackground), for: .tabBar)
 
             StatsView()
                 .tabItem {
                     Label("Stats", systemImage: "chart.bar.fill")
                 }
                 .tag(2)
-                .toolbarBackground(.visible, for: .tabBar)
-                .toolbarBackground(theme.colorScheme == .dark ? ThemeManager.AppColors.darkSecondaryBG : Color(.systemBackground), for: .tabBar)
 
             AchievementsView()
                 .tabItem {
                     Label("Badges", systemImage: "star.circle.fill")
                 }
                 .tag(3)
-                .toolbarBackground(.visible, for: .tabBar)
-                .toolbarBackground(theme.colorScheme == .dark ? ThemeManager.AppColors.darkSecondaryBG : Color(.systemBackground), for: .tabBar)
 
             SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gearshape.fill")
                 }
                 .tag(4)
-                .toolbarBackground(.visible, for: .tabBar)
-                .toolbarBackground(theme.colorScheme == .dark ? ThemeManager.AppColors.darkSecondaryBG : Color(.systemBackground), for: .tabBar)
         }
         .tint(ThemeManager.AppColors.primary)
         .preferredColorScheme(theme.colorScheme)
-        .onOpenURL { url in
-            guard url.scheme == "habitgo", url.host == "tab" else { return }
-            let path = url.path
-            if path.hasPrefix("/"), let tabIndex = Int(String(path.dropFirst())) {
-                if tabIndex >= 0 && tabIndex <= 4 {
-                    selectedTab = tabIndex
-                }
-            }
-        }
     }
 }
 
 // MARK: - Stats View
-
 struct StatsView: View {
     @EnvironmentObject var habitVM: HabitViewModel
     @Environment(\.colorScheme) private var colorScheme
@@ -122,9 +102,14 @@ struct StatsView: View {
                                 Text(habit.name)
                                 Spacer()
                                 VStack(alignment: .trailing) {
-                                    Text("\(habit.currentStreak) day streak")
-                                        .font(.caption)
-                                        .foregroundStyle(habit.currentStreak > 0 ? .orange : .secondary)
+                                    HStack(spacing: 4) {
+                                        if habit.currentStreak > 0 {
+                                            StreakFireView(streak: habit.currentStreak)
+                                        }
+                                        Text("\(habit.currentStreak) day")
+                                            .font(.caption)
+                                            .foregroundStyle(habit.currentStreak > 0 ? .orange : .secondary)
+                                    }
                                     Text("Best: \(habit.longestStreak)")
                                         .font(.caption2)
                                         .foregroundStyle(.tertiary)
@@ -142,20 +127,37 @@ struct StatsView: View {
                     }
 
                     NavigationLink {
+                        WeeklyReviewView()
+                    } label: {
+                        Label("Weekly Review", systemImage: "doc.text.magnifyingglass")
+                    }
+
+                    NavigationLink {
                         TrendChartView()
                     } label: {
                         Label("Trends & Charts", systemImage: "chart.line.uptrend.xyaxis")
                     }
+
+                    NavigationLink {
+                        HeatMapView()
+                    } label: {
+                        Label("Heat Map", systemImage: "square.grid.3x3.fill")
+                    }
+
+                    NavigationLink {
+                        HabitStackView()
+                    } label: {
+                        Label("Habit Stacks", systemImage: "link")
+                    }
                 }
             }
             .navigationTitle("Statistics")
-            .background(colorScheme == .dark ? ThemeManager.AppColors.darkBackground : ThemeManager.AppColors.lightBackground)
+            .background(colorScheme == .dark ? Color.black : Color(hex: "F8F9FA"))
         }
     }
 }
 
 // MARK: - Settings View
-
 struct SettingsView: View {
     @EnvironmentObject var habitVM: HabitViewModel
     @Environment(\.colorScheme) private var colorScheme
@@ -165,7 +167,6 @@ struct SettingsView: View {
     @State private var showImportSuccess = false
     @State private var showImportError = false
     @State private var exportData: Data?
-    @State private var exportCSVText: String = ""
     @State private var showCategories = false
     @State private var showTemplates = false
     @State private var showFocusMode = false
@@ -184,7 +185,7 @@ struct SettingsView: View {
                     HStack {
                         Text("Version")
                         Spacer()
-                        Text("2.0")
+                        Text("3.0")
                             .foregroundStyle(.secondary)
                     }
                     HStack {
@@ -207,7 +208,7 @@ struct SettingsView: View {
                             if newValue == "dark" {
                                 theme.setDarkMode(true)
                             } else if newValue == "light" {
-                                theme.setDarkMode(false)
+                                theme.setLightMode()
                             } else {
                                 theme.setSystemMode()
                             }
@@ -303,7 +304,7 @@ struct SettingsView: View {
             .confirmationDialog("Export Format", isPresented: $showExportOptions) {
                 Button("JSON (Full Backup)") {
                     if let data = exportData {
-                        shareData(data: data, filename: "HabitArcFlow_backup.json", mimeType: "application/json")
+                        shareData(data: data, filename: "HabitArcFlow_v3_backup.json", mimeType: "application/json")
                     }
                 }
                 Button("CSV (Spreadsheet)") {
@@ -352,7 +353,7 @@ struct SettingsView: View {
             .sheet(isPresented: $showCategories) {
                 CategoriesView()
             }
-            .background(colorScheme == .dark ? ThemeManager.AppColors.darkBackground : ThemeManager.AppColors.lightBackground)
+            .background(colorScheme == .dark ? Color.black : Color(hex: "F8F9FA"))
         }
     }
 

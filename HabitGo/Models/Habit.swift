@@ -7,12 +7,23 @@ struct Habit: Identifiable, Codable, Equatable {
     var colorHex: String
     var frequency: HabitFrequency
     var createdAt: Date
-    var completions: [String: Bool]  // key: day string "yyyy-MM-dd"
+    var completions: [String: Bool]
     var reminderHour: Int?
     var reminderMinute: Int?
     var reminderEnabled: Bool
     var categoryId: UUID?
-    var weeklyGoalTarget: Int? // target completions per week
+    var weeklyGoalTarget: Int?
+
+    // NEW: Energy Level
+    var energyLevel: EnergyLevel?
+
+    // NEW: Habit Stacking
+    var stackedHabitId: UUID?
+    var isStackedFrom: Bool
+
+    // NEW: Smart Notifications
+    var smartSuggestionEnabled: Bool
+    var typicalCompletionTime: Date?
 
     init(
         id: UUID = UUID(),
@@ -24,7 +35,12 @@ struct Habit: Identifiable, Codable, Equatable {
         reminderMinute: Int? = nil,
         reminderEnabled: Bool = false,
         categoryId: UUID? = nil,
-        weeklyGoalTarget: Int? = nil
+        weeklyGoalTarget: Int? = nil,
+        energyLevel: EnergyLevel? = nil,
+        stackedHabitId: UUID? = nil,
+        isStackedFrom: Bool = false,
+        smartSuggestionEnabled: Bool = false,
+        typicalCompletionTime: Date? = nil
     ) {
         self.id = id
         self.name = name
@@ -38,6 +54,11 @@ struct Habit: Identifiable, Codable, Equatable {
         self.reminderEnabled = reminderEnabled
         self.categoryId = categoryId
         self.weeklyGoalTarget = weeklyGoalTarget
+        self.energyLevel = energyLevel
+        self.stackedHabitId = stackedHabitId
+        self.isStackedFrom = isStackedFrom
+        self.smartSuggestionEnabled = smartSuggestionEnabled
+        self.typicalCompletionTime = typicalCompletionTime
     }
 
     var todayKey: String {
@@ -87,6 +108,15 @@ struct Habit: Identifiable, Codable, Equatable {
 
     var totalCompletions: Int {
         completions.values.filter { $0 }.count
+    }
+
+    var streakFireEmoji: String {
+        switch currentStreak {
+        case 7...: return "🔥🔥"
+        case 30...: return "🔥🔥🔥"
+        case 100...: return "⭐🔥🔥🔥"
+        default: return currentStreak > 0 ? "🔥" : ""
+        }
     }
 
     mutating func toggleToday() {
