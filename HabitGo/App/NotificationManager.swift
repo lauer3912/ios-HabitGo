@@ -26,7 +26,7 @@ class NotificationManager {
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
 
         let content = UNMutableNotificationContent()
-        content.title = "HabitGo Reminder"
+        content.title = "HabitArcFlow Reminder"
         content.body = "Don't forget: \(habit.name)"
         content.sound = .default
         content.badge = 1
@@ -63,5 +63,59 @@ class NotificationManager {
                 completion(settings.authorizationStatus == .authorized)
             }
         }
+    }
+
+    func scheduleFocusModeNotifications(startHour: Int, startMinute: Int, endHour: Int, endMinute: Int, days: Set<Int>) {
+        cancelFocusMode()
+        let center = UNUserNotificationCenter.current()
+
+        for day in days {
+            var dateComponents = DateComponents()
+            dateComponents.hour = startHour
+            dateComponents.minute = startMinute
+            dateComponents.weekday = day
+
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+
+            let content = UNMutableNotificationContent()
+            content.title = "Focus Mode Active"
+            content.body = "Habit reminders are silenced until \(String(format: "%02d:%02d", endHour, endMinute))"
+            content.sound = .default
+
+            let request = UNNotificationRequest(
+                identifier: "focus_mode_start_\(day)",
+                content: content,
+                trigger: trigger
+            )
+
+            center.add(request)
+
+            // End focus mode notification
+            var endComponents = DateComponents()
+            endComponents.hour = endHour
+            endComponents.minute = endMinute
+            endComponents.weekday = day
+
+            let endTrigger = UNCalendarNotificationTrigger(dateMatching: endComponents, repeats: true)
+
+            let endContent = UNMutableNotificationContent()
+            endContent.title = "Focus Mode Ended"
+            endContent.body = "Habit reminders are now active again"
+            endContent.sound = .default
+
+            let endRequest = UNNotificationRequest(
+                identifier: "focus_mode_end_\(day)",
+                content: endContent,
+                trigger: endTrigger
+            )
+
+            center.add(endRequest)
+        }
+    }
+
+    func cancelFocusMode() {
+        let center = UNUserNotificationCenter.current()
+        let identifiers = (1...7).flatMap { day in ["focus_mode_start_\(day)", "focus_mode_end_\(day)"] }
+        center.removePendingNotificationRequests(withIdentifiers: identifiers)
     }
 }

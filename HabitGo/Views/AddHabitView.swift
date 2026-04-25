@@ -3,6 +3,7 @@ import SwiftUI
 struct AddHabitView: View {
     @EnvironmentObject var habitVM: HabitViewModel
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var colorScheme
 
     @State private var name = ""
     @State private var selectedIcon = "checkmark"
@@ -12,18 +13,12 @@ struct AddHabitView: View {
     @State private var reminderHour = 9
     @State private var reminderMinute = 0
     @State private var showNotificationAlert = false
+    @State private var selectedCategoryId: UUID?
+    @State private var weeklyGoalEnabled = false
+    @State private var weeklyGoalTarget = 7
 
-    private let iconOptions = [
-        "checkmark", "book.fill", "dumbbell.fill", "drop.fill",
-        "moon.fill", "figure.walk", "pencil", "heart.fill",
-        "star.fill", "flame.fill", "leaf.fill", "brain.head.profile",
-        "bed.double.fill", "cup.and.saucer.fill", "pill.fill", "bolt.fill"
-    ]
-
-    private let colorOptions = [
-        "#34C759", "#007AFF", "#FF9500", "#FF3B30",
-        "#AF52DE", "#5856D6", "#00C7BE", "#FF2D55"
-    ]
+    private let iconOptions = ThemeManager.AppColors.habitIcons
+    private let colorOptions = ThemeManager.AppColors.habitColors
 
     private let hours = Array(0..<24)
     private let minutes = [0, 15, 30, 45]
@@ -78,6 +73,19 @@ struct AddHabitView: View {
                     .padding(.vertical, 4)
                 }
 
+                Section("Category") {
+                    Picker("Category", selection: $selectedCategoryId) {
+                        Text("None").tag(nil as UUID?)
+                        ForEach(habitVM.categories) { cat in
+                            HStack {
+                                Text(cat.icon)
+                                Text(cat.name)
+                            }
+                            .tag(cat.id as UUID?)
+                        }
+                    }
+                }
+
                 Section("Frequency") {
                     Picker("Repeat", selection: $selectedFrequency) {
                         ForEach(HabitFrequency.allCases, id: \.self) { freq in
@@ -85,6 +93,14 @@ struct AddHabitView: View {
                         }
                     }
                     .pickerStyle(.segmented)
+                }
+
+                Section("Weekly Goal") {
+                    Toggle("Set Weekly Target", isOn: $weeklyGoalEnabled)
+
+                    if weeklyGoalEnabled {
+                        Stepper("Complete \(weeklyGoalTarget) times per week", value: $weeklyGoalTarget, in: 1...21)
+                    }
                 }
 
                 Section("Daily Reminder") {
@@ -147,7 +163,9 @@ struct AddHabitView: View {
                             frequency: selectedFrequency,
                             reminderHour: reminderEnabled ? reminderHour : nil,
                             reminderMinute: reminderEnabled ? reminderMinute : nil,
-                            reminderEnabled: reminderEnabled
+                            reminderEnabled: reminderEnabled,
+                            categoryId: selectedCategoryId,
+                            weeklyGoalTarget: weeklyGoalEnabled ? weeklyGoalTarget : nil
                         )
                         dismiss()
                     }
@@ -185,6 +203,13 @@ struct AddHabitView: View {
                     Text(selectedFrequency.rawValue)
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                    if weeklyGoalEnabled {
+                        Text("·")
+                            .foregroundStyle(.secondary)
+                        Text("Goal: \(weeklyGoalTarget)/week")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                     if reminderEnabled {
                         Text("·")
                             .foregroundStyle(.secondary)
@@ -200,7 +225,7 @@ struct AddHabitView: View {
                 .frame(width: 32, height: 32)
         }
         .padding()
-        .background(Color(.systemBackground))
+        .background(colorScheme == .dark ? ThemeManager.AppColors.darkCard : ThemeManager.AppColors.lightCard)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(color: .black.opacity(0.05), radius: 8, y: 4)
     }

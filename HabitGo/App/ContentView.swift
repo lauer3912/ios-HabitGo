@@ -3,6 +3,7 @@ import UniformTypeIdentifiers
 
 struct ContentView: View {
     @EnvironmentObject var habitVM: HabitViewModel
+    @StateObject private var theme = ThemeManager.shared
     @State private var selectedTab = 0
 
     var body: some View {
@@ -12,52 +13,49 @@ struct ContentView: View {
                     Label("Habits", systemImage: "checkmark.circle.fill")
                 }
                 .tag(0)
-                .accessibilityIdentifier("tab_habits")
                 .toolbarBackground(.visible, for: .tabBar)
-                .toolbarBackground(Color(.systemBackground), for: .tabBar)
+                .toolbarBackground(theme.colorScheme == .dark ? ThemeManager.AppColors.darkSecondaryBG : Color(.systemBackground), for: .tabBar)
 
             CalendarHistoryView()
                 .tabItem {
                     Label("History", systemImage: "calendar")
                 }
                 .tag(1)
-                .accessibilityIdentifier("tab_history")
                 .toolbarBackground(.visible, for: .tabBar)
-                .toolbarBackground(Color(.systemBackground), for: .tabBar)
+                .toolbarBackground(theme.colorScheme == .dark ? ThemeManager.AppColors.darkSecondaryBG : Color(.systemBackground), for: .tabBar)
 
             StatsView()
                 .tabItem {
                     Label("Stats", systemImage: "chart.bar.fill")
                 }
                 .tag(2)
-                .accessibilityIdentifier("tab_stats")
                 .toolbarBackground(.visible, for: .tabBar)
-                .toolbarBackground(Color(.systemBackground), for: .tabBar)
+                .toolbarBackground(theme.colorScheme == .dark ? ThemeManager.AppColors.darkSecondaryBG : Color(.systemBackground), for: .tabBar)
+
+            AchievementsView()
+                .tabItem {
+                    Label("Badges", systemImage: "star.circle.fill")
+                }
+                .tag(3)
+                .toolbarBackground(.visible, for: .tabBar)
+                .toolbarBackground(theme.colorScheme == .dark ? ThemeManager.AppColors.darkSecondaryBG : Color(.systemBackground), for: .tabBar)
 
             SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gearshape.fill")
                 }
-                .tag(3)
-                .accessibilityIdentifier("tab_settings")
+                .tag(4)
                 .toolbarBackground(.visible, for: .tabBar)
-                .toolbarBackground(Color(.systemBackground), for: .tabBar)
+                .toolbarBackground(theme.colorScheme == .dark ? ThemeManager.AppColors.darkSecondaryBG : Color(.systemBackground), for: .tabBar)
         }
-        .tint(Color(hex: "#34C759"))
+        .tint(ThemeManager.AppColors.primary)
+        .preferredColorScheme(theme.colorScheme)
         .onOpenURL { url in
-            // URL format: habitgo://tab/0 through habitgo://tab/3
-            print("[HabitGo] onOpenURL received: \(url)")
-            guard url.scheme == "habitgo", url.host == "tab" else {
-                print("[HabitGo] Unknown scheme or host")
-                return
-            }
+            guard url.scheme == "habitgo", url.host == "tab" else { return }
             let path = url.path
             if path.hasPrefix("/"), let tabIndex = Int(String(path.dropFirst())) {
-                if tabIndex >= 0 && tabIndex <= 3 {
-                    print("[HabitGo] Switching to tab \(tabIndex)")
+                if tabIndex >= 0 && tabIndex <= 4 {
                     selectedTab = tabIndex
-                } else {
-                    print("[HabitGo] Tab index out of range: \(tabIndex)")
                 }
             }
         }
@@ -68,19 +66,20 @@ struct ContentView: View {
 
 struct StatsView: View {
     @EnvironmentObject var habitVM: HabitViewModel
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         NavigationStack {
             List {
-                Section("Today") {
+                Section {
                     HStack {
-                        Text("Completed")
+                        Text("Completed Today")
                         Spacer()
                         Text("\(habitVM.completedToday) / \(habitVM.totalToday)")
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(ThemeManager.AppColors.primary)
                     }
                     HStack {
-                        Text("Progress")
+                        Text("Today's Progress")
                         Spacer()
                         Text("\(Int(habitVM.todayProgress * 100))%")
                             .foregroundStyle(.secondary)
@@ -92,7 +91,7 @@ struct StatsView: View {
                         Text("Total Completions")
                         Spacer()
                         Text("\(habitVM.totalCompletions)")
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(ThemeManager.AppColors.primary)
                     }
                     HStack {
                         Text("Best Streak")
@@ -106,6 +105,12 @@ struct StatsView: View {
                         Text("\(habitVM.habits.count)")
                             .foregroundStyle(.secondary)
                     }
+                    HStack {
+                        Text("Achievements")
+                        Spacer()
+                        Text("\(habitVM.allAchievements.filter { $0.isUnlocked }.count) / \(habitVM.allAchievements.count)")
+                            .foregroundStyle(.secondary)
+                    }
                 }
 
                 if !habitVM.habits.isEmpty {
@@ -113,12 +118,13 @@ struct StatsView: View {
                         ForEach(habitVM.habits) { habit in
                             HStack {
                                 Text(habit.icon)
+                                    .font(.title3)
                                 Text(habit.name)
                                 Spacer()
                                 VStack(alignment: .trailing) {
                                     Text("\(habit.currentStreak) day streak")
                                         .font(.caption)
-                                        .foregroundStyle(.secondary)
+                                        .foregroundStyle(habit.currentStreak > 0 ? .orange : .secondary)
                                     Text("Best: \(habit.longestStreak)")
                                         .font(.caption2)
                                         .foregroundStyle(.tertiary)
@@ -127,8 +133,23 @@ struct StatsView: View {
                         }
                     }
                 }
+
+                Section {
+                    NavigationLink {
+                        WeeklyProgressView()
+                    } label: {
+                        Label("Weekly Goals", systemImage: "target")
+                    }
+
+                    NavigationLink {
+                        TrendChartView()
+                    } label: {
+                        Label("Trends & Charts", systemImage: "chart.line.uptrend.xyaxis")
+                    }
+                }
             }
             .navigationTitle("Statistics")
+            .background(colorScheme == .dark ? ThemeManager.AppColors.darkBackground : ThemeManager.AppColors.lightBackground)
         }
     }
 }
@@ -137,27 +158,33 @@ struct StatsView: View {
 
 struct SettingsView: View {
     @EnvironmentObject var habitVM: HabitViewModel
+    @Environment(\.colorScheme) private var colorScheme
+    @StateObject private var theme = ThemeManager.shared
     @State private var showExportOptions = false
     @State private var showImportPicker = false
     @State private var showImportSuccess = false
     @State private var showImportError = false
     @State private var exportData: Data?
     @State private var exportCSVText: String = ""
+    @State private var showCategories = false
+    @State private var showTemplates = false
+    @State private var showFocusMode = false
+    @State private var showAppLock = false
 
     var body: some View {
         NavigationStack {
             List {
-                Section {
+                Section("App") {
                     HStack {
                         Text("App Name")
                         Spacer()
-                        Text("HabitGo")
+                        Text("HabitArcFlow")
                             .foregroundStyle(.secondary)
                     }
                     HStack {
                         Text("Version")
                         Spacer()
-                        Text("1.0.0")
+                        Text("2.0")
                             .foregroundStyle(.secondary)
                     }
                     HStack {
@@ -165,6 +192,51 @@ struct SettingsView: View {
                         Spacer()
                         Text("\(habitVM.habits.count)")
                             .foregroundStyle(.secondary)
+                    }
+                }
+
+                Section("Appearance") {
+                    Picker("Theme", selection: Binding(
+                        get: {
+                            if let stored = UserDefaults.standard.string(forKey: "HabitArcFlow_colorScheme") {
+                                return stored
+                            }
+                            return "system"
+                        },
+                        set: { newValue in
+                            if newValue == "dark" {
+                                theme.setDarkMode(true)
+                            } else if newValue == "light" {
+                                theme.setDarkMode(false)
+                            } else {
+                                theme.setSystemMode()
+                            }
+                        }
+                    )) {
+                        Text("System").tag("system")
+                        Text("Light").tag("light")
+                        Text("Dark").tag("dark")
+                    }
+                    .pickerStyle(.segmented)
+                }
+
+                Section("Habit Management") {
+                    Button {
+                        showTemplates = true
+                    } label: {
+                        Label("Habit Templates", systemImage: "square.stack.3d.up.fill")
+                    }
+
+                    Button {
+                        showCategories = true
+                    } label: {
+                        Label("Categories", systemImage: "folder.fill")
+                    }
+
+                    NavigationLink {
+                        FocusModeView()
+                    } label: {
+                        Label("Focus Mode", systemImage: "moon.stars.fill")
                     }
                 }
 
@@ -186,6 +258,14 @@ struct SettingsView: View {
                         Button("Reschedule All Reminders") {
                             habitVM.rescheduleAllNotifications()
                         }
+                    }
+                }
+
+                Section("Security") {
+                    NavigationLink {
+                        AppLockView()
+                    } label: {
+                        Label("App Lock", systemImage: "lock.fill")
                     }
                 }
 
@@ -211,6 +291,10 @@ struct SettingsView: View {
                     Button("Reset All Data", role: .destructive) {
                         habitVM.habits.removeAll()
                         habitVM.save()
+                        habitVM.weeklyGoals.removeAll()
+                        habitVM.habitNotes.removeAll()
+                        habitVM.saveWeeklyGoals()
+                        habitVM.saveNotes()
                         NotificationManager.shared.clearAll()
                     }
                 }
@@ -219,12 +303,12 @@ struct SettingsView: View {
             .confirmationDialog("Export Format", isPresented: $showExportOptions) {
                 Button("JSON (Full Backup)") {
                     if let data = exportData {
-                        shareData(data: data, filename: "HabitGo_backup.json", mimeType: "application/json")
+                        shareData(data: data, filename: "HabitArcFlow_backup.json", mimeType: "application/json")
                     }
                 }
                 Button("CSV (Spreadsheet)") {
                     let csv = habitVM.exportCSV()
-                    shareText(text: csv, filename: "HabitGo_export.csv")
+                    shareText(text: csv, filename: "HabitArcFlow_export.csv")
                 }
                 Button("Cancel", role: .cancel) {}
             }
@@ -260,8 +344,15 @@ struct SettingsView: View {
             .alert("Import Failed", isPresented: $showImportError) {
                 Button("OK", role: .cancel) {}
             } message: {
-                Text("Could not import data. Please make sure the file is a valid HabitGo JSON export.")
+                Text("Could not import data. Please make sure the file is a valid HabitArcFlow JSON export.")
             }
+            .sheet(isPresented: $showTemplates) {
+                HabitTemplatesView()
+            }
+            .sheet(isPresented: $showCategories) {
+                CategoriesView()
+            }
+            .background(colorScheme == .dark ? ThemeManager.AppColors.darkBackground : ThemeManager.AppColors.lightBackground)
         }
     }
 

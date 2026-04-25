@@ -1,8 +1,15 @@
 import SwiftUI
 
 struct HabitRowView: View {
+    @EnvironmentObject var habitVM: HabitViewModel
+    @Environment(\.colorScheme) private var colorScheme
     @Binding var habit: Habit
     let onToggle: () -> Void
+
+    private var categoryName: String? {
+        guard let catId = habit.categoryId else { return nil }
+        return habitVM.categories.first { $0.id == catId }?.name
+    }
 
     var body: some View {
         HStack(spacing: 14) {
@@ -21,24 +28,56 @@ struct HabitRowView: View {
                     .font(.body)
                     .fontWeight(.medium)
 
-                HStack(spacing: 8) {
-                    Label("\(habit.currentStreak)", systemImage: "flame.fill")
-                        .font(.caption)
-                        .foregroundStyle(habit.currentStreak > 0 ? .orange : .secondary)
+                HStack(spacing: 6) {
+                    // Streak
+                    HStack(spacing: 2) {
+                        Image(systemName: "flame.fill")
+                            .font(.caption2)
+                        Text("\(habit.currentStreak)")
+                            .font(.caption)
+                    }
+                    .foregroundStyle(habit.currentStreak > 0 ? .orange : .secondary)
 
+                    // Frequency
                     Text(habit.frequency.rawValue)
                         .font(.caption)
                         .foregroundStyle(.tertiary)
 
+                    // Category badge
+                    if let cat = categoryName {
+                        Text(cat)
+                            .font(.caption2)
+                            .padding(.horizontal, 5)
+                            .padding(.vertical, 2)
+                            .background(Color(hex: habit.colorHex).opacity(0.15))
+                            .foregroundStyle(Color(hex: habit.colorHex))
+                            .clipShape(Capsule())
+                    }
+
+                    // Reminder time
                     if habit.reminderEnabled, let h = habit.reminderHour, let m = habit.reminderMinute {
-                        Text(String(format: "· %02d:%02d", h, m))
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                        HStack(spacing: 2) {
+                            Image(systemName: "bell.fill")
+                                .font(.caption2)
+                            Text(String(format: "%02d:%02d", h, m))
+                                .font(.caption)
+                        }
+                        .foregroundStyle(.secondary)
                     }
                 }
             }
 
             Spacer()
+
+            // Weekly goal indicator
+            if let target = habit.weeklyGoalTarget {
+                let goal = habitVM.weeklyGoal(for: habit)
+                let progress = goal?.progress ?? 0
+                VStack {
+                    CircularProgress(progress: progress, color: Color(hex: habit.colorHex))
+                        .frame(width: 32, height: 32)
+                }
+            }
 
             // Toggle button
             Button(action: onToggle) {

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CalendarHistoryView: View {
     @EnvironmentObject var habitVM: HabitViewModel
+    @Environment(\.colorScheme) private var colorScheme
     @State private var selectedYear: Int
     @State private var selectedMonth: Int
     @State private var selectedHabitId: UUID?
@@ -26,16 +27,16 @@ struct CalendarHistoryView: View {
                 if !habitVM.habits.isEmpty {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 8) {
-                            FilterChip(
+                            FilterChipNew(
                                 title: "All Habits",
                                 isSelected: selectedHabitId == nil,
-                                colorHex: "#34C759"
+                                colorHex: ThemeManager.AppColors.primary.hexString
                             ) {
                                 selectedHabitId = nil
                             }
 
                             ForEach(habitVM.habits) { habit in
-                                FilterChip(
+                                FilterChipNew(
                                     title: "\(habit.icon) \(habit.name)",
                                     isSelected: selectedHabitId == habit.id,
                                     colorHex: habit.colorHex
@@ -47,17 +48,15 @@ struct CalendarHistoryView: View {
                         .padding(.horizontal)
                         .padding(.vertical, 8)
                     }
-                    .background(Color(.systemBackground))
+                    .background(colorScheme == .dark ? ThemeManager.AppColors.darkSecondaryBG : Color(.systemBackground))
                 }
 
                 // Month navigation
                 HStack {
-                    Button {
-                        changeMonth(-1)
-                    } label: {
+                    Button { changeMonth(-1) } label: {
                         Image(systemName: "chevron.left")
                             .font(.title3.bold())
-                            .foregroundStyle(Color(hex: "#34C759"))
+                            .foregroundStyle(ThemeManager.AppColors.primary)
                     }
 
                     Spacer()
@@ -67,12 +66,10 @@ struct CalendarHistoryView: View {
 
                     Spacer()
 
-                    Button {
-                        changeMonth(1)
-                    } label: {
+                    Button { changeMonth(1) } label: {
                         Image(systemName: "chevron.right")
                             .font(.title3.bold())
-                            .foregroundStyle(Color(hex: "#34C759"))
+                            .foregroundStyle(ThemeManager.AppColors.primary)
                     }
                     .disabled(isCurrentMonth)
                 }
@@ -107,7 +104,8 @@ struct CalendarHistoryView: View {
                                     CalendarDayView(
                                         day: dayNumber,
                                         isCompleted: isCompleted,
-                                        isToday: isToday(dayNumber)
+                                        isToday: isToday(dayNumber),
+                                        habitColor: selectedHabitId.flatMap { id in habitVM.habits.first { $0.id == id }?.colorHex } ?? ThemeManager.AppColors.primary.hexString
                                     )
                                 } else {
                                     Color.clear
@@ -123,7 +121,7 @@ struct CalendarHistoryView: View {
 
                 // Legend
                 HStack(spacing: 16) {
-                    LegendItem(color: Color(hex: "#34C759"), label: "Completed")
+                    LegendItem(color: ThemeManager.AppColors.primary, label: "Completed")
                     LegendItem(color: Color(.systemGray5), label: "Missed")
                 }
                 .padding()
@@ -137,6 +135,7 @@ struct CalendarHistoryView: View {
             }
             .navigationTitle("History")
             .navigationBarTitleDisplayMode(.inline)
+            .background(colorScheme == .dark ? ThemeManager.AppColors.darkBackground : ThemeManager.AppColors.lightBackground)
         }
     }
 
@@ -145,7 +144,7 @@ struct CalendarHistoryView: View {
             Divider()
             HStack {
                 VStack(alignment: .leading) {
-                    Text("\(habit.name)")
+                    Text("\(habit.icon) \(habit.name)")
                         .font(.headline)
                     Text("\(monthNames[selectedMonth - 1]) \(selectedYear)")
                         .font(.caption)
@@ -183,7 +182,7 @@ struct CalendarHistoryView: View {
                 VStack(alignment: .trailing) {
                     Text("\(completedDays)")
                         .font(.title2.bold())
-                        .foregroundStyle(Color(hex: "#34C759"))
+                        .foregroundStyle(ThemeManager.AppColors.primary)
                     Text("active days")
                         .font(.caption2)
                         .foregroundStyle(.secondary)
@@ -231,7 +230,7 @@ struct CalendarHistoryView: View {
         components.day = 1
         if let date = Calendar.current.date(from: components) {
             let weekday = Calendar.current.component(.weekday, from: date)
-            return weekday - 1  // 0-indexed (Sunday = 0)
+            return weekday - 1
         }
         return 0
     }
@@ -259,6 +258,7 @@ struct CalendarDayView: View {
     let day: Int
     let isCompleted: Bool
     let isToday: Bool
+    let habitColor: String
 
     var body: some View {
         ZStack {
@@ -268,7 +268,7 @@ struct CalendarDayView: View {
 
             if isCompleted {
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(Color(hex: "#34C759").opacity(0.8))
+                    .fill(Color(hex: habitColor).opacity(0.8))
                     .frame(height: 44)
                 Text("\(day)")
                     .font(.subheadline.bold())
@@ -281,46 +281,15 @@ struct CalendarDayView: View {
 
             if isToday && !isCompleted {
                 RoundedRectangle(cornerRadius: 8)
-                    .strokeBorder(Color(hex: "#34C759"), lineWidth: 2)
+                    .strokeBorder(Color(hex: habitColor), lineWidth: 2)
                     .frame(height: 44)
             }
         }
     }
 
     private var backgroundColor: Color {
-        if isCompleted {
-            return Color.clear
-        }
+        if isCompleted { return .clear }
         return Color(.systemGray6)
-    }
-}
-
-struct FilterChip: View {
-    let title: String
-    let isSelected: Bool
-    let colorHex: String
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            Text(title)
-                .font(.caption)
-                .fontWeight(isSelected ? .semibold : .regular)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-                .background(
-                    isSelected
-                        ? Color(hex: colorHex).opacity(0.2)
-                        : Color(.systemGray6)
-                )
-                .foregroundStyle(
-                    isSelected
-                        ? Color(hex: colorHex)
-                        : .secondary
-                )
-                .clipShape(Capsule())
-        }
-        .buttonStyle(.plain)
     }
 }
 

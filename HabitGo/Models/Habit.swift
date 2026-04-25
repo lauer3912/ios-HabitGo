@@ -11,6 +11,8 @@ struct Habit: Identifiable, Codable, Equatable {
     var reminderHour: Int?
     var reminderMinute: Int?
     var reminderEnabled: Bool
+    var categoryId: UUID?
+    var weeklyGoalTarget: Int? // target completions per week
 
     init(
         id: UUID = UUID(),
@@ -20,7 +22,9 @@ struct Habit: Identifiable, Codable, Equatable {
         frequency: HabitFrequency = .daily,
         reminderHour: Int? = nil,
         reminderMinute: Int? = nil,
-        reminderEnabled: Bool = false
+        reminderEnabled: Bool = false,
+        categoryId: UUID? = nil,
+        weeklyGoalTarget: Int? = nil
     ) {
         self.id = id
         self.name = name
@@ -32,6 +36,8 @@ struct Habit: Identifiable, Codable, Equatable {
         self.reminderHour = reminderHour
         self.reminderMinute = reminderMinute
         self.reminderEnabled = reminderEnabled
+        self.categoryId = categoryId
+        self.weeklyGoalTarget = weeklyGoalTarget
     }
 
     var todayKey: String {
