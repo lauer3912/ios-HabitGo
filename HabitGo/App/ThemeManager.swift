@@ -45,6 +45,40 @@ class ThemeManager: ObservableObject {
         static let error = Color(hex: "DC3545")
     }
 
+    // MARK: - App Colors (backward compatibility) - always dark themed color names
+    struct AppColors {
+        static let primary = DarkColors.primary
+        static let primaryDark = DarkColors.primary
+        static let accent = DarkColors.accent
+        static let darkBackground = DarkColors.background
+        static let darkSecondaryBG = DarkColors.secondaryBackground
+        static let darkTertiaryBG = DarkColors.tertiaryBackground
+        static let darkCard = DarkColors.card
+        static let lightBackground = LightColors.background
+        static let lightSecondaryBG = LightColors.secondaryBackground
+        static let lightTertiaryBG = LightColors.tertiaryBackground
+        static let lightCard = LightColors.card
+        static let darkText = DarkColors.text
+        static let darkSecondaryText = DarkColors.textSecondary
+        static let lightText = LightColors.text
+        static let lightSecondaryText = LightColors.textSecondary
+
+        static let habitColors: [String] = [
+            "#34C759", "#007AFF", "#FF9500", "#FF3B30",
+            "#AF52DE", "#5856D6", "#00C7BE", "#FF2D55",
+            "#FFD60A", "#30D158", "#64D2FF", "#BF5AF2"
+        ]
+
+        static let habitIcons: [String] = [
+            "checkmark", "book.fill", "dumbbell.fill", "drop.fill",
+            "moon.fill", "figure.walk", "pencil", "heart.fill",
+            "star.fill", "flame.fill", "leaf.fill", "brain.head.profile",
+            "bed.double.fill", "cup.and.saucer.fill", "pill.fill", "bolt.fill",
+            "sun.max.fill", "moon.stars.fill", "figure.run", "figure.yoga",
+            "fork.knife", "scale.3d", "eye.fill", "hand.raised.fill"
+        ]
+    }
+
     private init() {
         loadThemePreference()
     }
@@ -59,7 +93,7 @@ class ThemeManager: ObservableObject {
             colorScheme = .light
             isDarkMode = false
         } else {
-            colorScheme = nil
+            colorScheme = nil // System
             isDarkMode = false
         }
     }
@@ -162,37 +196,12 @@ extension Color {
         case 6: (r, g, b) = (int >> 16, int >> 8 & 0xFF, int & 0xFF)
         default: (r, g, b) = (0, 0, 0)
         }
-        self.init(.sRGB, red: Double(r) / 255, green: Double(g) / 255, blue: Double(b) / 255, opacity: 1)
+        self.init(
+            .sRGB,
+            red: Double(r) / 255,
+            green: Double(g) / 255,
+            blue: Double(b) / 255,
+            opacity: 1
+        )
     }
-
-    var hexString: String {
-        guard let components = UIColor(self).cgColor.components, components.count >= 3 else {
-            return "#34C759"
-        }
-        let r = Int(components[0] * 255)
-        let g = Int(components[1] * 255)
-        let b = Int(components[2] * 255)
-        return String(format: "#%02X%02X%02X", r, g, b)
-    }
-}
-
-// MARK: - Gradient Presets
-struct AppGradients {
-    static let primary = LinearGradient(
-        colors: [Color(hex: "34C759"), Color(hex: "2DA44E")],
-        startPoint: .topLeading,
-        endPoint: .bottomTrailing
-    )
-
-    static let fire = LinearGradient(
-        colors: [Color(hex: "FF9500"), Color(hex: "FF3B30")],
-        startPoint: .top,
-        endPoint: .bottom
-    )
-
-    static let celebration = LinearGradient(
-        colors: [Color(hex: "FFD60A"), Color(hex: "FF9F0A"), Color(hex: "FF453A")],
-        startPoint: .topLeading,
-        endPoint: .bottomTrailing
-    )
 }

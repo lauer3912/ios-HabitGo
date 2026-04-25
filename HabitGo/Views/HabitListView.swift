@@ -107,7 +107,7 @@ struct HabitListView: View {
                             FilterChipNew(
                                 title: "All",
                                 isSelected: selectedCategoryId == nil,
-                                colorHex: ThemeManager.AppColors.primary.hexString
+                                colorHex: Color(hex: ThemeManager.AppColors.primary).hexString
                             ) {
                                 selectedCategoryId = nil
                             }
@@ -201,15 +201,5 @@ struct FilterChipNew: View {
                 .clipShape(Capsule())
         }
         .buttonStyle(.plain)
-    }
-}
-
-extension Color {
-    var hexString: String {
-        guard let components = UIColor(self).cgColor.components else { return "#34C759" }
-        let r = Int(components[0] * 255)
-        let g = Int(components[1] * 255)
-        let b = Int(components[2] * 255)
-        return String(format: "#%02X%02X%02X", r, g, b)
     }
 }
