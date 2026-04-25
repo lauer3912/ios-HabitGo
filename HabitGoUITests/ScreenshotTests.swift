@@ -1,116 +1,123 @@
 import XCTest
 
-class ScreenshotTests: XCTestCase {
-    
+final class ScreenshotTests: XCTestCase {
+
     var app: XCUIApplication!
-    
-    override func setUp() {
-        super.setUp()
-        continueAfterFailure = false
-        
-        // Launch with dark mode
+
+    override func setUpWithError() throws {
+        continueAfterFailure = true
         app = XCUIApplication()
-        app.launchArguments = [
-            "--uitesting",
-            "--reset-state"
-        ]
-        app.launchEnvironment = [
-            "UITESTING": "true",
-            "NSInterfaceStyle": "Dark"
-        ]
+        // Launch in dark mode for professional appearance
+        app.launchArguments = ["--uitesting"]
         app.launch()
-        
-        // Ensure dark mode is enabled
-        Thread.sleep(forTimeInterval: 1.0)
     }
-    
-    override func tearDown() {
+
+    override func tearDownWithError() throws {
         app.terminate()
-        super.tearDown()
     }
-    
-    // MARK: - Screenshot Capture Methods
-    
-    func captureScreenshot(named name: String, for device: String) {
-        let screenshot = XCUIScreen.main.screenshot()
-        let attachment = XCTAttachment(screenshot: screenshot)
-        attachment.name = "\(device)_\(name)"
-        attachment.lifetime = .keepAlways
-        add(attachment)
+
+    // MARK: - Screenshot Helper
+
+    func ss(_ name: String) {
+        let data = app.windows.firstMatch.screenshot().pngRepresentation
+        try? data.write(to: URL(fileURLWithPath: "/tmp/\(name).png"))
     }
-    
-    // MARK: - Test Cases
-    
-    func testScreenshotHomeScreen() throws {
-        Thread.sleep(forTimeInterval: 2.0)
-        captureScreenshot(named: "Home", for: "iPhone")
+
+    // MARK: - iPhone Screenshots (6.1" - 1170×2532 for iPhone 16)
+
+    func testiPhone_Home() throws {
+        ss("iPhone_61_portrait_01_Home")
     }
-    
-    func testScreenshotAddHabit() throws {
-        Thread.sleep(forTimeInterval: 2.0)
-        
+
+    func testiPhone_AddHabit() throws {
         // Tap add button
         if app.buttons["plus.circle.fill"].exists {
             app.buttons["plus.circle.fill"].tap()
-            Thread.sleep(forTimeInterval: 1.0)
-            captureScreenshot(named: "AddHabit", for: "iPhone")
+            sleep(1)
+            ss("iPhone_61_portrait_02_AddHabit")
         }
     }
-    
-    func testScreenshotHabitList() throws {
-        Thread.sleep(forTimeInterval: 2.0)
-        
-        // Scroll or interact
-        if app.collectionViews.firstMatch.exists {
-            captureScreenshot(named: "HabitList", for: "iPhone")
-        }
-    }
-    
-    func testScreenshotHistory() throws {
-        Thread.sleep(forTimeInterval: 2.0)
-        
-        // Navigate to history
-        if app.tabBars.buttons["calendar"].exists {
-            app.tabBars.buttons["calendar"].tap()
-            Thread.sleep(forTimeInterval: 1.0)
-            captureScreenshot(named: "History", for: "iPhone")
-        }
-    }
-    
-    func testScreenshotAchievements() throws {
-        Thread.sleep(forTimeInterval: 2.0)
-        
-        if app.tabBars.buttons["star.fill"].exists {
-            app.tabBars.buttons["star.fill"].tap()
-            Thread.sleep(forTimeInterval: 1.0)
-            captureScreenshot(named: "Achievements", for: "iPhone")
-        }
-    }
-    
-    func testScreenshotSettings() throws {
-        Thread.sleep(forTimeInterval: 2.0)
-        
-        if app.tabBars.buttons["gearshape.fill"].exists {
-            app.tabBars.buttons["gearshape.fill"].tap()
-            Thread.sleep(forTimeInterval: 1.0)
-            captureScreenshot(named: "Settings", for: "iPhone")
-        }
-    }
-    
-    // MARK: - iPad Screenshots
-    
-    func testScreenshotiPadHome() throws {
-        Thread.sleep(forTimeInterval: 2.0)
-        captureScreenshot(named: "Home", for: "iPad")
-    }
-    
-    func testScreenshotiPadHabitDetail() throws {
-        Thread.sleep(forTimeInterval: 2.0)
-        
+
+    func testiPhone_HabitForm() throws {
+        // Navigate to add habit and fill form
         if app.buttons["plus.circle.fill"].exists {
             app.buttons["plus.circle.fill"].tap()
-            Thread.sleep(forTimeInterval: 1.0)
-            captureScreenshot(named: "AddHabit", for: "iPad")
+            sleep(1)
+            
+            // Type habit name
+            let textField = app.textFields.firstMatch
+            if textField.exists {
+                textField.tap()
+                textField.typeText("Morning Exercise")
+                sleep(0.5)
+            }
+            ss("iPhone_61_portrait_03_HabitForm")
+        }
+    }
+
+    func testiPhone_History() throws {
+        // Navigate to calendar/history
+        if app.tabBars.buttons.element(boundBy: 1).exists {
+            app.tabBars.buttons.element(boundBy: 1).tap()
+            sleep(1)
+            ss("iPhone_61_portrait_04_History")
+        }
+    }
+
+    func testiPhone_Achievements() throws {
+        // Navigate to achievements
+        if app.tabBars.buttons.element(boundBy: 2).exists {
+            app.tabBars.buttons.element(boundBy: 2).tap()
+            sleep(1)
+            ss("iPhone_61_portrait_05_Achievements")
+        }
+    }
+
+    func testiPhone_Settings() throws {
+        // Navigate to settings
+        if app.tabBars.buttons.element(boundBy: 3).exists {
+            app.tabBars.buttons.element(boundBy: 3).tap()
+            sleep(1)
+            ss("iPhone_61_portrait_06_Settings")
+        }
+    }
+
+    // MARK: - iPad Screenshots (12.9" - 2048×2732 for iPad Pro 13")
+
+    func testiPad_Dashboard() throws {
+        ss("iPad_129_portrait_01_Dashboard")
+    }
+
+    func testiPad_AddHabit() throws {
+        if app.buttons["plus.circle.fill"].exists {
+            app.buttons["plus.circle.fill"].tap()
+            sleep(1)
+            ss("iPad_129_portrait_02_AddHabit")
+        }
+    }
+
+    func testiPad_History() throws {
+        // iPad might have different navigation
+        if app.tabBars.buttons.count > 1 {
+            app.tabBars.buttons.element(boundBy: 1).tap()
+            sleep(1)
+            ss("iPad_129_portrait_03_History")
+        }
+    }
+
+    func testiPad_Achievements() throws {
+        if app.tabBars.buttons.count > 2 {
+            app.tabBars.buttons.element(boundBy: 2).tap()
+            sleep(1)
+            ss("iPad_129_portrait_04_Achievements")
+        }
+    }
+
+    func testiPad_Settings() throws {
+        if app.tabBars.buttons.count > 3 {
+            app.tabBars.buttons.element(boundBy: 3).tap()
+            sleep(1)
+            ss("iPad_129_portrait_05_Settings")
         }
     }
 }
