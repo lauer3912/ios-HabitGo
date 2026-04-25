@@ -30,7 +30,7 @@ struct CalendarHistoryView: View {
                             FilterChipNew(
                                 title: "All Habits",
                                 isSelected: selectedHabitId == nil,
-                                colorHex: ThemeManager.AppColors.primary.hexString
+                                colorHex: "#34C759"
                             ) {
                                 selectedHabitId = nil
                             }
@@ -105,7 +105,7 @@ struct CalendarHistoryView: View {
                                         day: dayNumber,
                                         isCompleted: isCompleted,
                                         isToday: isToday(dayNumber),
-                                        habitColor: selectedHabitId.flatMap { id in habitVM.habits.first { $0.id == id }?.colorHex } ?? ThemeManager.AppColors.primary.hexString
+                                        habitColor: selectedHabitId.flatMap { id in habitVM.habits.first { $0.id == id }?.colorHex } ?? "#34C759"
                                     )
                                 } else {
                                     Color.clear
