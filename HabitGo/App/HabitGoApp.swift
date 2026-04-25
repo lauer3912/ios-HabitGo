@@ -42,14 +42,14 @@ struct HabitGoApp: App {
             context.evaluatePolicy(
                 .deviceOwnerAuthenticationWithBiometrics,
                 localizedReason: "Unlock HabitArcFlow"
-            ) { success, authError in
+            ) { success, authErr in
                 DispatchQueue.main.async {
                     if success {
                         withAnimation {
                             isLocked = false
                         }
                     } else {
-                        authError = authError?.localizedDescription
+                        self.authError = authErr?.localizedDescription
                     }
                 }
             }
