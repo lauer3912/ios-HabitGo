@@ -37,7 +37,7 @@ struct AchievementCard: View {
                         .frame(width: 64, height: 64)
                 }
 
-                Text(achievement.icon)
+                Image(systemName: achievement.icon)
                     .font(.system(size: 28))
                     .foregroundStyle(achievement.isUnlocked ? Color(hex: achievement.colorHex) : .secondary)
             }

@@ -17,7 +17,7 @@ struct CategoriesView: View {
                                 Circle()
                                     .fill(Color(hex: category.colorHex).opacity(0.15))
                                     .frame(width: 40, height: 40)
-                                Text(category.icon)
+                                Image(systemName: category.icon)
                                     .font(.body)
                             }
                             Text(category.name)

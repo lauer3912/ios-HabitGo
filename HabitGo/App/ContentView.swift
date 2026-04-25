@@ -97,7 +97,7 @@ struct StatsView: View {
                     Section("Habit Streaks") {
                         ForEach(habitVM.habits) { habit in
                             HStack {
-                                Text(habit.icon)
+                                Image(systemName: habit.icon)
                                     .font(.title3)
                                 Text(habit.name)
                                 Spacer()

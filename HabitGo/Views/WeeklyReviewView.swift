@@ -171,7 +171,7 @@ struct WeeklyReviewView: View {
                 }
 
                 if let best = bestHabit {
-                    Text(best.icon)
+                    Image(systemName: best.icon)
                         .font(.title2)
                     Text(best.name)
                         .font(.subheadline.bold())
@@ -201,7 +201,7 @@ struct WeeklyReviewView: View {
                 }
 
                 if let active = mostActiveHabit {
-                    Text(active.icon)
+                    Image(systemName: active.icon)
                         .font(.title2)
                     Text(active.name)
                         .font(.subheadline.bold())

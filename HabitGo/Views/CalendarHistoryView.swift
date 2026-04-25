@@ -37,7 +37,7 @@ struct CalendarHistoryView: View {
 
                             ForEach(habitVM.habits) { habit in
                                 FilterChipNew(
-                                    title: "\(habit.icon) \(habit.name)",
+                                    title: habit.name,
                                     isSelected: selectedHabitId == habit.id,
                                     colorHex: habit.colorHex
                                 ) {
@@ -144,7 +144,7 @@ struct CalendarHistoryView: View {
             Divider()
             HStack {
                 VStack(alignment: .leading) {
-                    Text("\(habit.icon) \(habit.name)")
+                    Image(systemName: habit.icon)
                         .font(.headline)
                     Text("\(monthNames[selectedMonth - 1]) \(selectedYear)")
                         .font(.caption)

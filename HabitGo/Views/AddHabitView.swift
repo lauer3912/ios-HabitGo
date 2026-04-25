@@ -78,7 +78,7 @@ struct AddHabitView: View {
                         Text("None").tag(nil as UUID?)
                         ForEach(habitVM.categories) { cat in
                             HStack {
-                                Text(cat.icon)
+                                Image(systemName: cat.icon)
                                 Text(cat.name)
                             }
                             .tag(cat.id as UUID?)

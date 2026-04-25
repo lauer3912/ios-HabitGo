@@ -74,7 +74,7 @@ struct TrendChartView: View {
                         selectedHabitId = habit.id
                     } label: {
                         HStack(spacing: 6) {
-                            Text(habit.icon)
+                            Image(systemName: habit.icon)
                             Text(habit.name)
                         }
                         .font(.caption.bold())

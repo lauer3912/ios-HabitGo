@@ -67,7 +67,7 @@ struct HabitDetailView: View {
                     Circle()
                         .fill(Color(hex: habit.colorHex).opacity(0.15))
                         .frame(width: 56, height: 56)
-                    Text(habit.icon)
+                    Image(systemName: habit.icon)
                         .font(.title)
                 }
 
@@ -231,7 +231,7 @@ struct NoteRow: View {
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             if let mood = note.mood {
-                Text(mood.icon)
+                Image(systemName: mood.icon)
                     .font(.title3)
             }
             VStack(alignment: .leading, spacing: 4) {
@@ -300,7 +300,7 @@ struct NoteEditorView: View {
                                 selectedMood = mood
                             } label: {
                                 VStack {
-                                    Text(mood.icon)
+                                    Image(systemName: mood.icon)
                                         .font(.title)
                                     Text(mood.rawValue.capitalized)
                                         .font(.caption2)

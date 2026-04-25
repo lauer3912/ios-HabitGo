@@ -94,7 +94,7 @@ struct TemplateRow: View {
                     Circle()
                         .fill(Color(hex: template.colorHex).opacity(0.15))
                         .frame(width: 48, height: 48)
-                    Text(template.icon)
+                    Image(systemName: template.icon)
                         .font(.title2)
                 }
 

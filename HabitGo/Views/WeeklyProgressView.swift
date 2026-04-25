@@ -131,7 +131,7 @@ struct WeeklyGoalRow: View {
                 Circle()
                     .fill(Color(hex: habit.colorHex).opacity(0.15))
                     .frame(width: 40, height: 40)
-                Text(habit.icon)
+                Image(systemName: habit.icon)
                     .font(.body)
             }
 
