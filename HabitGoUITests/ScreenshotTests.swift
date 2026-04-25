@@ -19,8 +19,12 @@ final class ScreenshotTests: XCTestCase {
     // MARK: - Screenshot Helper
 
     func ss(_ name: String) {
+        let path = "/tmp/\(name).png"
         let data = app.windows.firstMatch.screenshot().pngRepresentation
-        try? data.write(to: URL(fileURLWithPath: "/tmp/\(name).png"))
+        print("[DEBUG] Writing screenshot to: \(path), size: \(data.count) bytes")
+        try? data.write(to: URL(fileURLWithPath: path))
+        let exists = FileManager.default.fileExists(atPath: path)
+        print("[DEBUG] File exists after write: \(exists)")
     }
 
     // MARK: - iPhone Screenshots (6.1" - 1170×2532 for iPhone 16)
