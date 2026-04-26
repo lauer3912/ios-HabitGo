@@ -27,7 +27,6 @@ final class ScreenshotTests: XCTestCase {
     // MARK: - iPhone 6.9" (1320×2868 - iPhone 16 Pro Max)
 
     func testiPhone_69_01_Home() {
-        // Reset to Home tab
         if app.tabBars.buttons.count > 0 {
             app.tabBars.buttons.element(boundBy: 0).tap()
             usleep(1500000)
@@ -58,8 +57,8 @@ final class ScreenshotTests: XCTestCase {
     func testiPhone_69_04_Achievements() {
         if app.tabBars.buttons.count > 3 {
             app.tabBars.buttons.element(boundBy: 3).tap()
-        } else if app.buttons["Achievements"].exists {
-            app.buttons["Achievements"].firstMatch.tap()
+        } else if app.buttons["Badges"].exists {
+            app.buttons["Badges"].firstMatch.tap()
         }
         usleep(1500000)
         capture("iPhone_69_portrait_04_Achievements")
@@ -108,8 +107,8 @@ final class ScreenshotTests: XCTestCase {
     func testiPhone_65_04_Achievements() {
         if app.tabBars.buttons.count > 3 {
             app.tabBars.buttons.element(boundBy: 3).tap()
-        } else if app.buttons["Achievements"].exists {
-            app.buttons["Achievements"].firstMatch.tap()
+        } else if app.buttons["Badges"].exists {
+            app.buttons["Badges"].firstMatch.tap()
         }
         usleep(1500000)
         capture("iPhone_65_portrait_04_Achievements")
@@ -158,8 +157,8 @@ final class ScreenshotTests: XCTestCase {
     func testiPhone_63_04_Achievements() {
         if app.tabBars.buttons.count > 3 {
             app.tabBars.buttons.element(boundBy: 3).tap()
-        } else if app.buttons["Achievements"].exists {
-            app.buttons["Achievements"].firstMatch.tap()
+        } else if app.buttons["Badges"].exists {
+            app.buttons["Badges"].firstMatch.tap()
         }
         usleep(1500000)
         capture("iPhone_63_portrait_04_Achievements")
@@ -180,8 +179,8 @@ final class ScreenshotTests: XCTestCase {
     func testiPad_13_01_Home() {
         if app.tabBars.buttons.count > 0 {
             app.tabBars.buttons.element(boundBy: 0).tap()
-        } else if app.buttons["Home"].exists {
-            app.buttons["Home"].firstMatch.tap()
+        } else if app.buttons["Habits"].exists {
+            app.buttons["Habits"].firstMatch.tap()
         }
         usleep(1500000)
         capture("iPad_13_portrait_01_Home")
@@ -210,8 +209,8 @@ final class ScreenshotTests: XCTestCase {
     func testiPad_13_04_Achievements() {
         if app.tabBars.buttons.count > 3 {
             app.tabBars.buttons.element(boundBy: 3).tap()
-        } else if app.buttons["Achievements"].exists {
-            app.buttons["Achievements"].firstMatch.tap()
+        } else if app.buttons["Badges"].exists {
+            app.buttons["Badges"].firstMatch.tap()
         }
         usleep(1500000)
         capture("iPad_13_portrait_04_Achievements")
@@ -232,8 +231,8 @@ final class ScreenshotTests: XCTestCase {
     func testiPad_11_01_Home() {
         if app.tabBars.buttons.count > 0 {
             app.tabBars.buttons.element(boundBy: 0).tap()
-        } else if app.buttons["Home"].exists {
-            app.buttons["Home"].firstMatch.tap()
+        } else if app.buttons["Habits"].exists {
+            app.buttons["Habits"].firstMatch.tap()
         }
         usleep(1500000)
         capture("iPad_11_portrait_01_Home")
@@ -262,8 +261,8 @@ final class ScreenshotTests: XCTestCase {
     func testiPad_11_04_Achievements() {
         if app.tabBars.buttons.count > 3 {
             app.tabBars.buttons.element(boundBy: 3).tap()
-        } else if app.buttons["Achievements"].exists {
-            app.buttons["Achievements"].firstMatch.tap()
+        } else if app.buttons["Badges"].exists {
+            app.buttons["Badges"].firstMatch.tap()
         }
         usleep(1500000)
         capture("iPad_11_portrait_04_Achievements")

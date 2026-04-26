@@ -19,23 +19,24 @@ final class TabDebugTest: XCTestCase {
             }
         }
         
-        NSLog("Buttons 'History': %d", app.buttons["History"].count);
-        NSLog("Buttons 'Stats': %d", app.buttons["Stats"].count);
-        NSLog("Buttons 'Achievements': %d", app.buttons["Achievements"].count);
-        NSLog("Buttons 'Settings': %d", app.buttons["Settings"].count);
-        NSLog("Buttons 'Home': %d", app.buttons["Home"].count);
+        // Check buttons by label
+        NSLog("Buttons['History'].exists: %d", app.buttons["History"].exists ? 1 : 0);
+        NSLog("Buttons['Stats'].exists: %d", app.buttons["Stats"].exists ? 1 : 0);
+        NSLog("Buttons['Achievements'].exists: %d", app.buttons["Achievements"].exists ? 1 : 0);
+        NSLog("Buttons['Settings'].exists: %d", app.buttons["Settings"].exists ? 1 : 0);
+        NSLog("Buttons['Home'].exists: %d", app.buttons["Home"].exists ? 1 : 0);
         
-        // Try tapping by label
-        if app.buttons["Achievements"].exists {
+        // Try tapping Achievements by label
+        if app.buttons["Achievements"].firstMatch.exists {
             app.buttons["Achievements"].firstMatch.tap();
             usleep(1500000);
-            NSLog("Tapped Achievements button - success");
+            NSLog("Tapped Achievements - success");
         } else {
             NSLog("Achievements button NOT FOUND");
         }
         
         // Check static texts
-        NSLog("StaticTexts 'Achievements': %d", app.staticTexts["Achievements"].count);
-        NSLog("StaticTexts 'Badges': %d", app.staticTexts["Badges"].count);
+        NSLog("StaticTexts['Achievements'].exists: %d", app.staticTexts["Achievements"].exists ? 1 : 0);
+        NSLog("StaticTexts['Badges'].exists: %d", app.staticTexts["Badges"].exists ? 1 : 0);
     }
 }
