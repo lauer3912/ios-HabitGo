@@ -68,7 +68,7 @@ final class ScreenshotTests: XCTestCase {
         let window = app.windows.firstMatch
         let tabBarY = window.frame.height - 100
         let historyX = window.frame.width * 0.35
-        let coord = XCUICoordinate(screen: window, x: historyX, y: tabBarY)
+        let coord = window.coordinate(withNormalizedOffset: CGPoint(x: 0.35, y: 0.95))
         coord.tap()
         usleep(1000000)
         capture("iPad_129_portrait_03_History")
@@ -76,9 +76,7 @@ final class ScreenshotTests: XCTestCase {
 
     func testiPad_Achievements() {
         let window = app.windows.firstMatch
-        let tabBarY = window.frame.height - 100
-        let badgesX = window.frame.width * 0.55
-        let coord = XCUICoordinate(screen: window, x: badgesX, y: tabBarY)
+        let coord = window.coordinate(withNormalizedOffset: CGPoint(x: 0.55, y: 0.95))
         coord.tap()
         usleep(1000000)
         capture("iPad_129_portrait_04_Achievements")
@@ -86,9 +84,7 @@ final class ScreenshotTests: XCTestCase {
 
     func testiPad_Settings() {
         let window = app.windows.firstMatch
-        let tabBarY = window.frame.height - 100
-        let settingsX = window.frame.width * 0.75
-        let coord = XCUICoordinate(screen: window, x: settingsX, y: tabBarY)
+        let coord = window.coordinate(withNormalizedOffset: CGPoint(x: 0.75, y: 0.95))
         coord.tap()
         usleep(1000000)
         capture("iPad_129_portrait_05_Settings")
