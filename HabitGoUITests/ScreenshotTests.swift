@@ -64,11 +64,8 @@ final class ScreenshotTests: XCTestCase {
 
     func testiPad_History() {
         // Use coordinate tap for iPad tab bar navigation
-        // iPad portrait: 2064x2732, tab bar ~80pt from bottom
         let window = app.windows.firstMatch
-        let tabBarY = window.frame.height - 100
-        let historyX = window.frame.width * 0.35
-        let coord = window.coordinate(withNormalizedOffset: CGPoint(x: 0.35, y: 0.95))
+        let coord = window.coordinate(withNormalizedOffset: CGVector(dx: 0.35, dy: 0.95))
         coord.tap()
         usleep(1000000)
         capture("iPad_129_portrait_03_History")
@@ -76,7 +73,7 @@ final class ScreenshotTests: XCTestCase {
 
     func testiPad_Achievements() {
         let window = app.windows.firstMatch
-        let coord = window.coordinate(withNormalizedOffset: CGPoint(x: 0.55, y: 0.95))
+        let coord = window.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.95))
         coord.tap()
         usleep(1000000)
         capture("iPad_129_portrait_04_Achievements")
@@ -84,7 +81,7 @@ final class ScreenshotTests: XCTestCase {
 
     func testiPad_Settings() {
         let window = app.windows.firstMatch
-        let coord = window.coordinate(withNormalizedOffset: CGPoint(x: 0.75, y: 0.95))
+        let coord = window.coordinate(withNormalizedOffset: CGVector(dx: 0.75, dy: 0.95))
         coord.tap()
         usleep(1000000)
         capture("iPad_129_portrait_05_Settings")
