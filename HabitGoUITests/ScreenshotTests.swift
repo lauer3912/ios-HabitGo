@@ -68,15 +68,9 @@ final class ScreenshotTests: XCTestCase {
         if tabBar.exists && tabBar.buttons.count > 1 {
             tabBar.buttons.element(boundBy: 1).tap()
             usleep(1500000)
-        } else {
-            // Fallback: try tapping by label
-            if app.buttons["History"].exists {
-                app.buttons["History"].tap()
-                usleep(1500000)
-            } else if app.staticTexts["History"].exists {
-                app.staticTexts["History"].tap()
-                usleep(1500000)
-            }
+        } else if app.buttons["History"].exists {
+            app.buttons["History"].firstMatch.tap()
+            usleep(1500000)
         }
         capture("iPad_129_portrait_03_History")
     }
@@ -86,14 +80,9 @@ final class ScreenshotTests: XCTestCase {
         if tabBar.exists && tabBar.buttons.count > 3 {
             tabBar.buttons.element(boundBy: 3).tap()
             usleep(1500000)
-        } else {
-            if app.buttons["Badges"].exists {
-                app.buttons["Badges"].tap()
-                usleep(1500000)
-            } else if app.staticTexts["Badges"].exists {
-                app.staticTexts["Badges"].tap()
-                usleep(1500000)
-            }
+        } else if app.buttons["Badges"].exists {
+            app.buttons["Badges"].firstMatch.tap()
+            usleep(1500000)
         }
         capture("iPad_129_portrait_04_Achievements")
     }
@@ -103,14 +92,9 @@ final class ScreenshotTests: XCTestCase {
         if tabBar.exists && tabBar.buttons.count > 4 {
             tabBar.buttons.element(boundBy: 4).tap()
             usleep(1500000)
-        } else {
-            if app.buttons["Settings"].exists {
-                app.buttons["Settings"].tap()
-                usleep(1500000)
-            } else if app.staticTexts["Settings"].exists {
-                app.staticTexts["Settings"].tap()
-                usleep(1500000)
-            }
+        } else if app.buttons["Settings"].exists {
+            app.buttons["Settings"].firstMatch.tap()
+            usleep(1500000)
         }
         capture("iPad_129_portrait_05_Settings")
     }
