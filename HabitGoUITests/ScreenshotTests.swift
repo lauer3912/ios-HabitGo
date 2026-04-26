@@ -24,97 +24,258 @@ final class ScreenshotTests: XCTestCase {
         try? data.write(to: URL(fileURLWithPath: path))
     }
 
-    // MARK: - iPhone Screenshots (6.9" - 1320×2868 for iPhone 16 Pro Max)
-    // Simulator: iPhone 16 Pro Max (59030A31-1FAA-43F2-96AC-B36521085127)
+    // MARK: - iPhone 6.9" (1320×2868 - iPhone 16 Pro Max)
 
-    func testiPhone_Home() {
-        capture("iPhone_61_portrait_01_Home")
+    func testiPhone_69_01_Home() {
+        // Reset to Home tab
+        if app.tabBars.buttons.count > 0 {
+            app.tabBars.buttons.element(boundBy: 0).tap()
+            usleep(1500000)
+        }
+        capture("iPhone_69_portrait_01_Home")
     }
 
-    func testiPhone_History() {
+    func testiPhone_69_02_History() {
         if app.tabBars.buttons.count > 1 {
             app.tabBars.buttons.element(boundBy: 1).tap()
-            usleep(1500000)
-        }
-        capture("iPhone_61_portrait_02_History")
-    }
-
-    func testiPhone_Stats() {
-        if app.tabBars.buttons.count > 2 {
-            app.tabBars.buttons.element(boundBy: 2).tap()
-            usleep(1500000)
-        }
-        capture("iPhone_61_portrait_03_Stats")
-    }
-
-    func testiPhone_Achievements() {
-        if app.tabBars.buttons.count > 3 {
-            app.tabBars.buttons.element(boundBy: 3).tap()
-            usleep(1500000)
-        }
-        capture("iPhone_61_portrait_04_Achievements")
-    }
-
-    func testiPhone_Settings() {
-        if app.tabBars.buttons.count > 4 {
-            app.tabBars.buttons.element(boundBy: 4).tap()
-            usleep(1500000)
-        }
-        capture("iPhone_61_portrait_05_Settings")
-    }
-
-    // MARK: - iPad Screenshots (12.9" - 2064×2752 for iPad Pro 13-inch M4)
-    // Simulator: iPad Pro 13-inch (M4) (E09FB483-2200-41F3-B597-A32B3AA5F4C0)
-
-    func testiPad_Home() {
-        capture("iPad_129_portrait_01_Home")
-    }
-
-    func testiPad_History() {
-        let tabBar = app.tabBars.firstMatch
-        if tabBar.exists && tabBar.buttons.count > 1 {
-            tabBar.buttons.element(boundBy: 1).tap()
-            usleep(1500000)
         } else if app.buttons["History"].exists {
             app.buttons["History"].firstMatch.tap()
-            usleep(1500000)
         }
-        capture("iPad_129_portrait_02_History")
+        usleep(1500000)
+        capture("iPhone_69_portrait_02_History")
     }
 
-    func testiPad_Stats() {
-        let tabBar = app.tabBars.firstMatch
-        if tabBar.exists && tabBar.buttons.count > 2 {
-            tabBar.buttons.element(boundBy: 2).tap()
-            usleep(1500000)
+    func testiPhone_69_03_Stats() {
+        if app.tabBars.buttons.count > 2 {
+            app.tabBars.buttons.element(boundBy: 2).tap()
         } else if app.buttons["Stats"].exists {
             app.buttons["Stats"].firstMatch.tap()
-            usleep(1500000)
         }
-        capture("iPad_129_portrait_03_Stats")
+        usleep(1500000)
+        capture("iPhone_69_portrait_03_Stats")
     }
 
-    func testiPad_Achievements() {
-        let tabBar = app.tabBars.firstMatch
-        if tabBar.exists && tabBar.buttons.count > 3 {
-            tabBar.buttons.element(boundBy: 3).tap()
-            usleep(1500000)
-        } else if app.buttons["Badges"].exists {
-            app.buttons["Badges"].firstMatch.tap()
-            usleep(1500000)
+    func testiPhone_69_04_Achievements() {
+        if app.tabBars.buttons.count > 3 {
+            app.tabBars.buttons.element(boundBy: 3).tap()
+        } else if app.buttons["Achievements"].exists {
+            app.buttons["Achievements"].firstMatch.tap()
         }
-        capture("iPad_129_portrait_04_Achievements")
+        usleep(1500000)
+        capture("iPhone_69_portrait_04_Achievements")
     }
 
-    func testiPad_Settings() {
-        let tabBar = app.tabBars.firstMatch
-        if tabBar.exists && tabBar.buttons.count > 4 {
-            tabBar.buttons.element(boundBy: 4).tap()
-            usleep(1500000)
+    func testiPhone_69_05_Settings() {
+        if app.tabBars.buttons.count > 4 {
+            app.tabBars.buttons.element(boundBy: 4).tap()
         } else if app.buttons["Settings"].exists {
             app.buttons["Settings"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPhone_69_portrait_05_Settings")
+    }
+
+    // MARK: - iPhone 6.5" (1284×2778 - iPhone 14 Plus)
+
+    func testiPhone_65_01_Home() {
+        if app.tabBars.buttons.count > 0 {
+            app.tabBars.buttons.element(boundBy: 0).tap()
             usleep(1500000)
         }
-        capture("iPad_129_portrait_05_Settings")
+        capture("iPhone_65_portrait_01_Home")
+    }
+
+    func testiPhone_65_02_History() {
+        if app.tabBars.buttons.count > 1 {
+            app.tabBars.buttons.element(boundBy: 1).tap()
+        } else if app.buttons["History"].exists {
+            app.buttons["History"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPhone_65_portrait_02_History")
+    }
+
+    func testiPhone_65_03_Stats() {
+        if app.tabBars.buttons.count > 2 {
+            app.tabBars.buttons.element(boundBy: 2).tap()
+        } else if app.buttons["Stats"].exists {
+            app.buttons["Stats"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPhone_65_portrait_03_Stats")
+    }
+
+    func testiPhone_65_04_Achievements() {
+        if app.tabBars.buttons.count > 3 {
+            app.tabBars.buttons.element(boundBy: 3).tap()
+        } else if app.buttons["Achievements"].exists {
+            app.buttons["Achievements"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPhone_65_portrait_04_Achievements")
+    }
+
+    func testiPhone_65_05_Settings() {
+        if app.tabBars.buttons.count > 4 {
+            app.tabBars.buttons.element(boundBy: 4).tap()
+        } else if app.buttons["Settings"].exists {
+            app.buttons["Settings"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPhone_65_portrait_05_Settings")
+    }
+
+    // MARK: - iPhone 6.3" (1206×2622 - iPhone 16 Pro)
+
+    func testiPhone_63_01_Home() {
+        if app.tabBars.buttons.count > 0 {
+            app.tabBars.buttons.element(boundBy: 0).tap()
+            usleep(1500000)
+        }
+        capture("iPhone_63_portrait_01_Home")
+    }
+
+    func testiPhone_63_02_History() {
+        if app.tabBars.buttons.count > 1 {
+            app.tabBars.buttons.element(boundBy: 1).tap()
+        } else if app.buttons["History"].exists {
+            app.buttons["History"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPhone_63_portrait_02_History")
+    }
+
+    func testiPhone_63_03_Stats() {
+        if app.tabBars.buttons.count > 2 {
+            app.tabBars.buttons.element(boundBy: 2).tap()
+        } else if app.buttons["Stats"].exists {
+            app.buttons["Stats"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPhone_63_portrait_03_Stats")
+    }
+
+    func testiPhone_63_04_Achievements() {
+        if app.tabBars.buttons.count > 3 {
+            app.tabBars.buttons.element(boundBy: 3).tap()
+        } else if app.buttons["Achievements"].exists {
+            app.buttons["Achievements"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPhone_63_portrait_04_Achievements")
+    }
+
+    func testiPhone_63_05_Settings() {
+        if app.tabBars.buttons.count > 4 {
+            app.tabBars.buttons.element(boundBy: 4).tap()
+        } else if app.buttons["Settings"].exists {
+            app.buttons["Settings"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPhone_63_portrait_05_Settings")
+    }
+
+    // MARK: - iPad 13" (2048×2732 - iPad Pro 13" M4)
+
+    func testiPad_13_01_Home() {
+        if app.tabBars.buttons.count > 0 {
+            app.tabBars.buttons.element(boundBy: 0).tap()
+        } else if app.buttons["Home"].exists {
+            app.buttons["Home"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPad_13_portrait_01_Home")
+    }
+
+    func testiPad_13_02_History() {
+        if app.tabBars.buttons.count > 1 {
+            app.tabBars.buttons.element(boundBy: 1).tap()
+        } else if app.buttons["History"].exists {
+            app.buttons["History"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPad_13_portrait_02_History")
+    }
+
+    func testiPad_13_03_Stats() {
+        if app.tabBars.buttons.count > 2 {
+            app.tabBars.buttons.element(boundBy: 2).tap()
+        } else if app.buttons["Stats"].exists {
+            app.buttons["Stats"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPad_13_portrait_03_Stats")
+    }
+
+    func testiPad_13_04_Achievements() {
+        if app.tabBars.buttons.count > 3 {
+            app.tabBars.buttons.element(boundBy: 3).tap()
+        } else if app.buttons["Achievements"].exists {
+            app.buttons["Achievements"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPad_13_portrait_04_Achievements")
+    }
+
+    func testiPad_13_05_Settings() {
+        if app.tabBars.buttons.count > 4 {
+            app.tabBars.buttons.element(boundBy: 4).tap()
+        } else if app.buttons["Settings"].exists {
+            app.buttons["Settings"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPad_13_portrait_05_Settings")
+    }
+
+    // MARK: - iPad 11" (1668×2388 - iPad Pro 11" M4)
+
+    func testiPad_11_01_Home() {
+        if app.tabBars.buttons.count > 0 {
+            app.tabBars.buttons.element(boundBy: 0).tap()
+        } else if app.buttons["Home"].exists {
+            app.buttons["Home"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPad_11_portrait_01_Home")
+    }
+
+    func testiPad_11_02_History() {
+        if app.tabBars.buttons.count > 1 {
+            app.tabBars.buttons.element(boundBy: 1).tap()
+        } else if app.buttons["History"].exists {
+            app.buttons["History"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPad_11_portrait_02_History")
+    }
+
+    func testiPad_11_03_Stats() {
+        if app.tabBars.buttons.count > 2 {
+            app.tabBars.buttons.element(boundBy: 2).tap()
+        } else if app.buttons["Stats"].exists {
+            app.buttons["Stats"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPad_11_portrait_03_Stats")
+    }
+
+    func testiPad_11_04_Achievements() {
+        if app.tabBars.buttons.count > 3 {
+            app.tabBars.buttons.element(boundBy: 3).tap()
+        } else if app.buttons["Achievements"].exists {
+            app.buttons["Achievements"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPad_11_portrait_04_Achievements")
+    }
+
+    func testiPad_11_05_Settings() {
+        if app.tabBars.buttons.count > 4 {
+            app.tabBars.buttons.element(boundBy: 4).tap()
+        } else if app.buttons["Settings"].exists {
+            app.buttons["Settings"].firstMatch.tap()
+        }
+        usleep(1500000)
+        capture("iPad_11_portrait_05_Settings")
     }
 }
