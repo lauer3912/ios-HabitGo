@@ -9,7 +9,7 @@ final class ScreenshotTests: XCTestCase {
         app = XCUIApplication()
         app.launchArguments = ["--uitesting"]
         app.launch()
-        usleep(500000) // Wait for app to fully load
+        usleep(800000) // Wait for app to fully settle
     }
 
     override func tearDownWithError() throws {
@@ -24,33 +24,6 @@ final class ScreenshotTests: XCTestCase {
         try? data.write(to: URL(fileURLWithPath: path))
     }
 
-    // MARK: - Tab Navigation Helper
-
-    private func navigateToTab(_ index: Int) {
-        // Try tabBars.buttons first (works on iPhone and some iPad configs)
-        let tabBar = app.tabBars.firstMatch
-        if tabBar.exists {
-            let buttons = tabBar.buttons
-            if buttons.count > index {
-                buttons.element(boundBy: index).tap()
-                usleep(1200000)
-                return
-            }
-        }
-
-        // Fallback: coordinate-based tap at bottom of screen
-        // Tab positions for 5 tabs: 10%, 30%, 50%, 70%, 90%
-        let tabPositions: [CGFloat] = [0.1, 0.3, 0.5, 0.7, 0.9]
-        if index < tabPositions.count {
-            let window = app.windows.firstMatch
-            let xRatio = tabPositions[index]
-            // On iPhone use dy=0.97, on iPad use dy=0.96
-            let coord = window.coordinate(withNormalizedOffset: CGVector(dx: xRatio, dy: 0.965))
-            coord.tap()
-            usleep(1200000)
-        }
-    }
-
     // MARK: - iPhone Screenshots (6.9" - 1320×2868 for iPhone 16 Pro Max)
 
     func testiPhone_Home() {
@@ -58,17 +31,27 @@ final class ScreenshotTests: XCTestCase {
     }
 
     func testiPhone_History() {
-        navigateToTab(1) // History = index 1
+        // Use tabBars.buttons for iPhone (this works reliably)
+        if app.tabBars.buttons.count > 1 {
+            app.tabBars.buttons.element(boundBy: 1).tap()
+            usleep(1500000)
+        }
         capture("iPhone_61_portrait_04_History")
     }
 
     func testiPhone_Achievements() {
-        navigateToTab(3) // Badges = index 3
+        if app.tabBars.buttons.count > 3 {
+            app.tabBars.buttons.element(boundBy: 3).tap()
+            usleep(1500000)
+        }
         capture("iPhone_61_portrait_05_Achievements")
     }
 
     func testiPhone_Settings() {
-        navigateToTab(4) // Settings = index 4
+        if app.tabBars.buttons.count > 4 {
+            app.tabBars.buttons.element(boundBy: 4).tap()
+            usleep(1500000)
+        }
         capture("iPhone_61_portrait_06_Settings")
     }
 
@@ -79,17 +62,27 @@ final class ScreenshotTests: XCTestCase {
     }
 
     func testiPad_History() {
-        navigateToTab(1) // History = index 1
+        // Coordinate-based tap: 5 tabs at 10%, 30%, 50%, 70%, 90% of screen width
+        // History = index 1 = 30%
+        let coord = app.windows.firstMatch.coordinate(withNormalizedOffset: CGVector(dx: 0.3, dy: 0.965))
+        coord.tap()
+        usleep(1500000)
         capture("iPad_129_portrait_03_History")
     }
 
     func testiPad_Achievements() {
-        navigateToTab(3) // Badges = index 3
+        // Badges = index 3 = 70%
+        let coord = app.windows.firstMatch.coordinate(withNormalizedOffset: CGVector(dx: 0.7, dy: 0.965))
+        coord.tap()
+        usleep(1500000)
         capture("iPad_129_portrait_04_Achievements")
     }
 
     func testiPad_Settings() {
-        navigateToTab(4) // Settings = index 4
+        // Settings = index 4 = 90%
+        let coord = app.windows.firstMatch.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.965))
+        coord.tap()
+        usleep(1500000)
         capture("iPad_129_portrait_05_Settings")
     }
 }
