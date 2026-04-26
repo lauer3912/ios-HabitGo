@@ -57,36 +57,61 @@ final class ScreenshotTests: XCTestCase {
 
     // MARK: - iPad Screenshots (12.9" - 2064×2752 for iPad Pro 13-inch M4)
     // Simulator: iPad Pro 13-inch (M4) (E09FB483-2200-41F3-B597-A32B3AA5F4C0)
-    // On iPad the TabView may use different layout - use coordinate-based taps at bottom
 
     func testiPad_Dashboard() {
         capture("iPad_129_portrait_01_Dashboard")
     }
 
     func testiPad_History() {
-        // On iPad, tap at approximately 30% x, 96.5% y for tab 1 (History)
-        let window = app.windows.firstMatch
-        let coord = window.coordinate(withNormalizedOffset: CGVector(dx: 0.3, dy: 0.965))
-        coord.tap()
-        usleep(1500000)
+        // Try tabBars.buttons first for iPad
+        let tabBar = app.tabBars.firstMatch
+        if tabBar.exists && tabBar.buttons.count > 1 {
+            tabBar.buttons.element(boundBy: 1).tap()
+            usleep(1500000)
+        } else {
+            // Fallback: try tapping by label
+            if app.buttons["History"].exists {
+                app.buttons["History"].tap()
+                usleep(1500000)
+            } else if app.staticTexts["History"].exists {
+                app.staticTexts["History"].tap()
+                usleep(1500000)
+            }
+        }
         capture("iPad_129_portrait_03_History")
     }
 
     func testiPad_Achievements() {
-        // On iPad, tap at approximately 70% x, 96.5% y for tab 3 (Badges)
-        let window = app.windows.firstMatch
-        let coord = window.coordinate(withNormalizedOffset: CGVector(dx: 0.7, dy: 0.965))
-        coord.tap()
-        usleep(1500000)
+        let tabBar = app.tabBars.firstMatch
+        if tabBar.exists && tabBar.buttons.count > 3 {
+            tabBar.buttons.element(boundBy: 3).tap()
+            usleep(1500000)
+        } else {
+            if app.buttons["Badges"].exists {
+                app.buttons["Badges"].tap()
+                usleep(1500000)
+            } else if app.staticTexts["Badges"].exists {
+                app.staticTexts["Badges"].tap()
+                usleep(1500000)
+            }
+        }
         capture("iPad_129_portrait_04_Achievements")
     }
 
     func testiPad_Settings() {
-        // On iPad, tap at approximately 90% x, 96.5% y for tab 4 (Settings)
-        let window = app.windows.firstMatch
-        let coord = window.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.965))
-        coord.tap()
-        usleep(1500000)
+        let tabBar = app.tabBars.firstMatch
+        if tabBar.exists && tabBar.buttons.count > 4 {
+            tabBar.buttons.element(boundBy: 4).tap()
+            usleep(1500000)
+        } else {
+            if app.buttons["Settings"].exists {
+                app.buttons["Settings"].tap()
+                usleep(1500000)
+            } else if app.staticTexts["Settings"].exists {
+                app.staticTexts["Settings"].tap()
+                usleep(1500000)
+            }
+        }
         capture("iPad_129_portrait_05_Settings")
     }
 }
