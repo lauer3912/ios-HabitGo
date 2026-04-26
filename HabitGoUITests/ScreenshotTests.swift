@@ -9,7 +9,7 @@ final class ScreenshotTests: XCTestCase {
         app = XCUIApplication()
         app.launchArguments = ["--uitesting"]
         app.launch()
-        usleep(800000)
+        usleep(1000000)
     }
 
     override func tearDownWithError() throws {
@@ -55,33 +55,43 @@ final class ScreenshotTests: XCTestCase {
     }
 
     // MARK: - iPad Screenshots (12.9" - 2064×2752 for iPad Pro 13-inch M4)
+    // iPad may use NavigationSplitView or custom layout - use swipe gestures
 
     func testiPad_Dashboard() {
         capture("iPad_129_portrait_01_Dashboard")
     }
 
     func testiPad_History() {
-        // Use staticTexts to find and tap tab labels on iPad
-        if app.staticTexts["History"].waitForExistence(timeout: 5) {
-            app.staticTexts["History"].tap()
-            usleep(1500000)
-        }
+        // Swipe left on main content area to switch to History tab (index 1)
+        let window = app.windows.firstMatch
+        window.swipeLeft()
+        usleep(1500000)
         capture("iPad_129_portrait_03_History")
     }
 
     func testiPad_Achievements() {
-        if app.staticTexts["Badges"].waitForExistence(timeout: 5) {
-            app.staticTexts["Badges"].tap()
-            usleep(1500000)
-        }
+        // Swipe left 3 times to get to Badges tab (index 3)
+        let window = app.windows.firstMatch
+        window.swipeLeft()
+        usleep(800000)
+        window.swipeLeft()
+        usleep(800000)
+        window.swipeLeft()
+        usleep(1500000)
         capture("iPad_129_portrait_04_Achievements")
     }
 
     func testiPad_Settings() {
-        if app.staticTexts["Settings"].waitForExistence(timeout: 5) {
-            app.staticTexts["Settings"].tap()
-            usleep(1500000)
-        }
+        // Swipe left 4 times to get to Settings tab (index 4)
+        let window = app.windows.firstMatch
+        window.swipeLeft()
+        usleep(800000)
+        window.swipeLeft()
+        usleep(800000)
+        window.swipeLeft()
+        usleep(800000)
+        window.swipeLeft()
+        usleep(1500000)
         capture("iPad_129_portrait_05_Settings")
     }
 }
