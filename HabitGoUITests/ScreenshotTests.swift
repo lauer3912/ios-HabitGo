@@ -36,7 +36,15 @@ final class ScreenshotTests: XCTestCase {
             app.tabBars.buttons.element(boundBy: 1).tap()
             usleep(1500000)
         }
-        capture("iPhone_61_portrait_04_History")
+        capture("iPhone_61_portrait_02_History")
+    }
+
+    func testiPhone_Stats() {
+        if app.tabBars.buttons.count > 2 {
+            app.tabBars.buttons.element(boundBy: 2).tap()
+            usleep(1500000)
+        }
+        capture("iPhone_61_portrait_03_Stats")
     }
 
     func testiPhone_Achievements() {
@@ -44,7 +52,7 @@ final class ScreenshotTests: XCTestCase {
             app.tabBars.buttons.element(boundBy: 3).tap()
             usleep(1500000)
         }
-        capture("iPhone_61_portrait_05_Achievements")
+        capture("iPhone_61_portrait_04_Achievements")
     }
 
     func testiPhone_Settings() {
@@ -52,18 +60,17 @@ final class ScreenshotTests: XCTestCase {
             app.tabBars.buttons.element(boundBy: 4).tap()
             usleep(1500000)
         }
-        capture("iPhone_61_portrait_06_Settings")
+        capture("iPhone_61_portrait_05_Settings")
     }
 
     // MARK: - iPad Screenshots (12.9" - 2064×2752 for iPad Pro 13-inch M4)
     // Simulator: iPad Pro 13-inch (M4) (E09FB483-2200-41F3-B597-A32B3AA5F4C0)
 
-    func testiPad_Dashboard() {
-        capture("iPad_129_portrait_01_Dashboard")
+    func testiPad_Home() {
+        capture("iPad_129_portrait_01_Home")
     }
 
     func testiPad_History() {
-        // Try tabBars.buttons first for iPad
         let tabBar = app.tabBars.firstMatch
         if tabBar.exists && tabBar.buttons.count > 1 {
             tabBar.buttons.element(boundBy: 1).tap()
@@ -72,7 +79,19 @@ final class ScreenshotTests: XCTestCase {
             app.buttons["History"].firstMatch.tap()
             usleep(1500000)
         }
-        capture("iPad_129_portrait_03_History")
+        capture("iPad_129_portrait_02_History")
+    }
+
+    func testiPad_Stats() {
+        let tabBar = app.tabBars.firstMatch
+        if tabBar.exists && tabBar.buttons.count > 2 {
+            tabBar.buttons.element(boundBy: 2).tap()
+            usleep(1500000)
+        } else if app.buttons["Stats"].exists {
+            app.buttons["Stats"].firstMatch.tap()
+            usleep(1500000)
+        }
+        capture("iPad_129_portrait_03_Stats")
     }
 
     func testiPad_Achievements() {
