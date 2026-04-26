@@ -9,7 +9,7 @@ final class ScreenshotTests: XCTestCase {
         app = XCUIApplication()
         app.launchArguments = ["--uitesting"]
         app.launch()
-        usleep(800000) // Wait for app to fully settle
+        usleep(800000)
     }
 
     override func tearDownWithError() throws {
@@ -31,7 +31,6 @@ final class ScreenshotTests: XCTestCase {
     }
 
     func testiPhone_History() {
-        // Use tabBars.buttons for iPhone (this works reliably)
         if app.tabBars.buttons.count > 1 {
             app.tabBars.buttons.element(boundBy: 1).tap()
             usleep(1500000)
@@ -62,27 +61,27 @@ final class ScreenshotTests: XCTestCase {
     }
 
     func testiPad_History() {
-        // Coordinate-based tap: 5 tabs at 10%, 30%, 50%, 70%, 90% of screen width
-        // History = index 1 = 30%
-        let coord = app.windows.firstMatch.coordinate(withNormalizedOffset: CGVector(dx: 0.3, dy: 0.965))
-        coord.tap()
-        usleep(1500000)
+        // Use staticTexts to find and tap tab labels on iPad
+        if app.staticTexts["History"].waitForExistence(timeout: 5) {
+            app.staticTexts["History"].tap()
+            usleep(1500000)
+        }
         capture("iPad_129_portrait_03_History")
     }
 
     func testiPad_Achievements() {
-        // Badges = index 3 = 70%
-        let coord = app.windows.firstMatch.coordinate(withNormalizedOffset: CGVector(dx: 0.7, dy: 0.965))
-        coord.tap()
-        usleep(1500000)
+        if app.staticTexts["Badges"].waitForExistence(timeout: 5) {
+            app.staticTexts["Badges"].tap()
+            usleep(1500000)
+        }
         capture("iPad_129_portrait_04_Achievements")
     }
 
     func testiPad_Settings() {
-        // Settings = index 4 = 90%
-        let coord = app.windows.firstMatch.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.965))
-        coord.tap()
-        usleep(1500000)
+        if app.staticTexts["Settings"].waitForExistence(timeout: 5) {
+            app.staticTexts["Settings"].tap()
+            usleep(1500000)
+        }
         capture("iPad_129_portrait_05_Settings")
     }
 }
