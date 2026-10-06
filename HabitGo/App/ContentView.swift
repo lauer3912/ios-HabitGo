@@ -241,6 +241,14 @@ struct SettingsView: View {
                     }
                 }
 
+                Section("Account & Quota") {
+                    NavigationLink {
+                        FreemiumView()
+                    } label: {
+                        Label("Credits & Membership", systemImage: "sparkles")
+                    }
+                }
+
                 Section("Notifications") {
                     HStack {
                         Text("Notification Status")
